@@ -1,0 +1,258 @@
+/**
+ * Style sheet
+ * @author ilGhera
+ * @package crm-in-cloud-for-wc/css
+ * @version 0.0.9
+ */
+
+.crmfwc-admin {
+	display: none;
+}
+
+.crmfwc-form {
+	margin:3rem 0 0 0;
+}
+
+.one-of {
+	padding-bottom: 3rem;
+	border-bottom: 1px solid #ccc;
+}
+
+#crmfwc-products-submit {
+	margin:25px 0 25px 0;	
+}
+
+.crmfwc-copy-url span {
+	display: inline-block;
+	padding: 4px 10px;
+	color: #FFF;
+	text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
+	background-color: #5BB75B;
+	background-image: linear-gradient(to bottom, #62C462, #51A351);
+	background-repeat: repeat-x;
+	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
+
+.crmfwc-copy-url span.crmfwc-red {
+	background: red;
+}
+
+#premium-check {
+	margin:20px 0;
+}
+
+.premium-message {
+	width: 280px;
+	max-width: 100%;
+	font-family: 'Raleway', 'Open Sans',sans-serif;
+	font-size: 20px;
+	font-weight: 300;
+	text-align: center;
+	margin:20px 0 70px;
+	padding: 12px 20px;
+	color: #FFF;
+	text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
+	background-color: #F29400;
+	background-repeat: no-repeat;
+	background-position: 10px 2px;
+	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
+
+.premium-message.active {
+	background-color: #5BB75B;
+	background-image: url('../images/active.png');
+	padding: 12px 20px 12px 100px;
+}
+
+a.message {
+	text-decoration: none;
+}
+
+#premium-check #premium-key {
+	width: 300px;
+	color:#777;
+	font-size: 18px;
+	padding:6px;
+}
+
+#submit-key, #submit-key:focus {
+	height:auto;
+	padding:5px 15px 5px 15px !important;
+	top: -2px;
+	margin:0;
+	position: relative;
+}
+
+#submit-key:active {
+	top: 2px;
+}
+
+.crmfwc-form label { 
+	display:inline-block;
+}
+
+.crmfwc-form.disconnected {
+	opacity: 0.5;
+}
+
+.nav-tab.not-available, .nav-tab.not-available:hover {
+	border-width: 1px 1px medium;
+    border-style: solid solid none;
+    border-color: #CCC #CCC -moz-use-text-color;
+    -moz-border-top-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    border-image: none;
+    background: #E4E4E4 none repeat scroll 0% 0%;
+    display: inline-block;
+    text-decoration: none;
+    opacity:0.4;
+}
+
+#crmfwc-orders span.crmfwc-copy-url {
+	display: inline-block;
+	margin-left: 10px;
+	padding: 4px 10px;
+	color: #FFF;
+	text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
+	background-color: #5BB75B;
+	background-image: linear-gradient(to bottom, #62C462, #51A351);
+	background-repeat: repeat-x;
+	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
+
+.crmfwc {
+	list-style: inside disc;	
+}
+
+.crmfwc li {
+	padding-left:15px;	
+}
+
+h3.crmfwc {
+	font-size: 1.3em;
+	margin: 2em 0px 1em 0;
+}
+
+h3.crmfwc.main {
+	font-size: 32px;
+	font-weight: 200;
+	line-height: 35px;
+}
+
+.wrap-left {
+	float: left;
+	width: 70%;
+}
+
+.wrap-right {
+	float:left; 
+	width:30%; 
+	text-align:center; 
+	padding-top:3rem;
+}
+
+.clearer {
+	clear:both;
+}
+
+form#crmfwc-premium-key {
+	margin: 2rem 0;
+}
+
+form#crmfwc-premium-key label {
+	font-size: 14px;
+	font-weight: bold;
+	display: block;
+	margin-bottom: 0.5rem;
+}
+
+
+form#crmfwc-premium-key input[type="text"] {
+	width: 560px;
+}
+
+form#crmfwc-premium-key input.button {
+	margin-top: 1rem;
+}
+
+span.crmfwc-alert {
+	display: block;
+	margin: 1rem 0 0;
+	padding: 0.6rem;
+	background: #F2DEDE;
+	border-radius: 0.2rem;
+	color: #a94442;	
+}
+
+span.crmfwc-alert a {
+	color: #a94442;	
+	text-decoration: underline;
+}
+
+select.crmfwc {
+	width: 180px;
+}
+
+.button-primary.crmfwc-connect,
+.button-primary.crmfwc-disconnect {
+	display: inline-block;
+	margin-top: 2rem;
+}
+
+.crmfwc.red,
+.crmfwc-disconnect.red {
+    background: #d9534f;
+    border: 1px solid #d9534f;
+    color: white;
+    text-shadow: none;
+}
+
+.crmfwc.red:hover,
+.crmfwc-disconnect.red:hover {
+    background: red;
+    border: 1px solid red;
+    box-shadow: 0 1px 0 red;
+	opacity: 0.8;
+}
+
+h4.crmfwc-connection-status {
+	margin-top: 0 !important;
+}
+
+.button-primary.crmfwc-disconnect {
+	opacity: 0;
+	display: none;
+}
+
+.crmfwc-message {
+	margin-top: 3rem;
+	width: 600px;
+}
+
+.crmfwc-message .alert i {
+	padding-right: 1rem;
+}
+
+.crmfwc-loading {
+	display: block;
+	text-align: center; 
+}
+
+@media screen and (max-width: 1000px) {
+
+	.wrap-left {
+		float: none;
+		width: 100%;
+	}
+
+	.wrap-right {
+		float: none; 
+		width: 100%; 
+		text-align: center; 
+		padding-top: 3rem;
+	}
+
+
+}
