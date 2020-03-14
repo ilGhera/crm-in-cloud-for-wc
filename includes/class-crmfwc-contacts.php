@@ -104,6 +104,131 @@ class CRMFWC_Contacts {
 
 
 	/**
+	 * Prepare data to set opportunities in CRM in Cloud from the user WC orders
+	 *
+	 * @param  int  $user_id    the WP user id.
+	 * @param  int  $remote_id  the CRM in Cloud user id.
+	 * @param  bool $cross_type export opportunities to company (0) or contact (1)
+	 * @return array the opportunities data
+	 */
+	private function get_user_opportunities( $user_id, $remote_id, $cross_type = 0 ) {
+
+		$output = array();
+
+		$posts = get_posts(
+			array(
+		        'numberposts' => -1,
+		        'meta_key'    => '_customer_user',
+		        'meta_value'  => $user_id,
+		        'post_type'   => wc_get_order_types(),
+		        'post_status' => 'wc-completed', /*array_keys( wc_get_order_statuses() ),*/
+		    )
+		);
+
+		if ( $posts ) {
+			
+			foreach ( $posts as $post ) {
+
+				$order  = new WC_Order( $post->ID );
+
+		    	// error_log( 'ITEMS: ' . print_r( $order->get_items(), true ) );
+
+		        foreach ($order->get_items() as $item_id => $item) {
+
+		        	$product = $item->get_product();
+
+		        	$args = array(
+		    			'amount'           => wc_format_decimal($order->get_item_total($item, false, false), 2),
+						'budget'           => wc_format_decimal($order->get_item_total($item, false, false), 2),
+						// 'category'         =>
+						'closeDate'        => $order->get_date_completed()->format ('Y-m-d G:i:s'),
+						// 'code'             =>
+						// 'competitors'      =>
+						// 'createdById'      =>
+						'createdDate'      => $order->get_date_created()->format ('Y-m-d G:i:s'),
+						'crossId'          => $remote_id,
+						'crossType'        => $cross_type,
+						// 'description'      =>
+						// 'id'               =>
+						// 'lastModifiedById' =>
+						// 'lastModifiedDate' =>
+						// 'lostReason'       =>
+						// 'ownerId'          =>
+						// 'partners'         =>
+						'phase'            => 16715, //temp
+						'probability'      => 100,
+						// 'referrers'        =>
+						// 'salesPersons'     =>
+						'status'           => 3,
+						// 'tags'             =>
+						'title'            => $item['name'] . ' - ' . __( 'Order', 'crmfwc' ) . ' #' . $post->ID,
+
+		        	);
+
+		        	array_push( $output , $args );
+
+		    	}
+
+			}
+
+		}
+
+
+		return $output;
+
+	}
+
+
+	private function get_opportunity_phases() {
+
+		$phases = $this->crmfwc_call->call( 'get', 'OpportunityPhase/Get' );
+
+    	// error_log( 'PHASES: ' . print_r( $phases, true ) );
+
+		if ( $phases ) {
+
+			foreach ( $phases as $key => $value ) {
+
+				$phase = $this->crmfwc_call->call( 'get', 'OpportunityPhase/View/' . $value );
+
+		    	// error_log( 'SINGLE PHASE: ' . print_r( $phase, true ) );
+
+			}
+
+		}
+
+	}
+
+
+	/**
+	 * Export user order data to CRM in Cloud as opportunities
+	 *
+	 * @param  int  $user_id   the WP user id.
+	 * @param  int  $remote_id the CRM in Cloud user id.
+	 * @param  bool $cross_type export opportunities to company (0) or contact (1)
+	 * @return void
+	 */
+	private function export_user_opportunities( $user_id, $remote_id, $cross_type = 0 ) {
+
+		$data = $this->get_user_opportunities( $user_id, $remote_id, $cross_type );
+
+		if ( is_array( $data ) && ! empty( $data ) ) {
+			
+	    	// error_log( 'DATA: ' . print_r( $data, true ) );
+
+	    	foreach ( $data as $opportunity ) {
+
+				$response = $this->crmfwc_call->call( 'post', 'Opportunity/CreateOrUpdate', $opportunity );
+
+		    	// error_log( 'RESPONSE: ' . print_r( $response, true ) );
+	    	
+	    	}
+
+		}
+
+	}
+
+	/**
 	 * Check if a customer/ supplier exists in CRM in Cloud
 	 *
 	 * @param  int $id the id user in CRM in Cloud.
@@ -190,7 +315,6 @@ class CRMFWC_Contacts {
 		}
 
 		$args = array(
-			'companyName' => $company,
 			'name'        => $name,
 			'surname'     => $surname,
 			'emails'      => array(
@@ -214,7 +338,12 @@ class CRMFWC_Contacts {
 
 		if ( $company ) {
 
-			$company_id        = $this->export_single_company( $user->ID, $args );
+			$args['companyName'] = $company;
+
+			/*Export the company to CRM in Cloud*/
+			$company_id = $this->export_single_company( $user->ID, $args );
+
+			/*Add the company id to the contact information*/
 			$args['companyId'] = $company_id;
 
 		}
@@ -261,6 +390,17 @@ class CRMFWC_Contacts {
 			if ( is_int( $response ) ) {
 
 				update_user_meta( $user->ID, 'crmfwc-id', $response );
+				
+				/*Export user opportunities*/
+				$this->export_user_opportunities( $user->ID, $response, 1 );
+			
+				/*Export company opportunities*/
+				if ( isset( $args['companyId'] ) ) {
+					
+					$this->export_user_opportunities( $user->ID, $args['companyId'] );
+			    	// error_log( 'OPPORTUNITIES: ' . print_r( $opportunities, true ) );
+				
+				}
 
 			}
 
@@ -458,5 +598,6 @@ class CRMFWC_Contacts {
 		exit;
 
 	}
+
 }
 new CRMFWC_Contacts( true );

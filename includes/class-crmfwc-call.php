@@ -63,7 +63,7 @@ class CRMFWC_Call {
 
 			$response = $this->call( 'post', 'Auth/Login', $data, true );
 
-			error_log( 'LOGIN RESPONSE: ' . print_r( $response, true ) );
+			// error_log( 'LOGIN RESPONSE: ' . print_r( $response, true ) );
 
 			if ( isset( $response->access_token ) ) {
 				
