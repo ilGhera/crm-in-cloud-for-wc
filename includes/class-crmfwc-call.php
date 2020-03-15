@@ -127,7 +127,7 @@ class CRMFWC_Call {
 
 			$output = json_decode( $response['body'] );
 
-			if ( isset( $output->errors ) && isset( $output->errorCode ) && 'E04300' !== $output->errorCode ) {
+			if ( isset( $output->error ) || isset( $output->message ) ) {
 
 				error_log( 'CRMFWC | ERROR: ' . print_r( $output, true ) );
 
