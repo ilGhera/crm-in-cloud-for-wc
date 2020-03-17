@@ -63,8 +63,6 @@ class CRMFWC_Call {
 
 			$response = $this->call( 'post', 'Auth/Login', $data, true );
 
-			// error_log( 'LOGIN RESPONSE: ' . print_r( $response, true ) );
-
 			if ( isset( $response->access_token ) ) {
 				
 				return $response->access_token;
@@ -110,8 +108,6 @@ class CRMFWC_Call {
 	public function call( $method, $endpoint = '', $args = null, $login = false ) {
 
 		$body = $args ? json_encode( $args ) : '';
-
-		// error_log( 'HEADERS: ' . print_r( $this->headers(), true ) );
 
 		$response = wp_remote_request(
 			$this->base_url . $endpoint,

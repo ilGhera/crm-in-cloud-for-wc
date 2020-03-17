@@ -21,7 +21,7 @@ class CRMFWC_Contacts {
 			add_action( 'crmfwc_delete_remote_single_user_event', array( $this, 'delete_remote_single_user' ), 10, 2 );
 			add_action( 'wp_ajax_export-users', array( $this, 'export_users' ) );
 			add_action( 'crmfwc_export_single_user_event', array( $this, 'export_single_user' ), 10, 3 );
-			add_action( 'woocommerce_order_status_completed', array( $this, 'order_opportunities_callback' ), 10, 1 );
+			add_action( 'woocommerce_order_status_completed', array( $this, 'wc_order_callback' ), 10, 1 );
 		}
 
 		$this->crmfwc_call     = new CRMFWC_Call();
@@ -60,13 +60,22 @@ class CRMFWC_Contacts {
 	/**
 	 * Export a single comany to CRM in Cloud
 	 *
-	 * @param  int   $user_id the WP user id.
-	 * @param  array $args    the company data.
+	 * @param  int    $user_id the WP user id.
+	 * @param  array  $args    the  company data.
+	 * @param  string $company_name the company name.
 	 * @return int   the CRM in Cloud company id
 	 */
-	private function export_single_company( $user_id, $args ) {
+	private function export_single_company( $user_id, $args, $company_name = null ) {
 
-		$company_id = get_user_meta( $user_id, 'crmfwc-company-id', true );
+		if ( 0 !== $user_id ) {
+
+			$company_id = get_user_meta( $user_id, 'crmfwc-company-id', true );
+
+		} else {
+
+			$company_id = $this->search_remote_company( $company_name );
+
+		}
 
 		/*Update company if already in CRM in Cloud*/
 		if ( $company_id ) {
@@ -215,7 +224,7 @@ class CRMFWC_Contacts {
 				$order               = new WC_Order( $post->ID );
 				$args                = $this->get_single_order_opportunities( $order, $remote_id, $cross_type );
 				$output[ $post->ID ] = $args;
-				
+
 			}
 
 		}
@@ -254,8 +263,6 @@ class CRMFWC_Contacts {
 
 							$response = $this->crmfwc_call->call( 'post', 'Opportunity/CreateOrUpdate', $opportunity );
 
-							error_log( 'RESPONSE: ' . print_r( $response, true ) );
-
 						}
 
 					}
@@ -270,54 +277,7 @@ class CRMFWC_Contacts {
 
 
 	/**
-	 * Export opportunities when a WC order is completed
-	 *
-	 * @param  int $order_id the WC order
-	 * @return void
-	 */
-	public function order_opportunities_callback( $order_id ) {
-
-		$order = new WC_Order( $order_id );
-		$user  = get_user_by( 'id', $order->get_customer_id() );
-
-		$this->export_single_user( 1, $user, $order );
-		
-		// $data  = $this->get_single_order_opportunities( $order, $remote_id );
-
-		// if ( is_array( $data ) && ! empty( $data ) ) {
-
-		// 	update_post_meta( $order_id, 'crmfwc-contact-opportunities' , 1 );
-
-		// 	foreach ( $value as $opportunity ) {
-
-		// 		$response = $this->crmfwc_call->call( 'post', 'Opportunity/CreateOrUpdate', $opportunity );
-
-		// 	}
-
-		// }
-
-		// if ( $order->get_billing_company() ) {
-
-		// 	$data = $this->get_single_order_opportunities( $order, $remote_id, 1 );
-
-		// 	if ( is_array( $data ) && ! empty( $data ) ) {
-
-		// 		update_post_meta( $order_id, 'crmfwc-company-opportunities' , 1 );
-
-		// 		foreach ( $value as $opportunity ) {
-
-		// 			$response = $this->crmfwc_call->call( 'post', 'Opportunity/CreateOrUpdate', $opportunity );
-
-		// 		}			
-		// 	}
-
-		// }
-
-	}
-
-
-	/**
-	 * Check if a customer/ supplier exists in CRM in Cloud
+	 * Check if a contact exists in CRM in Cloud
 	 *
 	 * @param  int $id the id user in CRM in Cloud.
 	 * @return bool
@@ -351,6 +311,9 @@ class CRMFWC_Contacts {
 	 * @return array
 	 */
 	public function prepare_user_data( $user = null, $order = null ) {
+
+		$user_id = isset( $user->ID ) ? $user->ID : 0;
+		$website = null;
 
 		if ( $user ) {
 
@@ -421,7 +384,6 @@ class CRMFWC_Contacts {
 			),
 			'province'    => $state,
 			'vatId'       => $vat_number,
-			'webSite'     => $website,
 		);
 
 		if ( $company ) {
@@ -429,7 +391,7 @@ class CRMFWC_Contacts {
 			$args['companyName'] = $company;
 
 			/*Export the company to CRM in Cloud*/
-			$company_id = $this->export_single_company( $user->ID, $args );
+			$company_id = $this->export_single_company( $user_id, $args, $company );
 
 			/*Add the company id to the contact information*/
 			$args['companyId'] = $company_id;
@@ -437,7 +399,18 @@ class CRMFWC_Contacts {
 		}
 
 		/*Update contact if already in CRM in Cloud*/
-		$crmfwc_id = get_user_meta( $user->ID, 'crmfwc-id', true );
+		$crmfwc_id = null;
+
+		/*WP user exists*/
+		if ( 0 !== $user_id ) {
+
+			$crmfwc_id = get_user_meta( $user_id, 'crmfwc-id', true );
+
+		} else {
+
+			$crmfwc_id = $this->search_remote_contact( $user_email );
+
+		}
 
 		if ( $crmfwc_id ) {
 
@@ -448,7 +421,7 @@ class CRMFWC_Contacts {
 		if ( $website ) {
 
 			$args['webSite'] = $website;
-		
+
 		}
 
 		// if ( $italian_certified_email ) {
@@ -474,8 +447,9 @@ class CRMFWC_Contacts {
 	 */
 	public function export_single_user( $n, $user = null, $order = null ) {
 
-		$args      = $this->prepare_user_data( $user, $order );
-		$crmfwc_id = get_user_meta( $user->ID, 'crmfwc-id', true );
+		$args = $this->prepare_user_data( $user, $order );
+
+		// $crmfwc_id = get_user_meta( $user->ID, 'crmfwc-id', true );
 
 		if ( $args ) {
 
@@ -483,15 +457,22 @@ class CRMFWC_Contacts {
 
 			if ( is_int( $response ) ) {
 
-				update_user_meta( $user->ID, 'crmfwc-id', $response );
+				$user_id = isset( $user->ID ) ? $user->ID : 0;
+
+				/*Update user:meta only if wp user exists*/
+				if ( 0 !== $user_id ) {
+
+					update_user_meta( $user->ID, 'crmfwc-id', $response );
+
+				}
 
 				/*Export user opportunities*/
-				$test1 = $this->export_opportunities( $user->ID, $response, 1 );
+				$test1 = $this->export_opportunities( $user_id, $response, 1 );
 
 				/*Export company opportunities*/
 				if ( isset( $args['companyId'] ) ) {
 
-					$test2 = $this->export_opportunities( $user->ID, $args['companyId'] );
+					$test2 = $this->export_opportunities( $user_id, $args['companyId'] );
 
 				}
 
@@ -560,6 +541,59 @@ class CRMFWC_Contacts {
 		}
 
 		exit;
+
+	}
+
+
+	/**
+	 * Search contact on CRM in Cloud by email
+	 *
+	 * @param  string $email the contact email.
+	 * @return int the remote contact id
+	 */
+	public function search_remote_contact( $email ) {
+
+		$response = $this->crmfwc_call->call( 'get', "Contact/Search?filter=startswith(emails, '$email')" );
+
+		if ( isset( $response[0]->id ) ) {
+
+			return $response[0]->id;
+
+		}
+
+	}
+
+	/**
+	 * Search company on CRM in Cloud by company name
+	 *
+	 * @param  string $company_name the company name.
+	 * @return int the remote company id
+	 */
+	public function search_remote_company( $company_name ) {
+
+		$response = $this->crmfwc_call->call( 'get', "Company/Search?filter=startswith(companyName, '$company_name')" );
+
+		if ( isset( $response[0]->id ) ) {
+
+			return $response[0]->id;
+
+		}
+
+	}
+
+
+	/**
+	 * Export user and his opportunities when a WC order is completed
+	 *
+	 * @param  int $order_id the WC order.
+	 * @return void
+	 */
+	public function wc_order_callback( $order_id ) {
+
+		$order = new WC_Order( $order_id );
+		$user  = get_user_by( 'id', $order->get_customer_id() );
+
+		$this->export_single_user( 1, $user, $order );
 
 	}
 
