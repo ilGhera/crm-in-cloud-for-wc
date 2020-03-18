@@ -169,7 +169,7 @@ class CRMFWC_Contacts {
 			$product        = $item->get_product();
 			$completed_date = date_i18n( get_option( 'date_format' ), strtotime( $order->get_date_completed() ) );
 			$description    = __( 'Order: ', 'crmfwc' ) . ' #' . $order->get_id();
-			$description   .= "\n" . __( 'Date: ', 'crmfwc' ) . $completed_date;
+			$description   .= ' - ' . __( 'Date: ', 'crmfwc' ) . $completed_date;
 			$quantity       = 1 < $item->get_quantity() ? ' (' . $item->get_quantity() . ')' : '';
 
 			$args = array(
@@ -319,6 +319,8 @@ class CRMFWC_Contacts {
 
 			$user_details = get_userdata( $user->ID );
 
+			error_log( 'USER DETAILS: ' . print_r( $user_details, true ) );
+
 			$user_data = array_map(
 				function( $a ) {
 					return $a[0];
@@ -334,7 +336,7 @@ class CRMFWC_Contacts {
 			
 				$name = ucfirst( $user_data['billing_first_name'] );
 			
-			} elseif ( ! $surname ) {
+			} elseif ( '-' === $surname ) {
 			
 				$name = isset( $user_data['display_name'] ) ? ucfirst( $user_data['display_name'] ) : null;
 			
@@ -342,14 +344,14 @@ class CRMFWC_Contacts {
 			
 			$user_email              = isset( $user_data['billing_email'] ) ? $user_data['billing_email'] : null;
 			$country                 = isset( $user_data['billing_country'] ) ? $user_data['billing_country'] : null;
-			$city                    = isset( $user_data['billing_city'] ) ? ucfirst( $user_data['billing_city'] ) : null;
+			$city                    = isset( $user_data['billing_city'] ) ? ucwords( $user_data['billing_city'] ) : null;
 			$state                   = isset( $user_data['billing_state'] ) ? ucfirst( $user_data['billing_state'] ) : null;
-			$address                 = isset( $user_data['billing_address_1'] ) ? $user_data['billing_address_1'] : null;
+			$address                 = isset( $user_data['billing_address_1'] ) ? ucwords( $user_data['billing_address_1'] ) : null;
 			$postcode                = isset( $user_data['billing_postcode'] ) ? $user_data['billing_postcode'] : null;
 			$phone                   = isset( $user_data['billing_phone'] ) ? $user_data['billing_phone'] : null;
 			$company                 = isset( $user_data['billing_company'] ) ? $user_data['billing_company'] : null;
 			$website                 = isset( $user_details->user_url ) ? $user_details->user_url : null;
-			$vat_number              = isset( $user_data['billing_wcexd_piva'] ) ? $user_data['billing_wcexd_piva'] : null;
+			$vat_number              = isset( $user_data['billing_wcexd_piva'] ) ? $user_data['billing_wcexd_piva'] : null; // temp.
 			$identification_number   = isset( $user_data['billing_wcexd_cf'] ) ? $user_data['billing_wcexd_cf'] : null;
 			$italian_certified_email = isset( $user_data['billing_wcexd_pec'] ) ? $user_data['billing_wcexd_pec'] : null;
 			$public_entry_number     = isset( $user_data['billing_wcexd_pa_code'] ) ? $user_data['billing_wcexd_pa_code'] : null;
@@ -366,7 +368,7 @@ class CRMFWC_Contacts {
 			$postcode                = $order->get_billing_postcode();
 			$phone                   = $order->get_billing_phone();
 			$company                 = $order->get_billing_company();
-			$vat_number              = $order->get_meta( '_billing_wcexd_piva' ) ? $order->get_meta( '_billing_wcexd_piva' ) : null;
+			$vat_number              = $order->get_meta( '_billing_wcexd_piva' ) ? $order->get_meta( '_billing_wcexd_piva' ) : null; // temp.
 			$identification_number   = $order->get_meta( '_billing_wcexd_cf' ) ? $order->get_meta( '_billing_wcexd_cf' ) : null;
 			$italian_certified_email = $order->get_meta( '_billing_wcexd_pec' ) ? $order->get_meta( '_billing_wcexd_pec' ) : null;
 			$public_entry_number     = $order->get_meta( '_billing_wcexd_pa_code' ) ? $order->get_meta( '_billing_wcexd_pa_code' ) : null;

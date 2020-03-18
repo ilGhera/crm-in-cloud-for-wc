@@ -20,7 +20,6 @@ var crmfwcController = function() {
 		self.crmfwc_export_products();
 		self.crmfwc_export_orders();
 		self.crmfwc_delete_remote_products();
-		self.crmfwc_delete_remote_orders();
 		self.crmfwc_disconnect();
 		self.book_invoice();
 	}
@@ -105,7 +104,7 @@ var crmfwcController = function() {
 
 
 	/**
-	 * Plugin tools available only if connected to Reviso
+	 * Plugin tools available only if connected to CRM in Cloud
 	 */
 	self.crmfwc_tools_control = function(deactivate = false) {
 
@@ -137,7 +136,7 @@ var crmfwcController = function() {
 		
 
 	/**
-	 * Check the connection to Reviso
+	 * Check the connection to CRM in Cloud
 	 */
 	self.crmfwc_check_connection = function() {
 
@@ -150,8 +149,6 @@ var crmfwcController = function() {
 			$.post(ajaxurl, data, function(response){
 
 				if(response) {
-
-					console.log( response );
 
 					/*Activate plugin tools*/
 					self.crmfwc_tools_control();
@@ -178,7 +175,7 @@ var crmfwcController = function() {
 
 
 	/**
-	 * Disconnect from Reviso deleting the Agreement Grant Tocken from the db
+	 * Disconnect from CRM in Cloud deleting the Agreement Grant Tocken from the db
 	 */
 	self.crmfwc_disconnect = function() {
 
@@ -238,11 +235,11 @@ var crmfwcController = function() {
 			
 			if ( update ) {
 
-				$(container).append( '<div class="bootstrap-iso"><div class="alert ' + message_class + '"><b><i class="fas ' + icon + '"></i>WC Exporter for Reviso </b> - ' + message + '</div>' );
+				$(container).append( '<div class="bootstrap-iso"><div class="alert ' + message_class + '"><b><i class="fas ' + icon + '"></i>WC Exporter for CRM in Cloud </b> - ' + message + '</div>' );
 
 			} else {
 
-				$(container).html( '<div class="bootstrap-iso"><div class="alert ' + message_class + '"><b><i class="fas ' + icon + '"></i>WC Exporter for Reviso </b> - ' + message + '</div>' );
+				$(container).html( '<div class="bootstrap-iso"><div class="alert ' + message_class + '"><b><i class="fas ' + icon + '"></i>WC Exporter for CRM in Cloud </b> - ' + message + '</div>' );
 
 			}
 
@@ -252,7 +249,7 @@ var crmfwcController = function() {
 
 
 	/**
-	 * Export WP users to Reviso
+	 * Export WP users to CRM in Cloud
 	 */
 	self.crmfwc_export_users = function() {
 
@@ -273,6 +270,8 @@ var crmfwcController = function() {
 				}
 
 				$.post(ajaxurl, data, function(response){
+
+					self.crmfwc_response_loading();
 
 					var result = JSON.parse(response);
 
@@ -295,7 +294,7 @@ var crmfwcController = function() {
 
 
 	/**
-	 * Delete all the users from Reviso
+	 * Delete all the users from CRM in Cloud
 	 */
 	self.crmfwc_delete_remote_users = function() {
 
@@ -303,14 +302,12 @@ var crmfwcController = function() {
 
 			$('.button-primary.crmfwc.red.users').on('click', function(e){
 
-				console.log( 'DELETE!' );
-
 				e.preventDefault();
 
 				self.delete_messages();
 
 				var type = $(this).hasClass('customers') ? 'customers' : 'suppliers';
-				var answer = confirm( 'Vuoi cancellare tutti i ' + type + ' da Reviso?' );
+				var answer = confirm( 'Vuoi cancellare tutti i ' + type + ' da CRM in Cloud?' );
 
 				if ( answer ) {
 
@@ -348,7 +345,7 @@ var crmfwcController = function() {
 
 
 	/**
-	 * Export products to Reviso
+	 * Export products to CRM in Cloud
 	 */
 	self.crmfwc_export_products = function() {
 
@@ -391,7 +388,7 @@ var crmfwcController = function() {
 
 
 	/**
-	 * Delete all the products from Reviso
+	 * Delete all the products from CRM in Cloud
 	 */
 	self.crmfwc_delete_remote_products = function() {
 
@@ -403,7 +400,7 @@ var crmfwcController = function() {
 
 				self.delete_messages();
 							
-				var answer = confirm( 'Vuoi cancellare tutti i prodotti da Reviso?' );
+				var answer = confirm( 'Vuoi cancellare tutti i prodotti da CkkM in Cloud?' );
 
 				if ( answer ) {
 
@@ -479,7 +476,7 @@ var crmfwcController = function() {
 
 
 	/**
-	 * Export orders to Reviso
+	 * Export orders to CRM in Cloud
 	 */
 	self.crmfwc_export_orders = function() {
 
@@ -500,8 +497,6 @@ var crmfwcController = function() {
 				}
 
 				$.post(ajaxurl, data, function(response){
-
-					console.log(response);
 										
 					var result = JSON.parse(response);
 
@@ -515,54 +510,6 @@ var crmfwcController = function() {
 					}
 
 				})
-
-			})
-
-		})
-
-	}
-
-
-	/**
-	 * Delete all orders from Reviso
-	 */
-	self.crmfwc_delete_remote_orders = function() {
-
-		jQuery(function($){
-
-			$('.button-primary.crmfwc.red.orders').on('click', function(e){
-
-				e.preventDefault();
-
-				self.delete_messages();
-								
-				var answer = confirm( 'Vuoi cancellare tutti gli ordini da Reviso?' );
-
-				if ( answer ) {
-
-					var data = {
-						'action': 'delete-remote-orders',
-						'crmfwc-delete-orders-nonce': crmfwcOrders.deleteNonce,
-					}
-
-					$.post(ajaxurl, data, function(response){
-
-						self.crmfwc_response_loading();
-
-						var result = JSON.parse(response);
-
-						for (var i = 0; i < result.length; i++) {
-
-							var error = 'error' === result[i][0] ? true : false;
-							var update = 0 !== i ? true : false; 
-
-							self.crmfwc_response_message( result[i][1], error, false );
-
-						}
-
-					})
-
-				}
 
 			})
 

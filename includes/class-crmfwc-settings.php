@@ -158,8 +158,6 @@ class CRMFWC_Settings {
 
 			} else {
 
-				// echo '<h4 class="crmfwc-connection-status"><span class="label label-success">' . esc_html( __( 'Connected', 'crmfwc' ) ) . '</span></h4>';
-
 				echo '<input type="submit" class="button-primary red crmfwc-disconnect" name="crmfwc-connect" value="' . esc_html__( 'Disconnect from CRM in Cloud', 'crmfwc' ) . '">';
 
 			}
