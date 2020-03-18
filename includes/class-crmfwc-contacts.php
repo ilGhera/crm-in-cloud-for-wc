@@ -169,7 +169,7 @@ class CRMFWC_Contacts {
 			$product        = $item->get_product();
 			$completed_date = date_i18n( get_option( 'date_format' ), strtotime( $order->get_date_completed() ) );
 			$description    = __( 'Order: ', 'crmfwc' ) . ' #' . $order->get_id();
-			$description   .= '<br>' . __( 'Date: ', 'crmfwc' ) . $completed_date;
+			$description   .= "\n" . __( 'Date: ', 'crmfwc' ) . $completed_date;
 			$quantity       = 1 < $item->get_quantity() ? ' (' . $item->get_quantity() . ')' : '';
 
 			$args = array(
@@ -326,17 +326,29 @@ class CRMFWC_Contacts {
 				get_user_meta( $user->ID )
 			);
 
-			$name                    = $user_data['billing_first_name'];
-			$surname                 = $user_data['billing_last_name'];
-			$user_email              = $user_data['billing_email'];
-			$country                 = $user_data['billing_country'];
-			$city                    = $user_data['billing_city'];
-			$state                   = $user_data['billing_state'];
-			$address                 = $user_data['billing_address_1'];
-			$postcode                = $user_data['billing_postcode'];
-			$phone                   = $user_data['billing_phone'];
-			$company                 = $user_data['billing_company'];
-			$website                 = $user_details->user_url;
+			$surname                 = isset( $user_data['billing_last_name'] ) ? ucfirst( $user_data['billing_last_name'] ) : '-';
+			$name 					 = null;
+
+			/*Use WP display name with no first and last user name*/
+			if( isset( $user_data['billing_first_name'] ) ) {
+			
+				$name = ucfirst( $user_data['billing_first_name'] );
+			
+			} elseif ( ! $surname ) {
+			
+				$name = isset( $user_data['display_name'] ) ? ucfirst( $user_data['display_name'] ) : null;
+			
+			}
+			
+			$user_email              = isset( $user_data['billing_email'] ) ? $user_data['billing_email'] : null;
+			$country                 = isset( $user_data['billing_country'] ) ? $user_data['billing_country'] : null;
+			$city                    = isset( $user_data['billing_city'] ) ? ucfirst( $user_data['billing_city'] ) : null;
+			$state                   = isset( $user_data['billing_state'] ) ? ucfirst( $user_data['billing_state'] ) : null;
+			$address                 = isset( $user_data['billing_address_1'] ) ? $user_data['billing_address_1'] : null;
+			$postcode                = isset( $user_data['billing_postcode'] ) ? $user_data['billing_postcode'] : null;
+			$phone                   = isset( $user_data['billing_phone'] ) ? $user_data['billing_phone'] : null;
+			$company                 = isset( $user_data['billing_company'] ) ? $user_data['billing_company'] : null;
+			$website                 = isset( $user_details->user_url ) ? $user_details->user_url : null;
 			$vat_number              = isset( $user_data['billing_wcexd_piva'] ) ? $user_data['billing_wcexd_piva'] : null;
 			$identification_number   = isset( $user_data['billing_wcexd_cf'] ) ? $user_data['billing_wcexd_cf'] : null;
 			$italian_certified_email = isset( $user_data['billing_wcexd_pec'] ) ? $user_data['billing_wcexd_pec'] : null;
@@ -344,8 +356,8 @@ class CRMFWC_Contacts {
 
 		} elseif ( $order ) {
 
-			$name                    = $order->get_billing_first_name();
 			$surname                 = $order->get_billing_last_name();
+			$name                    = $order->get_billing_first_name();
 			$user_email              = $order->get_billing_email();
 			$country                 = $order->get_billing_country();
 			$city                    = $order->get_billing_city();
