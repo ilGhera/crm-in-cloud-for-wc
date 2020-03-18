@@ -342,7 +342,7 @@ class CRMFWC_Contacts {
 			
 			}
 			
-			$user_email              = isset( $user_data['billing_email'] ) ? $user_data['billing_email'] : null;
+			$user_email              = isset( $user_data['user_email'] ) ? $user_data['user_email'] : null;
 			$country                 = isset( $user_data['billing_country'] ) ? $user_data['billing_country'] : null;
 			$city                    = isset( $user_data['billing_city'] ) ? ucwords( $user_data['billing_city'] ) : null;
 			$state                   = isset( $user_data['billing_state'] ) ? ucfirst( $user_data['billing_state'] ) : null;
@@ -350,7 +350,7 @@ class CRMFWC_Contacts {
 			$postcode                = isset( $user_data['billing_postcode'] ) ? $user_data['billing_postcode'] : null;
 			$phone                   = isset( $user_data['billing_phone'] ) ? $user_data['billing_phone'] : null;
 			$company                 = isset( $user_data['billing_company'] ) ? $user_data['billing_company'] : null;
-			$website                 = isset( $user_details->user_url ) ? $user_details->user_url : null;
+			$website                 = isset( $user_data['user_url'] ) ? $user_data['user_url'] : null;
 			$vat_number              = isset( $user_data['billing_wcexd_piva'] ) ? $user_data['billing_wcexd_piva'] : null; // temp.
 			$identification_number   = isset( $user_data['billing_wcexd_cf'] ) ? $user_data['billing_wcexd_cf'] : null;
 			$italian_certified_email = isset( $user_data['billing_wcexd_pec'] ) ? $user_data['billing_wcexd_pec'] : null;
