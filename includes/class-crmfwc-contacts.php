@@ -135,11 +135,15 @@ class CRMFWC_Contacts {
 
 					$phase = $this->crmfwc_call->call( 'get', 'OpportunityPhase/View/' . $value );
 
-					if ( 3 === $phase->status && 100 === $phase->weight ) {
+					if ( isset( $phase ) ) {
 
-						update_option( 'crmfwc-completed-phase', $phase->id );
+						if ( 3 === $phase->status && 100 === $phase->weight ) {
 
-						return $phase->id;
+							update_option( 'crmfwc-completed-phase', $phase->id );
+
+							return $phase->id;
+
+						}
 
 					}
 
