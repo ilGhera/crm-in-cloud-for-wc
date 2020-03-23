@@ -27,6 +27,10 @@ class CRMFWC_Contacts {
 		$this->crmfwc_call     = new CRMFWC_Call();
 		$this->completed_phase = $this->get_completed_opportunity_phase();
 
+		// $response = $this->crmfwc_call->call( 'get', 'Auth/Me' );
+
+		// error_log( 'ME: ' . print_r( $response, true ) );		
+
 	}
 
 
@@ -105,7 +109,32 @@ class CRMFWC_Contacts {
 	 */
 	public function get_remote_users( $id = null ) {
 
-		$output = $this->crmfwc_call->call( 'get', 'Contact/Get/' . $id );
+		if ( ! $id ) {
+
+			// $output = array();
+
+			// for ( $i=0; $i < 100; $i++) { 
+
+			// 	$skip     = 0 === $i ? 0 : 100;
+			// 	$response = $this->crmfwc_call->call( 'get', 'Contact/Get?$skip=' . $skip );
+
+			// 	if ( is_array( $response ) ) {
+					
+			// 		$output = array_merge( $output, $response );
+
+			// 	}
+
+			// }
+
+			$output = $this->crmfwc_call->call( 'get', 'Contact/Get' );
+
+		} else {
+
+			$output = $this->crmfwc_call->call( 'get', 'Contact/Get/' . $id );
+
+		}
+
+		error_log( 'REMOTE USERS: ' . print_r( $output, true ) );
 
 		return $output;
 
@@ -323,7 +352,7 @@ class CRMFWC_Contacts {
 
 			$user_details = get_userdata( $user->ID );
 
-			error_log( 'USER DETAILS: ' . print_r( $user_details, true ) );
+			// error_log( 'USER DETAILS: ' . print_r( $user_details, true ) );
 
 			$user_data = array_map(
 				function( $a ) {

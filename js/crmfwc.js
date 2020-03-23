@@ -306,7 +306,7 @@ var crmfwcController = function() {
 
 				self.delete_messages();
 
-				var type = $(this).hasClass('customers') ? 'customers' : 'suppliers';
+				var type   = $(this).hasClass('customers') ? 'customers' : 'suppliers';
 				var answer = confirm( 'Vuoi cancellare tutti i ' + type + ' da CRM in Cloud?' );
 
 				if ( answer ) {

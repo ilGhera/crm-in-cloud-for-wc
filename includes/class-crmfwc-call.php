@@ -129,6 +129,8 @@ class CRMFWC_Call {
 
 			}
 
+			error_log( 'RESPONSE: ' . print_r( $output, true ) );
+
 			return $output;
 
 		} else {
