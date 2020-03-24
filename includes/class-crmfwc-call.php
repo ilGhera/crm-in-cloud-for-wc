@@ -129,7 +129,7 @@ class CRMFWC_Call {
 
 			}
 
-			error_log( 'RESPONSE: ' . print_r( $output, true ) );
+			// error_log( 'RESPONSE: ' . print_r( $output, true ) );
 
 			return $output;
 

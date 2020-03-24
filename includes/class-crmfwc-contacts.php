@@ -111,22 +111,29 @@ class CRMFWC_Contacts {
 
 		if ( ! $id ) {
 
-			// $output = array();
+			$output = array();
 
-			// for ( $i=0; $i < 100; $i++) { 
+			for ( $i=0; $i < 100; $i++) { 
 
-			// 	$skip     = 0 === $i ? 0 : 100;
-			// 	$response = $this->crmfwc_call->call( 'get', 'Contact/Get?$skip=' . $skip );
+				$skip     = $i * 100;
+				$response = $this->crmfwc_call->call( 'get', 'Contact/Get?filter=&top=100&skip=' . $skip );
 
-			// 	if ( is_array( $response ) ) {
+				if ( is_array( $response ) ) {
 					
-			// 		$output = array_merge( $output, $response );
+					$output = array_merge( $output, $response );
+				
+					if ( 100 >= count( $response ) ) {
+						
+						error_log( 'REMOTE USERS: ' . print_r( $output, true ) );
+						
+						continue;
 
-			// 	}
+					}
 
-			// }
+				}
 
-			$output = $this->crmfwc_call->call( 'get', 'Contact/Get' );
+
+			}
 
 		} else {
 
@@ -134,7 +141,6 @@ class CRMFWC_Contacts {
 
 		}
 
-		error_log( 'REMOTE USERS: ' . print_r( $output, true ) );
 
 		return $output;
 
