@@ -37,11 +37,11 @@ function load_wc_exporter_for_reviso() {
 	define( 'CRMFWC_SETTINGS', admin_url( 'admin.php?page=wc-exporter-for-reviso' ) );
 
 	/*Files required*/
-	require( CRMFWC_ADMIN . 'class-crmfwc-admin.php' );
-	require( CRMFWC_INCLUDES . 'crmfwc-functions.php' );
-	require( CRMFWC_INCLUDES . 'class-crmfwc-call.php' );
-	require( CRMFWC_INCLUDES . 'class-crmfwc-settings.php' );
-	require( CRMFWC_INCLUDES . 'class-crmfwc-contacts.php' );
-
+	require_once( CRMFWC_ADMIN . 'class-crmfwc-admin.php' );
+	require_once( CRMFWC_INCLUDES . 'crmfwc-functions.php' );
+	require_once( CRMFWC_INCLUDES . 'class-crmfwc-call.php' );
+	require_once( CRMFWC_INCLUDES . 'class-crmfwc-settings.php' );
+	require_once( CRMFWC_INCLUDES . 'class-crmfwc-contacts.php' );
+	require_once( CRMFWC_DIR . 'libraries/action-scheduler/action-scheduler.php' );
 }
 add_action( 'plugins_loaded', 'load_wc_exporter_for_reviso', 10 );
