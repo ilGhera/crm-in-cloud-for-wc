@@ -17,19 +17,44 @@ class CRMFWC_Contacts {
 
 		if ( $init ) {
 
+			add_filter( 'action_scheduler_queue_runner_time_limit', array( $this, 'eg_increase_time_limit' ) );
+			add_filter( 'action_scheduler_queue_runner_batch_size', array( $this, 'eg_increase_action_scheduler_batch_size' ) );
 			add_action( 'wp_ajax_delete-remote-users', array( $this, 'delete_remote_users' ) );
 			add_action( 'crmfwc_delete_remote_single_user_event', array( $this, 'delete_remote_single_user' ), 10, 2 );
 			add_action( 'wp_ajax_export-users', array( $this, 'export_users' ) );
 			add_action( 'crmfwc_export_single_user_event', array( $this, 'export_single_user' ), 10, 3 );
 			add_action( 'woocommerce_order_status_completed', array( $this, 'wc_order_callback' ), 10, 1 );
+
 		}
 
 		$this->crmfwc_call     = new CRMFWC_Call();
 		$this->completed_phase = $this->get_completed_opportunity_phase();
 
-		// $response = $this->crmfwc_call->call( 'get', 'Auth/Me' );
+	}
 
-		// error_log( 'ME: ' . print_r( $response, true ) );		
+
+	/**
+	 * Increase the time limit for porocessing the actions
+	 *
+	 * @param  int $time_limit the time limit in seconds.
+	 * @return int the updated time
+	 */
+	public function eg_increase_time_limit( $time_limit ) {
+
+		return 60;
+
+	}
+
+
+	/**
+	 * Increase the number of actions executed in a single process
+	 *
+	 * @param  int $batch_size the number of actions.
+	 * @return int the number updated
+	 */
+	public function eg_increase_action_scheduler_batch_size( $batch_size ) {
+
+		return 50;
 
 	}
 
@@ -67,7 +92,7 @@ class CRMFWC_Contacts {
 	 * @param  int    $user_id the WP user id.
 	 * @param  array  $args    the  company data.
 	 * @param  string $company_name the company name.
-	 * @return int   the CRM in Cloud company id
+	 * @return int    the CRM in Cloud company id
 	 */
 	private function export_single_company( $user_id, $args, $company_name = null ) {
 
@@ -113,25 +138,22 @@ class CRMFWC_Contacts {
 
 			$output = array();
 
-			for ( $i=0; $i < 100; $i++) { 
+			for ( $i = 0; $i < 10; $i++ ) {
 
 				$skip     = $i * 100;
 				$response = $this->crmfwc_call->call( 'get', 'Contact/Get?filter=&top=100&skip=' . $skip );
 
 				if ( is_array( $response ) ) {
-					
+
 					$output = array_merge( $output, $response );
-				
+
 					if ( 100 >= count( $response ) ) {
-						
-						error_log( 'REMOTE USERS: ' . print_r( $output, true ) );
-						
+
 						continue;
 
 					}
 
 				}
-
 
 			}
 
@@ -140,7 +162,6 @@ class CRMFWC_Contacts {
 			$output = $this->crmfwc_call->call( 'get', 'Contact/Get/' . $id );
 
 		}
-
 
 		return $output;
 
@@ -358,8 +379,6 @@ class CRMFWC_Contacts {
 
 			$user_details = get_userdata( $user->ID );
 
-			// error_log( 'USER DETAILS: ' . print_r( $user_details, true ) );
-
 			$user_data = array_map(
 				function( $a ) {
 					return $a[0];
@@ -368,19 +387,19 @@ class CRMFWC_Contacts {
 			);
 
 			$surname                 = isset( $user_data['billing_last_name'] ) ? ucfirst( $user_data['billing_last_name'] ) : '-';
-			$name 					 = null;
+			$name                    = null;
 
 			/*Use WP display name with no first and last user name*/
-			if( isset( $user_data['billing_first_name'] ) ) {
-			
+			if ( isset( $user_data['billing_first_name'] ) ) {
+
 				$name = ucfirst( $user_data['billing_first_name'] );
-			
+
 			} elseif ( '-' === $surname ) {
-			
+
 				$name = isset( $user_data['display_name'] ) ? ucfirst( $user_data['display_name'] ) : null;
-			
+
 			}
-			
+
 			$user_email              = isset( $user_data['user_email'] ) ? $user_data['user_email'] : null;
 			$country                 = isset( $user_data['billing_country'] ) ? $user_data['billing_country'] : null;
 			$city                    = isset( $user_data['billing_city'] ) ? ucwords( $user_data['billing_city'] ) : null;
@@ -562,14 +581,15 @@ class CRMFWC_Contacts {
 
 					$n++;
 
-					/*Cron event*/
-					wp_schedule_single_event(
+					/*Schedule action*/
+					as_schedule_single_action(
 						time() + 1,
 						'crmfwc_export_single_user_event',
 						array(
 							$n,
 							$user,
-						)
+						),
+						'crmfwc-export-users'
 					);
 
 				}
@@ -761,14 +781,15 @@ class CRMFWC_Contacts {
 
 					$n++;
 
-					/*Cron event*/
-					wp_schedule_single_event(
+					/*Schedule action*/
+					as_schedule_single_action(
 						time() + 1,
 						'crmfwc_delete_remote_single_user_event',
 						array(
 							$n,
 							$user,
-						)
+						),
+						'crmfwc-delete-remote-users'
 					);
 
 				}
