@@ -129,7 +129,8 @@ class CRMFWC_Call {
 
 			}
 
-			error_log( 'RESPONSE: ' . print_r( $output, true ) );
+			// error_log( 'RESPONSE: ' . print_r( $output, true ) );
+			error_log( 'ENDPOINT: ' . $this->base_url . $endpoint );
 
 			return $output;
 

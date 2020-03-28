@@ -138,10 +138,17 @@ class CRMFWC_Contacts {
 
 			$output = array();
 
-			for ( $i = 0; $i < 10; $i++ ) {
+			for ( $i = 0; $i < 1; $i++ ) {
 
 				$skip     = $i * 100;
-				$response = $this->crmfwc_call->call( 'get', 'Contact/Get?filter=&top=100&skip=' . $skip );
+
+				error_log( 'SKIP: ' . $skip );
+
+				// $response = $this->crmfwc_call->call( 'get', 'Contact/Get?skip=' . $skip );
+				$response = $this->crmfwc_call->call( 'get', 'Contact/Get?skip=100' );
+				// $response = $this->crmfwc_call->call( 'get', 'Contact/Get' );
+		
+				error_log( 'REMOTE USERS (RESPONSE): ' . print_r( $response, true ) );
 
 				if ( is_array( $response ) ) {
 
@@ -162,6 +169,8 @@ class CRMFWC_Contacts {
 			$output = $this->crmfwc_call->call( 'get', 'Contact/Get/' . $id );
 
 		}
+
+		// error_log( 'REMOTE USERS: ' . print_r( $output, true ) );
 
 		return $output;
 
@@ -738,6 +747,8 @@ class CRMFWC_Contacts {
 	public function delete_remote_single_user( $n, $id ) {
 
 		$output = $this->crmfwc_call->call( 'delete', 'Contact/Delete/' . $id );
+
+		error_log( 'CANCELLATO: '  .print_r( $output, true ) );
 
 		/*temp*/
 		if ( isset( $output->error ) || isset( $output->message ) ) {

@@ -260,8 +260,9 @@ var crmfwcController = function() {
 				e.preventDefault();
 
 				self.delete_messages();
+				self.crmfwc_response_loading();
 
-				var role  = $('.crmfwc-contacts-role').val();
+				var role = $('.crmfwc-contacts-role').val();
 
 				var data = {
 					'action': 'export-users',
@@ -270,8 +271,6 @@ var crmfwcController = function() {
 				}
 
 				$.post(ajaxurl, data, function(response){
-
-					self.crmfwc_response_loading();
 
 					var result = JSON.parse(response);
 
@@ -311,6 +310,8 @@ var crmfwcController = function() {
 
 				if ( answer ) {
 
+					self.crmfwc_response_loading();
+					
 					var data = {
 						'action': 'delete-remote-users',
 						'crmfwc-delete-users-nonce': crmfwcSettings.deleteNonce,
@@ -319,8 +320,6 @@ var crmfwcController = function() {
 
 
 					$.post(ajaxurl, data, function(response){
-
-						self.crmfwc_response_loading();
 
 						var result = JSON.parse(response);
 
