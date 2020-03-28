@@ -54,7 +54,7 @@ class CRMFWC_Contacts {
 	 */
 	public function eg_increase_action_scheduler_batch_size( $batch_size ) {
 
-		return 50;
+		return 100; //temp
 
 	}
 
@@ -137,26 +137,34 @@ class CRMFWC_Contacts {
 		if ( ! $id ) {
 
 			$output = array();
+			$count  = $this->crmfwc_call->call( 'get', 'Contact/CountByODataCriteria?filter=id+ne+0' );
+			$steps  = is_int( $count ) ? intval( $count / 100 ) + 1 : null;
 
-			for ( $i = 0; $i < 1; $i++ ) {
+			error_log( 'STEPS: ' . $steps );
 
-				$skip     = $i * 100;
+			if ( $steps ) {
 
-				error_log( 'SKIP: ' . $skip );
+				for ( $i = 0; $i < $steps; $i++ ) {
 
-				// $response = $this->crmfwc_call->call( 'get', 'Contact/Get?skip=' . $skip );
-				$response = $this->crmfwc_call->call( 'get', 'Contact/Get?skip=100' );
-				// $response = $this->crmfwc_call->call( 'get', 'Contact/Get' );
-		
-				error_log( 'REMOTE USERS (RESPONSE): ' . print_r( $response, true ) );
+					$skip = $i * 100;
 
-				if ( is_array( $response ) ) {
+					error_log( 'SKIP: ' . $skip );
 
-					$output = array_merge( $output, $response );
+					// $response = $this->crmfwc_call->call( 'get', 'Contact/Get?skip=' . $skip );
+					$response = $this->crmfwc_call->call( 'get', 'Contact/SearchIdsByODataCriteria?filter=id+ne+0&top=100&skip=' . $skip );
+					// $response = $this->crmfwc_call->call( 'get', 'Contact/Get' );
+			
+					// error_log( 'REMOTE USERS (RESPONSE): ' . print_r( $response, true ) );
 
-					if ( 100 >= count( $response ) ) {
+					if ( is_array( $response ) ) {
 
-						continue;
+						$output = array_merge( $output, $response );
+
+						if ( 100 >= count( $response ) ) {
+
+							continue;
+
+						}
 
 					}
 
@@ -164,13 +172,14 @@ class CRMFWC_Contacts {
 
 			}
 
+
 		} else {
 
 			$output = $this->crmfwc_call->call( 'get', 'Contact/Get/' . $id );
 
 		}
 
-		// error_log( 'REMOTE USERS: ' . print_r( $output, true ) );
+		error_log( 'REMOTE USERS: ' . print_r( $output, true ) );
 
 		return $output;
 
