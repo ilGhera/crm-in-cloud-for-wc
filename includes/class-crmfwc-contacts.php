@@ -54,7 +54,7 @@ class CRMFWC_Contacts {
 	 */
 	public function eg_increase_action_scheduler_batch_size( $batch_size ) {
 
-		return 100; //temp
+		return 100; // temp.
 
 	}
 
@@ -146,15 +146,8 @@ class CRMFWC_Contacts {
 
 				for ( $i = 0; $i < $steps; $i++ ) {
 
-					$skip = $i * 100;
-
-					error_log( 'SKIP: ' . $skip );
-
-					// $response = $this->crmfwc_call->call( 'get', 'Contact/Get?skip=' . $skip );
+					$skip     = $i * 100;
 					$response = $this->crmfwc_call->call( 'get', 'Contact/SearchIdsByODataCriteria?filter=id+ne+0&top=100&skip=' . $skip );
-					// $response = $this->crmfwc_call->call( 'get', 'Contact/Get' );
-			
-					// error_log( 'REMOTE USERS (RESPONSE): ' . print_r( $response, true ) );
 
 					if ( is_array( $response ) ) {
 
@@ -171,7 +164,6 @@ class CRMFWC_Contacts {
 				}
 
 			}
-
 
 		} else {
 
@@ -253,8 +245,8 @@ class CRMFWC_Contacts {
 			$args = array(
 				'amount'           => wc_format_decimal( $order->get_item_total( $item, false, false ), 2 ),
 				'budget'           => wc_format_decimal( $order->get_item_total( $item, false, false ), 2 ),
-				'closeDate'        => $order->get_date_completed()->format( 'Y-m-d G:i:s' ),
-				'createdDate'      => $order->get_date_created()->format( 'Y-m-d G:i:s' ),
+				'closeDate'        => $order->get_date_completed() ? $order->get_date_completed()->format( 'Y-m-d G:i:s' ) : '',
+				'createdDate'      => $order->get_date_created() ? $order->get_date_created()->format( 'Y-m-d G:i:s' ) : '',
 				'crossId'          => $remote_id,
 				'crossType'        => $cross_type,
 				'description'      => $description,
@@ -384,66 +376,66 @@ class CRMFWC_Contacts {
 	/**
 	 * Prepare the single user data to export to Reviso
 	 *
-	 * @param  object $user  the WP user if exists.
+	 * @param  array  $user  the WP user if exists.
 	 * @param  object $order the WC order to get the customer details.
 	 * @return array
 	 */
 	public function prepare_user_data( $user = null, $order = null ) {
 
-		$user_id = isset( $user->ID ) ? $user->ID : 0;
+		$user_id = isset( $user['ID'] ) ? $user['ID'] : 0;
 		$website = null;
 
-		if ( $user ) {
+		if ( $user_id ) {
 
-			$user_details = get_userdata( $user->ID );
+			$user_details = get_userdata( $user_id );
 
 			$user_data = array_map(
 				function( $a ) {
 					return $a[0];
 				},
-				get_user_meta( $user->ID )
+				get_user_meta( $user_id )
 			);
 
-			$surname                 = isset( $user_data['billing_last_name'] ) ? ucfirst( $user_data['billing_last_name'] ) : '-';
-			$name                    = null;
+			$surname = ( isset( $user_data['last_name'] ) && $user_data['last_name'] ) ? ucwords( $user_data['last_name'] ) : '-';
+			$name    = null;
 
 			/*Use WP display name with no first and last user name*/
-			if ( isset( $user_data['billing_first_name'] ) ) {
+			if ( isset( $user_data['first_name'] ) && $user_data['first_name'] ) {
 
-				$name = ucfirst( $user_data['billing_first_name'] );
+				$name = ucwords( $user_data['first_name'] );
 
 			} elseif ( '-' === $surname ) {
 
-				$name = isset( $user_data['display_name'] ) ? ucfirst( $user_data['display_name'] ) : null;
+				$name = $user_details->display_name ? ucwords( $user_details->display_name ) : $user_details->user_login;
 
 			}
 
-			$user_email              = isset( $user_data['user_email'] ) ? $user_data['user_email'] : null;
+			$user_email              = $user_details->user_email;
 			$country                 = isset( $user_data['billing_country'] ) ? $user_data['billing_country'] : null;
 			$city                    = isset( $user_data['billing_city'] ) ? ucwords( $user_data['billing_city'] ) : null;
-			$state                   = isset( $user_data['billing_state'] ) ? ucfirst( $user_data['billing_state'] ) : null;
+			$state                   = isset( $user_data['billing_state'] ) ? ucwords( $user_data['billing_state'] ) : null;
 			$address                 = isset( $user_data['billing_address_1'] ) ? ucwords( $user_data['billing_address_1'] ) : null;
 			$postcode                = isset( $user_data['billing_postcode'] ) ? $user_data['billing_postcode'] : null;
 			$phone                   = isset( $user_data['billing_phone'] ) ? $user_data['billing_phone'] : null;
-			$company                 = isset( $user_data['billing_company'] ) ? $user_data['billing_company'] : null;
-			$website                 = isset( $user_data['user_url'] ) ? $user_data['user_url'] : null;
-			$vat_number              = isset( $user_data['billing_wcexd_piva'] ) ? $user_data['billing_wcexd_piva'] : null; // temp.
-			$identification_number   = isset( $user_data['billing_wcexd_cf'] ) ? $user_data['billing_wcexd_cf'] : null;
-			$italian_certified_email = isset( $user_data['billing_wcexd_pec'] ) ? $user_data['billing_wcexd_pec'] : null;
-			$public_entry_number     = isset( $user_data['billing_wcexd_pa_code'] ) ? $user_data['billing_wcexd_pa_code'] : null;
+			$company                 = isset( $user_data['billing_company'] ) ? ucwords( $user_data['billing_company'] ) : null;
+			$website                 = $user_details->user_url;
+			$vat_number              = isset( $user_data['billing_wcexd_piva'] ) ? $user_data['billing_wcexd_piva'] : ''; // temp.
+			$identification_number   = isset( $user_data['billing_wcexd_cf'] ) ? $user_data['billing_wcexd_cf'] : '';
+			$italian_certified_email = isset( $user_data['billing_wcexd_pec'] ) ? $user_data['billing_wcexd_pec'] : '';
+			$public_entry_number     = isset( $user_data['billing_wcexd_pa_code'] ) ? $user_data['billing_wcexd_pa_code'] : '';
 
 		} elseif ( $order ) {
 
-			$surname                 = $order->get_billing_last_name();
-			$name                    = $order->get_billing_first_name();
+			$surname                 = $order->get_billing_last_name() ? ucwords( $order->get_billing_last_name() ) : '-';
+			$name                    = $order->get_billing_first_name() ? ucwords( $order->get_billing_first_name() ) : null;
 			$user_email              = $order->get_billing_email();
 			$country                 = $order->get_billing_country();
-			$city                    = $order->get_billing_city();
+			$city                    = $order->get_billing_city() ? ucwords( $order->get_billing_city() ) : null;
 			$state                   = $order->get_billing_state();
-			$address                 = $order->get_billing_address_1();
+			$address                 = $order->get_billing_address_1() ? ucwords( $order->get_billing_address_1() ) : null;
 			$postcode                = $order->get_billing_postcode();
 			$phone                   = $order->get_billing_phone();
-			$company                 = $order->get_billing_company();
+			$company                 = $order->get_billing_company() ? ucwords( $order->get_billing_company() ) : null;
 			$vat_number              = $order->get_meta( '_billing_wcexd_piva' ) ? $order->get_meta( '_billing_wcexd_piva' ) : null; // temp.
 			$identification_number   = $order->get_meta( '_billing_wcexd_cf' ) ? $order->get_meta( '_billing_wcexd_cf' ) : null;
 			$italian_certified_email = $order->get_meta( '_billing_wcexd_pec' ) ? $order->get_meta( '_billing_wcexd_pec' ) : null;
@@ -531,7 +523,7 @@ class CRMFWC_Contacts {
 	 * Export single WP user to Reviso
 	 *
 	 * @param  int    $n the count number.
-	 * @param  object $user the WP user.
+	 * @param  array  $user the WP user.
 	 * @param  object $order the WC order to get the customer details.
 	 * @return void
 	 */
@@ -539,25 +531,25 @@ class CRMFWC_Contacts {
 
 		$args = $this->prepare_user_data( $user, $order );
 
-		// $crmfwc_id = get_user_meta( $user->ID, 'crmfwc-id', true );
-
 		if ( $args ) {
 
 			$response = $this->crmfwc_call->call( 'post', 'Contact/CreateOrUpdate', $args );
 
+			error_log( 'USER EXPORTED: ' . print_r( $response, true ) );
+
 			if ( is_int( $response ) ) {
 
-				$user_id = isset( $user->ID ) ? $user->ID : 0;
+				$user_id = isset( $user['ID'] ) ? $user['ID'] : 0;
 
 				/*Update user:meta only if wp user exists*/
 				if ( 0 !== $user_id ) {
 
-					update_user_meta( $user->ID, 'crmfwc-id', $response );
+					update_user_meta( $user_id, 'crmfwc-id', $response );
 
 				}
 
 				/*Export user opportunities*/
-				$test1 = $this->export_opportunities( $user_id, $response, 1 );
+				$test1 = $this->export_opportunities( $user_id, $response, 1 ); // temp.
 
 				/*Export company opportunities*/
 				if ( isset( $args['companyId'] ) ) {
@@ -592,6 +584,8 @@ class CRMFWC_Contacts {
 			$response = array();
 
 			if ( $users ) {
+
+				error_log( 'EXPORT USERS COUNT: ' . count( $users ) );
 
 				$n = 0;
 
@@ -757,7 +751,7 @@ class CRMFWC_Contacts {
 
 		$output = $this->crmfwc_call->call( 'delete', 'Contact/Delete/' . $id );
 
-		error_log( 'CANCELLATO: '  .print_r( $output, true ) );
+		error_log( 'CANCELLATO: ' . print_r( $output, true ) );
 
 		/*temp*/
 		if ( isset( $output->error ) || isset( $output->message ) ) {
