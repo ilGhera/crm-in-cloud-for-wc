@@ -20,9 +20,9 @@ class CRMFWC_Contacts {
 			add_filter( 'action_scheduler_queue_runner_time_limit', array( $this, 'eg_increase_time_limit' ) );
 			add_filter( 'action_scheduler_queue_runner_batch_size', array( $this, 'eg_increase_action_scheduler_batch_size' ) );
 			add_action( 'wp_ajax_delete-remote-users', array( $this, 'delete_remote_users' ) );
-			add_action( 'crmfwc_delete_remote_single_user_event', array( $this, 'delete_remote_single_user' ), 10, 2 );
+			add_action( 'crmfwc_delete_remote_single_user_event', array( $this, 'delete_remote_single_user' ), 10, 1 );
 			add_action( 'wp_ajax_export-users', array( $this, 'export_users' ) );
-			add_action( 'crmfwc_export_single_user_event', array( $this, 'export_single_user' ), 10, 3 );
+			add_action( 'crmfwc_export_single_user_event', array( $this, 'export_single_user' ), 10, 2 );
 			add_action( 'woocommerce_order_status_completed', array( $this, 'wc_order_callback' ), 10, 1 );
 
 		}
@@ -376,16 +376,15 @@ class CRMFWC_Contacts {
 	/**
 	 * Prepare the single user data to export to Reviso
 	 *
-	 * @param  array  $user  the WP user if exists.
+	 * @param   int   $user_id  the WP user id
 	 * @param  object $order the WC order to get the customer details.
 	 * @return array
 	 */
-	public function prepare_user_data( $user = null, $order = null ) {
+	public function prepare_user_data( $user_id = 0, $order = null ) {
 
-		$user_id = isset( $user['ID'] ) ? $user['ID'] : 0;
 		$website = null;
 
-		if ( $user_id ) {
+		if ( 0 !== $user_id ) {
 
 			$user_details = get_userdata( $user_id );
 
@@ -522,14 +521,13 @@ class CRMFWC_Contacts {
 	/**
 	 * Export single WP user to Reviso
 	 *
-	 * @param  int    $n the count number.
-	 * @param  array  $user the WP user.
+	 * @param  int    $user the WP user id.
 	 * @param  object $order the WC order to get the customer details.
 	 * @return void
 	 */
-	public function export_single_user( $n, $user = null, $order = null ) {
+	public function export_single_user( $user_id = 0, $order = null ) {
 
-		$args = $this->prepare_user_data( $user, $order );
+		$args = $this->prepare_user_data( $user_id, $order );
 
 		if ( $args ) {
 
@@ -538,8 +536,6 @@ class CRMFWC_Contacts {
 			error_log( 'USER EXPORTED: ' . print_r( $response, true ) );
 
 			if ( is_int( $response ) ) {
-
-				$user_id = isset( $user['ID'] ) ? $user['ID'] : 0;
 
 				/*Update user:meta only if wp user exists*/
 				if ( 0 !== $user_id ) {
@@ -588,7 +584,7 @@ class CRMFWC_Contacts {
 			if ( $users ) {
 
 				error_log( 'EXPORT USERS COUNT: ' . count( $users ) );
-				error_log( 'EXPORT USERS: ' . print_r( $users, true ) );
+				// error_log( 'EXPORT USERS: ' . print_r( $users, true ) );
 
 				$n = 0;
 
@@ -601,8 +597,7 @@ class CRMFWC_Contacts {
 						time() + 1,
 						'crmfwc_export_single_user_event',
 						array(
-							$n,
-							$user,
+							'user-id' => $user->ID,
 						),
 						'crmfwc-export-users'
 					);
@@ -681,7 +676,7 @@ class CRMFWC_Contacts {
 		$order = new WC_Order( $order_id );
 		$user  = get_user_by( 'id', $order->get_customer_id() );
 
-		$this->export_single_user( 1, $user, $order );
+		$this->export_single_user( $user, $order );
 
 	}
 
@@ -747,10 +742,9 @@ class CRMFWC_Contacts {
 	/**
 	 * Delete a single customer/ supplier in CRM in Cloud
 	 *
-	 * @param  int $n  the count number.
 	 * @param  int $id the user id from CRM in Cloud.
 	 */
-	public function delete_remote_single_user( $n, $id ) {
+	public function delete_remote_single_user( $id ) {
 
 		$output = $this->crmfwc_call->call( 'delete', 'Contact/Delete/' . $id );
 
@@ -803,8 +797,7 @@ class CRMFWC_Contacts {
 						time() + 1,
 						'crmfwc_delete_remote_single_user_event',
 						array(
-							$n,
-							$user,
+							'contact-id' => $user,
 						),
 						'crmfwc-delete-remote-users'
 					);

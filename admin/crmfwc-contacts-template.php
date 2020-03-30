@@ -22,10 +22,14 @@
 					$roles = $wp_roles->get_names();
 
 					/*Get value from the db*/
-					$contacts_role = get_option( 'crmfwc-contacts-role' );
+					$contacts_roles = get_option( 'crmfwc-users-roles' );
 
 					foreach ( $roles as $key => $value ) {
-						echo '<option value="' . esc_attr( $key ) . '"' . ( $key === $contacts_role ? ' selected="selected"' : '' ) . '> ' . esc_html( __( $value, 'woocommerce' ) ) . '</option>';
+					
+						$selected = is_array( $contacts_roles ) && in_array( $key, $contacts_roles ) ? ' selected="selected"' : '';
+
+						echo '<option value="' . esc_attr( $key ) . '"' . $selected . '> ' . esc_html( __( $value, 'woocommerce' ) ) . '</option>';
+					
 					}
 					?>
 				</select>
