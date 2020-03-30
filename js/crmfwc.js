@@ -22,6 +22,7 @@ var crmfwcController = function() {
 		self.crmfwc_delete_remote_products();
 		self.crmfwc_disconnect();
 		self.book_invoice();
+		self.chosen();
 	}
 
 
@@ -262,12 +263,11 @@ var crmfwcController = function() {
 				self.delete_messages();
 				self.crmfwc_response_loading();
 
-				var role = $('.crmfwc-contacts-role').val();
-
-				var data = {
+				var roles = $('.crmfwc-contacts-role').val();
+				var data  = {
 					'action': 'export-users',
 					'crmfwc-export-users-nonce': crmfwcSettings.exportNonce,
-					'role': role
+					'roles': roles
 				}
 
 				$.post(ajaxurl, data, function(response){
@@ -568,13 +568,6 @@ var crmfwcController = function() {
 		
 				disable_search_threshold: 10,
 				width: '200px'
-			
-			});
-
-			$('.crmfwc-select-large').chosen({
-		
-				disable_search_threshold: 10,
-				width: '290px'
 			
 			});
 

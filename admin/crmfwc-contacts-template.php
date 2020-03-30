@@ -16,7 +16,7 @@
 		<tr>
 			<th scope="row"><?php echo esc_html_e( 'User role', 'crmfwc' ); ?></th>
 			<td>
-				<select class="crmfwc-contacts-role crmfwc-select" name="crmfwc-contacts-role">
+				<select class="crmfwc-contacts-role crmfwc-select" name="crmfwc-contacts-role[]" multiple>
 					<?php
 					global $wp_roles;
 					$roles = $wp_roles->get_names();

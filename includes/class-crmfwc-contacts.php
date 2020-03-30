@@ -574,18 +574,21 @@ class CRMFWC_Contacts {
 
 		if ( isset( $_POST['crmfwc-export-users-nonce'] ) && wp_verify_nonce( wp_unslash( $_POST['crmfwc-export-users-nonce'] ), 'crmfwc-export-users' ) ) {
 
-			$role  = isset( $_POST['role'] ) ? sanitize_text_field( wp_unslash( $_POST['role'] ) ) : '';
+			$roles  = isset( $_POST['roles'] ) ? $_POST['roles'] : array();
 
 			/*Save to the db*/
-			update_option( 'crmfwc-users-role', $role );
+			update_option( 'crmfwc-users-roles', $roles );
 
-			$args     = array( 'role' => $role );
+			$args     = array( 'role__in' => $roles );
 			$users    = get_users( $args );
 			$response = array();
+
+			error_log( 'LIVELLI UTENTI: ' . print_r( $roles, true ) );
 
 			if ( $users ) {
 
 				error_log( 'EXPORT USERS COUNT: ' . count( $users ) );
+				error_log( 'EXPORT USERS: ' . print_r( $users, true ) );
 
 				$n = 0;
 
