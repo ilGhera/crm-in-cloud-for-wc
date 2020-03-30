@@ -750,28 +750,6 @@ class CRMFWC_Contacts {
 
 		error_log( 'CANCELLATO: ' . print_r( $output, true ) );
 
-		/*temp*/
-		if ( isset( $output->error ) || isset( $output->message ) ) {
-
-			$response = array(
-				'error',
-				/* translators: error message */
-				esc_html( sprintf( __( 'ERROR! %s<br>', 'crmfwc' ), $output->message ) ),
-			);
-
-		} else {
-
-			/*Delete id from the db*/
-			$this->delete_remote_id( $id );
-
-			$response = array(
-				'ok',
-				/* translators: 1: users count 2: user type */
-				esc_html( sprintf( __( 'Deleted user: $d', 'crmfwc' ), $n ) ),
-			);
-
-		}
-
 	}
 
 
