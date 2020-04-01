@@ -270,7 +270,7 @@ class CRMFWC_Contacts {
 
 			$args = array(
 				'amount'           => wc_format_decimal( $order->get_item_total( $item, false, false ), 2 ),
-				'budget'           => wc_format_decimal( $order->get_item_total( $item, false, false ), 2 ),
+				'budget'           => wc_format_decimal( $order->get_item_total( $item, false, false ), 2 ) * $item->get_quantity(),
 				'closeDate'        => $order->get_date_completed() ? $order->get_date_completed()->format( 'Y-m-d G:i:s' ) : '',
 				'createdDate'      => $order->get_date_created() ? $order->get_date_created()->format( 'Y-m-d G:i:s' ) : '',
 				'crossId'          => $remote_id,
@@ -579,12 +579,12 @@ class CRMFWC_Contacts {
 				if ( $this->export_orders ) {
 
 					/*Export user opportunities*/
-					$test1 = $this->export_opportunities( $user_id, $response, 1 ); // temp.
+					$this->export_opportunities( $user_id, $response, 1 ); // temp.
 
 					/*Export company opportunities*/
 					if ( isset( $args['companyId'] ) ) {
 
-						$test2 = $this->export_opportunities( $user_id, $args['companyId'] );
+						$this->export_opportunities( $user_id, $args['companyId'] );
 
 					}
 
@@ -714,9 +714,12 @@ class CRMFWC_Contacts {
 	public function wc_order_callback( $order_id ) {
 
 		$order = new WC_Order( $order_id );
-		$user  = get_user_by( 'id', $order->get_customer_id() );
 
-		$this->export_single_user( $user, $order );
+		if ( is_object( $order ) && $order->get_customer_id() ) {
+
+			$this->export_single_user( $order->get_customer_id(), $order );
+
+		}
 
 	}
 
