@@ -68,7 +68,7 @@ function crmfwc_update_message( $plugin_data, $response ) {
 
 			$message = 'It seems like your <strong>Premium Key</strong> is expired. Please, click <a href="https://www.ilghera.com/product/wc-exporter-for-reviso-premium/" target="_blank">here</a> for prices and details.';
 
-		} elseif ( '7082' !== $decoded_key[2] ) {
+		} elseif ( '7082' !== $decoded_key[2] ) { // temp.
 
 			$message = 'It seems like your <strong>Premium Key</strong> is not valid. Please, click <a href="https://www.ilghera.com/product/wc-exporter-for-reviso-premium/" target="_blank">here</a> for prices and details.';
 

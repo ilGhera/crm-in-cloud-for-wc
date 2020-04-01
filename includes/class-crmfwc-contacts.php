@@ -9,26 +9,52 @@
 class CRMFWC_Contacts {
 
 	/**
+	 * Export the user orders as opportunities in CRM in Cloud
+	 * @var int
+	 */
+	private $export_orders;
+
+
+	/**
+	 * Export the company linked to the user if present
+	 * @var int
+	 */
+	private $export_company;
+
+
+	/**
+	 * Delete remote company linked to the contacts
+	 * @var int
+	 */
+	private $delete_company;
+
+
+	/**
 	 * Class constructor
 	 *
 	 * @param boolean $init fire hooks if true.
 	 */
-	public function __construct( $init = false ) {
+	public function __construct() {
 
-		if ( $init ) {
+		add_filter( 'action_scheduler_queue_runner_time_limit', array( $this, 'eg_increase_time_limit' ) );
+		add_filter( 'action_scheduler_queue_runner_batch_size', array( $this, 'eg_increase_action_scheduler_batch_size' ) );
+		add_action( 'wp_ajax_delete-remote-users', array( $this, 'delete_remote_users' ) );
+		add_action( 'crmfwc_delete_remote_single_user_event', array( $this, 'delete_remote_single_user' ), 10, 1 );
+		add_action( 'wp_ajax_export-users', array( $this, 'export_users' ) );
+		add_action( 'crmfwc_export_single_user_event', array( $this, 'export_single_user' ), 10, 2 );
+		add_action( 'woocommerce_order_status_completed', array( $this, 'wc_order_callback' ), 10, 1 );
 
-			add_filter( 'action_scheduler_queue_runner_time_limit', array( $this, 'eg_increase_time_limit' ) );
-			add_filter( 'action_scheduler_queue_runner_batch_size', array( $this, 'eg_increase_action_scheduler_batch_size' ) );
-			add_action( 'wp_ajax_delete-remote-users', array( $this, 'delete_remote_users' ) );
-			add_action( 'crmfwc_delete_remote_single_user_event', array( $this, 'delete_remote_single_user' ), 10, 1 );
-			add_action( 'wp_ajax_export-users', array( $this, 'export_users' ) );
-			add_action( 'crmfwc_export_single_user_event', array( $this, 'export_single_user' ), 10, 2 );
-			add_action( 'woocommerce_order_status_completed', array( $this, 'wc_order_callback' ), 10, 1 );
+		/*Class call instance*/
+		$this->crmfwc_call = new CRMFWC_Call();
 
-		}
-
-		$this->crmfwc_call     = new CRMFWC_Call();
+		/*Get the complete phase to use with orders as opportunities*/
 		$this->completed_phase = $this->get_completed_opportunity_phase();
+
+		/*Get options*/
+		$this->export_orders  = get_option( 'crmfwc-export-orders' );
+		$this->export_company = get_option( 'crmfwc-export-company' );
+		$this->delete_company = get_option( 'crmfwc-delete-company' );
+
 
 	}
 
@@ -471,11 +497,16 @@ class CRMFWC_Contacts {
 
 			$args['companyName'] = $company;
 
-			/*Export the company to CRM in Cloud*/
-			$company_id = $this->export_single_company( $user_id, $args, $company );
+			/*Create the company in CRM in Cloud only if set in the options*/
+			if ( $this->export_company ) {
 
-			/*Add the company id to the contact information*/
-			$args['companyId'] = $company_id;
+				/*Export the company to CRM in Cloud*/
+				$company_id = $this->export_single_company( $user_id, $args, $company );
+
+				/*Add the company id to the contact information*/
+				$args['companyId'] = $company_id;
+
+			}
 
 		}
 
@@ -544,13 +575,18 @@ class CRMFWC_Contacts {
 
 				}
 
-				/*Export user opportunities*/
-				$test1 = $this->export_opportunities( $user_id, $response, 1 ); // temp.
+				/*Export orders ad opportunities only if set in the options*/
+				if ( $this->export_orders ) {
 
-				/*Export company opportunities*/
-				if ( isset( $args['companyId'] ) ) {
+					/*Export user opportunities*/
+					$test1 = $this->export_opportunities( $user_id, $response, 1 ); // temp.
 
-					$test2 = $this->export_opportunities( $user_id, $args['companyId'] );
+					/*Export company opportunities*/
+					if ( isset( $args['companyId'] ) ) {
+
+						$test2 = $this->export_opportunities( $user_id, $args['companyId'] );
+
+					}
 
 				}
 
@@ -570,10 +606,16 @@ class CRMFWC_Contacts {
 
 		if ( isset( $_POST['crmfwc-export-users-nonce'] ) && wp_verify_nonce( wp_unslash( $_POST['crmfwc-export-users-nonce'] ), 'crmfwc-export-users' ) ) {
 
-			$roles  = isset( $_POST['roles'] ) ? $_POST['roles'] : array();
+
+			/*Check options*/
+			$roles          = isset( $_POST['roles'] ) ? $_POST['roles'] : array();
+			$export_company = isset( $_POST['export-company'] ) ? sanitize_text_field( wp_unslash( $_POST['export-company'] ) ) : 0;
+			$export_orders  = isset( $_POST['export-orders'] ) ? sanitize_text_field( wp_unslash( $_POST['export-orders'] ) ) : 0;
 
 			/*Save to the db*/
 			update_option( 'crmfwc-users-roles', $roles );
+			update_option( 'crmfwc-export-company', $export_company );
+			update_option( 'crmfwc-export-orders', $export_orders );
 
 			$args     = array( 'role__in' => $roles );
 			$users    = get_users( $args );
@@ -584,7 +626,6 @@ class CRMFWC_Contacts {
 			if ( $users ) {
 
 				error_log( 'EXPORT USERS COUNT: ' . count( $users ) );
-				// error_log( 'EXPORT USERS: ' . print_r( $users, true ) );
 
 				$n = 0;
 
@@ -593,8 +634,7 @@ class CRMFWC_Contacts {
 					$n++;
 
 					/*Schedule action*/
-					as_schedule_single_action(
-						time() + 1,
+					as_enqueue_async_action(
 						'crmfwc_export_single_user_event',
 						array(
 							'user-id' => $user->ID,
@@ -706,10 +746,13 @@ class CRMFWC_Contacts {
 			/*Company id*/
 			$company_id = get_user_meta( $users[0]->ID, 'crmfwc-company-id', true );
 
-			if ( $company_id ) {
+			/*Delete company only if set in the options*/
+			if ( $this->delete_company && $company_id ) {
 
 				/*Delete from CRM in Cloud*/
 				$this->crmfwc_call->call( 'delete', 'Company/Delete/' . $company_id );
+
+				/*delete info from the db*/
 				delete_user_meta( $users[0]->ID, 'crmfwc-company-id' );
 
 			}
@@ -733,8 +776,12 @@ class CRMFWC_Contacts {
 		/*Delete contact opportunities*/
 		$wpdb->delete( $table, array( 'meta_key' => 'crmfwc-contact-opportunities' ) );
 
-		/*Delete company opportunities*/
-		$wpdb->delete( $table, array( 'meta_key' => 'crmfwc-company-opportunities' ) );
+		/*Delete company opportunities only if set in the options*/
+		if ( $this->delete_company ) {
+
+			$wpdb->delete( $table, array( 'meta_key' => 'crmfwc-company-opportunities' ) );
+
+		}
 
 	}
 
@@ -748,7 +795,15 @@ class CRMFWC_Contacts {
 
 		$output = $this->crmfwc_call->call( 'delete', 'Contact/Delete/' . $id );
 
-		error_log( 'CANCELLATO: ' . print_r( $output, true ) );
+		if ( $output ) {
+
+			/*Delete the remote id in the db*/
+			$this->delete_remote_id( $id );
+
+			error_log( 'CANCELLATO: ' . print_r( $output, true ) );
+
+		}
+
 
 	}
 
@@ -759,6 +814,12 @@ class CRMFWC_Contacts {
 	public function delete_remote_users() {
 
 		if ( isset( $_POST['crmfwc-delete-users-nonce'] ) && wp_verify_nonce( wp_unslash( $_POST['crmfwc-delete-users-nonce'] ), 'crmfwc-delete-users' ) ) {
+
+			/*Check option*/
+			$delete_company = isset( $_POST['delete-company'] ) ? sanitize_text_field( wp_unslash( $_POST['delete-company'] ) ) : 0;
+
+			/*Save to the db*/
+			update_option( 'crmfwc-delete-company', $delete_company );
 
 			$users = $this->get_remote_users();
 
@@ -771,8 +832,7 @@ class CRMFWC_Contacts {
 					$n++;
 
 					/*Schedule action*/
-					as_schedule_single_action(
-						time() + 1,
+					as_enqueue_async_action(
 						'crmfwc_delete_remote_single_user_event',
 						array(
 							'contact-id' => $user,
