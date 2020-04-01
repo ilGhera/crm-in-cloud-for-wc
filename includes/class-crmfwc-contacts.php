@@ -30,6 +30,13 @@ class CRMFWC_Contacts {
 
 
 	/**
+	 * Export the new orders as opportunities in CRM in Cloud
+	 * @var int
+	 */
+	private $wc_export_orders;
+
+
+	/**
 	 * Class constructor
 	 *
 	 * @param boolean $init fire hooks if true.
@@ -51,9 +58,10 @@ class CRMFWC_Contacts {
 		$this->completed_phase = $this->get_completed_opportunity_phase();
 
 		/*Get options*/
-		$this->export_orders  = get_option( 'crmfwc-export-orders' );
-		$this->export_company = get_option( 'crmfwc-export-company' );
-		$this->delete_company = get_option( 'crmfwc-delete-company' );
+		$this->export_orders     = get_option( 'crmfwc-export-orders' );
+		$this->export_company    = get_option( 'crmfwc-export-company' );
+		$this->delete_company    = get_option( 'crmfwc-delete-company' );
+		$this->wc_export_orders  = get_option( 'crmfwc-wc-export-orders' );
 
 
 	}
@@ -713,11 +721,16 @@ class CRMFWC_Contacts {
 	 */
 	public function wc_order_callback( $order_id ) {
 
-		$order = new WC_Order( $order_id );
+		/*Export new WC orders only if set in the options*/
+		if ( $this->wc_export_orders ) {
 
-		if ( is_object( $order ) && $order->get_customer_id() ) {
+			$order = new WC_Order( $order_id );
 
-			$this->export_single_user( $order->get_customer_id(), $order );
+			if ( is_object( $order ) && $order->get_customer_id() ) {
+
+				$this->export_single_user( $order->get_customer_id(), $order );
+
+			}
 
 		}
 

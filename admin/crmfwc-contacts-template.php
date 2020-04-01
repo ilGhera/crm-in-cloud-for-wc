@@ -58,7 +58,7 @@ $delete_company = get_option( 'crmfwc-delete-company' ) ? get_option( 'crmfwc-de
 	</table>
 	
 	<p class="submit">
-		<input type="submit" name="download_csv" class="button-primary crmfwc export-users contacts" value="<?php esc_html_e( 'Export to CRM in Cloud', 'crmfwc' ); ?>" />
+		<input type="submit" class="button-primary crmfwc export-users contacts" value="<?php esc_html_e( 'Export to CRM in Cloud', 'crmfwc' ); ?>" />
 	</p>
 
 </form>

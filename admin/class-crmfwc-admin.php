@@ -129,6 +129,7 @@ class CRMFWC_Admin {
 					echo '<h2 id="crmfwc-admin-menu" class="nav-tab-wrapper woo-nav-tab-wrapper">';
 						echo '<a href="#" data-link="crmfwc-settings" class="nav-tab nav-tab-active" onclick="return false;">' . esc_html( __( 'Settings', 'crmfwc' ) ) . '</a>';
 						echo '<a href="#" data-link="crmfwc-users" class="nav-tab" onclick="return false;">' . esc_html( __( 'Contacts', 'crmfwc' ) ) . '</a>';
+						echo '<a href="#" data-link="crmfwc-wc" class="nav-tab" onclick="return false;">' . esc_html( __( 'WooCommerce', 'crmfwc' ) ) . '</a>';
 					echo '</h2>';
 
 					/*Settings*/
@@ -142,6 +143,13 @@ class CRMFWC_Admin {
 					echo '<div id="crmfwc-users" class="crmfwc-admin">';
 
 						include( CRMFWC_ADMIN . 'crmfwc-contacts-template.php' );
+
+					echo '</div>';
+
+					/*WooCommerce*/
+					echo '<div id="crmfwc-wc" class="crmfwc-admin">';
+
+						include( CRMFWC_ADMIN . 'crmfwc-wc-template.php' );
 
 					echo '</div>';
 
