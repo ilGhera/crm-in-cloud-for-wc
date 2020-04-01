@@ -29,7 +29,6 @@ class CRMFWC_Settings {
 		}
 
 		$this->crmfwc_call = new CRMFWC_Call();
-		// $this->connected   = $this->check_connection_callback( true );
 
 	}
 
@@ -63,7 +62,7 @@ class CRMFWC_Settings {
 		if ( isset( $screen->id ) && 'woocommerce_page_crm-in-cloud-for-wc' === $screen->id ) {
 
 			return true;
-		
+
 		}
 
 	}
@@ -71,15 +70,15 @@ class CRMFWC_Settings {
 
 	/**
 	 * Login to CRM in Cloud
-	 * 
+	 *
 	 * @return bool return true if email and passw work and a token is returned
 	 */
 	public function login() {
 
 		if ( isset( $_POST['crmfwc-email'], $_POST['crmfwc-email'], $_POST['crmfwc-login-nonce'] ) && wp_verify_nonce( $_POST['crmfwc-login-nonce'], 'crmfwc-login' ) ) {
 
-			$email = sanitize_email( $_POST['crmfwc-email'] );
-			$passw = sanitize_text_field( $_POST['crmfwc-passw'] );
+			$email = sanitize_email( wp_unslash( $_POST['crmfwc-email'] ) );
+			$passw = sanitize_text_field( wp_unslash( $_POST['crmfwc-passw'] ) );
 
 			update_option( 'crmfwc-email', $email );
 			update_option( 'crmfwc-passw', $passw );
@@ -96,13 +95,13 @@ class CRMFWC_Settings {
 
 
 	/**
-	 * Temp
+	 * Get the current CRM in Cloud user info
 	 */
-	public function test() {
+	public function user_information() {
 
 		$response = $this->crmfwc_call->call( 'get', 'Auth/Me' );
 
-		// error_log( 'ME: ' . print_r( $response, true ) );
+		return $response;
 
 	}
 
@@ -158,7 +157,7 @@ class CRMFWC_Settings {
 
 			} else {
 
-				echo '<input type="submit" class="button-primary red crmfwc-disconnect" name="crmfwc-connect" value="' . esc_html__( 'Disconnect from CRM in Cloud', 'crmfwc' ) . '">';
+				echo '<input type="submit" class="button-primary red crmfwc-disconnect" name="crmfwc-connect" value="' . esc_html__( 'Disconnect from CRM in Cloud', 'crm-in-cloud-for-wc' ) . '">';
 
 			}
 

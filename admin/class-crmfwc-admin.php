@@ -81,7 +81,7 @@ class CRMFWC_Admin {
 		/*Right of access*/
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 
-			wp_die( esc_html( __( 'It seems like you don\'t have permission to see this page', 'crmfwc' ) ) );
+			wp_die( esc_html( __( 'It seems like you don\'t have permission to see this page', 'crm-in-cloud-for-wc' ) ) );
 
 		}
 
@@ -93,7 +93,7 @@ class CRMFWC_Admin {
 				if ( ! class_exists( 'WooCommerce' ) ) {
 					echo '<div id="message" class="error">';
 						echo '<p>';
-							echo '<strong>' . esc_html( __( 'ATTENTION! It seems like Woocommerce is not installed.', 'crmfwc' ) ) . '</strong>';
+							echo '<strong>' . esc_html( __( 'ATTENTION! It seems like Woocommerce is not installed.', 'crm-in-cloud-for-wc' ) ) . '</strong>';
 						echo '</p>';
 					echo '</div>';
 					exit;
@@ -102,7 +102,7 @@ class CRMFWC_Admin {
 				echo '<div id="crmfwc-generale">';
 
 					/*Header*/
-					echo '<h1 class="crmfwc main">' . esc_html( __( 'CRM in Cloud for WooCommerce - Premium', 'crmfwc' ) ) . '</h1>';
+					echo '<h1 class="crmfwc main">' . esc_html( __( 'CRM in Cloud for WooCommerce - Premium', 'crm-in-cloud-for-wc' ) ) . '</h1>';
 
 					/*Plugin premium key*/
 					$key = sanitize_text_field( get_option( 'crmfwc-premium-key' ) );
@@ -117,19 +117,19 @@ class CRMFWC_Admin {
 
 					/*Premium Key Form*/
 					echo '<form id="crmfwc-premium-key" method="post" action="">';
-					echo '<label>' . esc_html( __( 'Premium Key', 'crmfwc' ) ) . '</label>';
-					echo '<input type="text" class="regular-text code" name="crmfwc-premium-key" id="crmfwc-premium-key" placeholder="' . esc_html( __( 'Add your Premium Key', 'crmfwc' ) ) . '" value="' . esc_attr( $key ) . '" />';
-					echo '<p class="description">' . esc_html( __( 'Add your Premium Key and keep updated your copy of CRM in Cloud for WooCommerce.', 'crmfwc' ) ) . '</p>';
+					echo '<label>' . esc_html( __( 'Premium Key', 'crm-in-cloud-for-wc' ) ) . '</label>';
+					echo '<input type="text" class="regular-text code" name="crmfwc-premium-key" id="crmfwc-premium-key" placeholder="' . esc_html( __( 'Add your Premium Key', 'crm-in-cloud-for-wc' ) ) . '" value="' . esc_attr( $key ) . '" />';
+					echo '<p class="description">' . esc_html( __( 'Add your Premium Key and keep updated your copy of CRM in Cloud for WooCommerce.', 'crm-in-cloud-for-wc' ) ) . '</p>';
 					wp_nonce_field( 'crmfwc-premium-key', 'crmfwc-premium-key-nonce' );
-					echo '<input type="submit" class="button button-primary" value="' . esc_html( __( 'Save ', 'crmfwc' ) ) . '" />';
+					echo '<input type="submit" class="button button-primary" value="' . esc_html( __( 'Save ', 'crm-in-cloud-for-wc' ) ) . '" />';
 					echo '</form>';
 
 					/*Plugin options menu*/
 					echo '<div class="icon32 icon32-woocommerce-settings" id="icon-woocommerce"><br /></div>';
 					echo '<h2 id="crmfwc-admin-menu" class="nav-tab-wrapper woo-nav-tab-wrapper">';
-						echo '<a href="#" data-link="crmfwc-settings" class="nav-tab nav-tab-active" onclick="return false;">' . esc_html( __( 'Settings', 'crmfwc' ) ) . '</a>';
-						echo '<a href="#" data-link="crmfwc-users" class="nav-tab" onclick="return false;">' . esc_html( __( 'Contacts', 'crmfwc' ) ) . '</a>';
-						echo '<a href="#" data-link="crmfwc-wc" class="nav-tab" onclick="return false;">' . esc_html( __( 'WooCommerce', 'crmfwc' ) ) . '</a>';
+						echo '<a href="#" data-link="crmfwc-settings" class="nav-tab nav-tab-active" onclick="return false;">' . esc_html( __( 'Settings', 'crm-in-cloud-for-wc' ) ) . '</a>';
+						echo '<a href="#" data-link="crmfwc-users" class="nav-tab" onclick="return false;">' . esc_html( __( 'Contacts', 'crm-in-cloud-for-wc' ) ) . '</a>';
+						echo '<a href="#" data-link="crmfwc-wc" class="nav-tab" onclick="return false;">' . esc_html( __( 'WooCommerce', 'crm-in-cloud-for-wc' ) ) . '</a>';
 					echo '</h2>';
 
 					/*Settings*/

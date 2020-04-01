@@ -17,14 +17,14 @@ class CRMFWC_Call {
 
 	/**
 	 * The CRM in Cloud user email
-	 * 
+	 *
 	 * @var string
 	 */
 	private $email;
 
 	/**
 	 * The CRM in Cloud user password
-	 * 
+	 *
 	 * @var string
 	 */
 	private $passw;
@@ -54,7 +54,7 @@ class CRMFWC_Call {
 		$passw  = $passw ? $passw : $this->passw;
 
 		if ( $email && $passw ) {
-			
+
 			$data  = array(
 				'grant_type' => 'password',
 				'username'   => $email,
@@ -64,7 +64,7 @@ class CRMFWC_Call {
 			$response = $this->call( 'post', 'Auth/Login', $data, true );
 
 			if ( isset( $response->access_token ) ) {
-				
+
 				return $response->access_token;
 
 			}
@@ -77,7 +77,7 @@ class CRMFWC_Call {
 	/**
 	 * Define the headers to use in every API call
 	 *
-	 * @param  bool   $login token not required in case of login
+	 * @param  bool $login token not required in case of login.
 	 * @return array
 	 */
 	public function headers( $login = false ) {
@@ -87,7 +87,7 @@ class CRMFWC_Call {
 		);
 
 		if ( ! $login ) {
-			
+
 			$output['Authorization'] = 'Bearer ' . $this->get_access_token();
 		}
 
@@ -102,7 +102,7 @@ class CRMFWC_Call {
 	 * @param  string $method   could be GET, POST, DELETE or PUT.
 	 * @param  string $endpoint the endpoint's name.
 	 * @param  array  $args     the data.
-	 * @param  bool   $login    token not required in case of login
+	 * @param  bool   $login    token not required in case of login.
 	 * @return mixed  the response
 	 */
 	public function call( $method, $endpoint = '', $args = null, $login = false ) {
@@ -128,9 +128,6 @@ class CRMFWC_Call {
 				error_log( 'CRMFWC | ERROR: ' . print_r( $output, true ) );
 
 			}
-
-			// error_log( 'RESPONSE: ' . print_r( $output, true ) );
-			// error_log( 'ENDPOINT: ' . $this->base_url . $endpoint );
 
 			return $output;
 

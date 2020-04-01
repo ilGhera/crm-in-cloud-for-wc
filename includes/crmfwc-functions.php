@@ -61,8 +61,8 @@ function crmfwc_update_message( $plugin_data, $response ) {
 
 		$decoded_key = explode( '|', base64_decode( $key ) );
 		$bought_date = date( 'd-m-Y', strtotime( $decoded_key[1] ) );
-		$limit = strtotime( $bought_date . ' + 365 day' );
-		$now = strtotime( 'today' );
+		$limit       = strtotime( $bought_date . ' + 365 day' );
+		$now         = strtotime( 'today' );
 
 		if ( $limit < $now ) {
 
@@ -77,11 +77,11 @@ function crmfwc_update_message( $plugin_data, $response ) {
 	}
 
 	$allowed_tags = array(
-		'strong' => [],
-		'a'      => [
-			'href'   => [],
-			'target' => [],
-		],
+		'strong' => array(),
+		'a'      => array(
+			'href'   => array(),
+			'target' => array(),
+		),
 	);
 
 	echo ( $message ) ? '<br><span class="crmfwc-alert">' . wp_kses( $message, $allowed_tags ) . '</span>' : '';

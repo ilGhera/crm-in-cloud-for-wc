@@ -10,6 +10,7 @@ class CRMFWC_Contacts {
 
 	/**
 	 * Export the user orders as opportunities in CRM in Cloud
+	 *
 	 * @var int
 	 */
 	private $export_orders;
@@ -17,6 +18,7 @@ class CRMFWC_Contacts {
 
 	/**
 	 * Export the company linked to the user if present
+	 *
 	 * @var int
 	 */
 	private $export_company;
@@ -24,6 +26,7 @@ class CRMFWC_Contacts {
 
 	/**
 	 * Delete remote company linked to the contacts
+	 *
 	 * @var int
 	 */
 	private $delete_company;
@@ -31,6 +34,7 @@ class CRMFWC_Contacts {
 
 	/**
 	 * Export the new orders as opportunities in CRM in Cloud
+	 *
 	 * @var int
 	 */
 	private $wc_export_orders;
@@ -38,8 +42,6 @@ class CRMFWC_Contacts {
 
 	/**
 	 * Class constructor
-	 *
-	 * @param boolean $init fire hooks if true.
 	 */
 	public function __construct() {
 
@@ -62,7 +64,6 @@ class CRMFWC_Contacts {
 		$this->export_company    = get_option( 'crmfwc-export-company' );
 		$this->delete_company    = get_option( 'crmfwc-delete-company' );
 		$this->wc_export_orders  = get_option( 'crmfwc-wc-export-orders' );
-
 
 	}
 
@@ -88,10 +89,33 @@ class CRMFWC_Contacts {
 	 */
 	public function eg_increase_action_scheduler_batch_size( $batch_size ) {
 
-		return 100; // temp.
+		return 100;
 
 	}
 
+	/**
+	 * Sanitize every single array element
+	 *
+	 * @param  array $array the array to sanitize.
+	 * @return array        the sanitized array.
+	 */
+	public function sanitize_array( $array ) {
+
+		$output = array();
+
+		if ( is_array( $array ) && ! empty( $array ) ) {
+
+			foreach ( $array as $key => $value ) {
+
+				$output[ $key ] = sanitize_text_field( wp_unslash( $value ) );
+
+			}
+
+		}
+
+		return $output;
+
+	}
 
 	/**
 	 * Check if a company exists in CRM in Cloud
@@ -174,8 +198,6 @@ class CRMFWC_Contacts {
 			$count  = $this->crmfwc_call->call( 'get', 'Contact/CountByODataCriteria?filter=id+ne+0' );
 			$steps  = is_int( $count ) ? intval( $count / 100 ) + 1 : null;
 
-			error_log( 'STEPS: ' . $steps );
-
 			if ( $steps ) {
 
 				for ( $i = 0; $i < $steps; $i++ ) {
@@ -204,8 +226,6 @@ class CRMFWC_Contacts {
 			$output = $this->crmfwc_call->call( 'get', 'Contact/Get/' . $id );
 
 		}
-
-		error_log( 'REMOTE USERS: ' . print_r( $output, true ) );
 
 		return $output;
 
@@ -272,8 +292,8 @@ class CRMFWC_Contacts {
 
 			$product        = $item->get_product();
 			$completed_date = date_i18n( get_option( 'date_format' ), strtotime( $order->get_date_completed() ) );
-			$description    = __( 'Order: ', 'crmfwc' ) . ' #' . $order->get_id();
-			$description   .= ' - ' . __( 'Date: ', 'crmfwc' ) . $completed_date;
+			$description    = __( 'Order: ', 'crm-in-cloud-for-wc' ) . ' #' . $order->get_id();
+			$description   .= ' - ' . __( 'Date: ', 'crm-in-cloud-for-wc' ) . $completed_date;
 			$quantity       = 1 < $item->get_quantity() ? ' (' . $item->get_quantity() . ')' : '';
 
 			$args = array(
@@ -410,7 +430,7 @@ class CRMFWC_Contacts {
 	/**
 	 * Prepare the single user data to export to Reviso
 	 *
-	 * @param   int   $user_id  the WP user id
+	 * @param  int    $user_id  the WP user id.
 	 * @param  object $order the WC order to get the customer details.
 	 * @return array
 	 */
@@ -560,7 +580,7 @@ class CRMFWC_Contacts {
 	/**
 	 * Export single WP user to Reviso
 	 *
-	 * @param  int    $user the WP user id.
+	 * @param  int    $user_id the WP user id.
 	 * @param  object $order the WC order to get the customer details.
 	 * @return void
 	 */
@@ -571,8 +591,6 @@ class CRMFWC_Contacts {
 		if ( $args ) {
 
 			$response = $this->crmfwc_call->call( 'post', 'Contact/CreateOrUpdate', $args );
-
-			error_log( 'USER EXPORTED: ' . print_r( $response, true ) );
 
 			if ( is_int( $response ) ) {
 
@@ -614,9 +632,8 @@ class CRMFWC_Contacts {
 
 		if ( isset( $_POST['crmfwc-export-users-nonce'] ) && wp_verify_nonce( wp_unslash( $_POST['crmfwc-export-users-nonce'] ), 'crmfwc-export-users' ) ) {
 
-
 			/*Check options*/
-			$roles          = isset( $_POST['roles'] ) ? $_POST['roles'] : array();
+			$roles          = isset( $_POST['roles'] ) ? $this->sanitize_array( $_POST['roles'] ) : array();
 			$export_company = isset( $_POST['export-company'] ) ? sanitize_text_field( wp_unslash( $_POST['export-company'] ) ) : 0;
 			$export_orders  = isset( $_POST['export-orders'] ) ? sanitize_text_field( wp_unslash( $_POST['export-orders'] ) ) : 0;
 
@@ -629,11 +646,7 @@ class CRMFWC_Contacts {
 			$users    = get_users( $args );
 			$response = array();
 
-			error_log( 'LIVELLI UTENTI: ' . print_r( $roles, true ) );
-
 			if ( $users ) {
-
-				error_log( 'EXPORT USERS COUNT: ' . count( $users ) );
 
 				$n = 0;
 
@@ -655,14 +668,14 @@ class CRMFWC_Contacts {
 				$response[] = array(
 					'ok',
 					/* translators: 1: users count */
-					esc_html( sprintf( __( '%1$d contact(s) export process has begun', 'crmfwc' ), $n ) ),
+					esc_html( sprintf( __( '%1$d contact(s) export process has begun', 'crm-in-cloud-for-wc' ), $n ) ),
 				);
 
 			} else {
 
 				$response[] = array(
 					'error',
-					esc_html__( 'No contacts to export', 'crmfwc' ),
+					esc_html__( 'No contacts to export', 'crm-in-cloud-for-wc' ),
 				);
 
 			}
@@ -816,10 +829,7 @@ class CRMFWC_Contacts {
 			/*Delete the remote id in the db*/
 			$this->delete_remote_id( $id );
 
-			error_log( 'CANCELLATO: ' . print_r( $output, true ) );
-
 		}
-
 
 	}
 
@@ -864,7 +874,7 @@ class CRMFWC_Contacts {
 				$response[] = array(
 					'ok',
 					/* translators: 1: users count */
-					esc_html( sprintf( __( '%1$d users(s) delete process has begun', 'crmfwc' ), $n ) ),
+					esc_html( sprintf( __( '%1$d users(s) delete process has begun', 'crm-in-cloud-for-wc' ), $n ) ),
 				);
 
 				echo json_encode( $response );
@@ -873,7 +883,7 @@ class CRMFWC_Contacts {
 
 				$response[] = array(
 					'error',
-					esc_html__( 'ERROR! There are not users to delete', 'crmfwc' ),
+					esc_html__( 'ERROR! There are not users to delete', 'crm-in-cloud-for-wc' ),
 				);
 
 				echo json_encode( $response );
