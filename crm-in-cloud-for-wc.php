@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: CRM in Cloud for WooCommerce - Premium
+ * Plugin Name: CRM in Cloud for WooCommerce
  * Plugin URI: https://www.ilghera.com/product/crm-in-cloud-for-woocommerce
  * Description: Synchronize your WordPress/ WooCommerce site with CRM in Cloud exporting users and orders in real time
  * Author: ilGhera
@@ -34,20 +34,11 @@ function crmfwc_wc_not_installed() {
  *
  * @return void
  */
-function load_crmfwc_premium() {
+function load_crmfwc() {
 
 	/*Function check */
 	if ( ! function_exists( 'is_plugin_active' ) ) {
 		require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
-	}
-
-	/*Deactivate the free version if present*/
-	if ( function_exists( 'load_crmfwc' ) ) {
-
-		deactivate_plugins( 'crm-in-cloud-for-wc/crm-in-cloud-for-wc.php' );
-		remove_action( 'plugins_loaded', 'load_crmfwc' );
-		wp_redirect( admin_url( 'plugins.php?plugin_status=all&paged=1&s' ) );
-
 	}
 
 	/*WooCommerce must be installed*/
@@ -82,4 +73,4 @@ function load_crmfwc_premium() {
 	}
 
 }
-add_action( 'plugins_loaded', 'load_crmfwc_premium', 1 );
+add_action( 'plugins_loaded', 'load_crmfwc', 100 );

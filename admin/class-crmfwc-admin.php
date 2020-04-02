@@ -104,26 +104,6 @@ class CRMFWC_Admin {
 					/*Header*/
 					echo '<h1 class="crmfwc main">' . esc_html( __( 'CRM in Cloud for WooCommerce - Premium', 'crm-in-cloud-for-wc' ) ) . '</h1>';
 
-					/*Plugin premium key*/
-					$key = sanitize_text_field( get_option( 'crmfwc-premium-key' ) );
-
-					if ( isset( $_POST['crmfwc-premium-key'], $_POST['crmfwc-premium-key-nonce'] ) && wp_verify_nonce( $_POST['crmfwc-premium-key-nonce'], 'crmfwc-premium-key' ) ) {
-
-						$key = sanitize_text_field( wp_unslash( $_POST['crmfwc-premium-key'] ) );
-
-						update_option( 'crmfwc-premium-key', $key );
-
-					}
-
-					/*Premium Key Form*/
-					echo '<form id="crmfwc-premium-key" method="post" action="">';
-					echo '<label>' . esc_html( __( 'Premium Key', 'crm-in-cloud-for-wc' ) ) . '</label>';
-					echo '<input type="text" class="regular-text code" name="crmfwc-premium-key" id="crmfwc-premium-key" placeholder="' . esc_html( __( 'Add your Premium Key', 'crm-in-cloud-for-wc' ) ) . '" value="' . esc_attr( $key ) . '" />';
-					echo '<p class="description">' . esc_html( __( 'Add your Premium Key and keep updated your copy of CRM in Cloud for WooCommerce.', 'crm-in-cloud-for-wc' ) ) . '</p>';
-					wp_nonce_field( 'crmfwc-premium-key', 'crmfwc-premium-key-nonce' );
-					echo '<input type="submit" class="button button-primary" value="' . esc_html( __( 'Save ', 'crm-in-cloud-for-wc' ) ) . '" />';
-					echo '</form>';
-
 					/*Plugin options menu*/
 					echo '<div class="icon32 icon32-woocommerce-settings" id="icon-woocommerce"><br /></div>';
 					echo '<h2 id="crmfwc-admin-menu" class="nav-tab-wrapper woo-nav-tab-wrapper">';
