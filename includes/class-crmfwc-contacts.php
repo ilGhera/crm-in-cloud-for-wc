@@ -428,6 +428,86 @@ class CRMFWC_Contacts {
 
 
 	/**
+	 * Get the Italian fiscal fields names based on the plugin installed
+	 *
+	 * @param  string $field the field to retrieve.
+	 * @param  bool   $order_meta prepend an undescore if true.
+	 * @return string the meta_key that will be used to get data from the db
+	 */
+	public function get_tax_field_name( $field, $order_meta = false ) {
+
+		$cf_name      = null;
+		$pi_name      = null;
+		$pec_name     = null;
+		$pa_code_name = null;
+
+		if ( get_option( 'wcexd_company_invoice' ) || get_option( 'wcexd_private_invoice' ) ) {
+
+			/*WC Exporter for Danea*/
+			$cf_name      = 'billing_wcexd_cf';
+			$pi_name      = 'billing_wcexd_piva';
+			$pec_name     = 'billing_wcexd_pec';
+			$pa_code_name = 'billing_wcexd_pa_code';
+
+		} elseif ( get_option( 'wcefr_company_invoice' ) || get_option( 'wcefr_private_invoice' ) ) {
+
+			/*WC Exporter for Danea*/
+			$cf_name      = 'billing_wcefr_cf';
+			$pi_name      = 'billing_wcefr_piva';
+			$pec_name     = 'billing_wcefr_pec';
+			$pa_code_name = 'billing_wcefr_pa_code';
+
+		} else {
+
+			/*Plugin supportati*/
+
+			/*WooCommerce Aggiungere CF e P.IVA*/
+			if ( class_exists( 'WC_BrazilianCheckoutFields' ) ) {
+				$cf_name = 'billing_cpf';
+				$pi_name = 'billing_cnpj';
+			}
+
+			/*WooCommerce P.IVA e Codice Fiscale per Italia*/
+			elseif ( class_exists( 'WooCommerce_Piva_Cf_Invoice_Ita' ) || class_exists( 'WC_Piva_Cf_Invoice_Ita' ) ) {
+				$cf_name      = 'billing_cf';
+				$pi_name      = 'billing_piva';
+				$pec_name     = 'billing_pec';
+				$pa_code_name = 'billing_pa_code';
+			}
+
+			/*YITH WooCommerce Checkout Manager*/
+			elseif ( function_exists( 'ywccp_init' ) ) {
+				$cf_name = 'billing_Codice_Fiscale';
+				$pi_name = 'billing_Partita_IVA';
+			}
+
+			/*WOO Codice Fiscale*/
+			elseif ( function_exists( 'woocf_on_checkout' ) ) {
+				$cf_name = 'billing_CF';
+				$pi_name = 'billing_iva';
+			}
+
+		}
+
+		switch ( $field ) {
+			case 'cf_name':
+				return $order_meta ? '_' . $cf_name : $cf_name;
+				break;
+			case 'pi_name':
+				return $order_meta ? '_' . $pi_name : $pi_name;
+				break;
+			case 'pec_name':
+				return $order_meta ? '_' . $pec_name : $pec_name;
+				break;
+			case 'pa_code_name':
+				return $order_meta ? '_' . $pa_code_name : $pa_code_name;
+				break;
+		}
+
+	}
+
+
+	/**
 	 * Prepare the single user data to export to Reviso
 	 *
 	 * @param  int    $user_id  the WP user id.
@@ -472,10 +552,27 @@ class CRMFWC_Contacts {
 			$phone                   = isset( $user_data['billing_phone'] ) ? $user_data['billing_phone'] : null;
 			$company                 = isset( $user_data['billing_company'] ) ? ucwords( $user_data['billing_company'] ) : null;
 			$website                 = $user_details->user_url;
-			$vat_number              = isset( $user_data['billing_wcexd_piva'] ) ? $user_data['billing_wcexd_piva'] : ''; // temp.
-			$identification_number   = isset( $user_data['billing_wcexd_cf'] ) ? $user_data['billing_wcexd_cf'] : '';
-			$italian_certified_email = isset( $user_data['billing_wcexd_pec'] ) ? $user_data['billing_wcexd_pec'] : '';
-			$public_entry_number     = isset( $user_data['billing_wcexd_pa_code'] ) ? $user_data['billing_wcexd_pa_code'] : '';
+
+			/*Fiscal data*/
+			$pi_name = $this->get_tax_field_name( 'pi_name' );
+			if ( $pi_name ) {
+				$vat_number = isset( $user_data[ $pi_name ] ) ? $user_data[ $pi_name ] : '';
+			}
+
+			$cf_name = $this->get_tax_field_name( 'cf_name' );
+			if ( $cf_name ) {
+				$identification_number = isset( $user_data[ $cf_name ] ) ? strtoupper( $user_data[ $cf_name ] ) : '';
+			}
+
+			$pec_name = $this->get_tax_field_name( 'pec_name' );
+			if ( $pec_name ) {
+				$certified_email = isset( $user_data[ $pec_name ] ) ? $user_data[ $pec_name ] : '';
+			}
+
+			$pa_code_name = $this->get_tax_field_name( 'pa_code_name' );
+			if ( $pa_code_name ) {
+				$public_entry_number = isset( $user_data[ $pa_code_name ] ) ? strtoupper( $user_data[ $pa_code_name ] ) : '';
+			}
 
 		} elseif ( $order ) {
 
@@ -489,10 +586,27 @@ class CRMFWC_Contacts {
 			$postcode                = $order->get_billing_postcode();
 			$phone                   = $order->get_billing_phone();
 			$company                 = $order->get_billing_company() ? ucwords( $order->get_billing_company() ) : null;
-			$vat_number              = $order->get_meta( '_billing_wcexd_piva' ) ? $order->get_meta( '_billing_wcexd_piva' ) : null; // temp.
-			$identification_number   = $order->get_meta( '_billing_wcexd_cf' ) ? $order->get_meta( '_billing_wcexd_cf' ) : null;
-			$italian_certified_email = $order->get_meta( '_billing_wcexd_pec' ) ? $order->get_meta( '_billing_wcexd_pec' ) : null;
-			$public_entry_number     = $order->get_meta( '_billing_wcexd_pa_code' ) ? $order->get_meta( '_billing_wcexd_pa_code' ) : null;
+
+			/*Fiscal data*/
+			$pi_name = $this->get_tax_field_name( 'pi_name', true );
+			if ( $pi_name ) {
+				$vat_number = isset( $user_data[ $pi_name ] ) ? $user_data[ $pi_name ] : '';
+			}
+
+			$cf_name = $this->get_tax_field_name( 'cf_name', true );
+			if ( $cf_name ) {
+				$identification_number = isset( $user_data[ $cf_name ] ) ? strtoupper( $user_data[ $cf_name ] ) : '';
+			}
+
+			$pec_name = $this->get_tax_field_name( 'pec_name', true );
+			if ( $pec_name ) {
+				$certified_email = isset( $user_data[ $pec_name ] ) ? $user_data[ $pec_name ] : '';
+			}
+
+			$pa_code_name = $this->get_tax_field_name( 'pa_code_name', true );
+			if ( $pa_code_name ) {
+				$public_entry_number = isset( $user_data[ $pa_code_name ] ) ? strtoupper( $user_data[ $pa_code_name ] ) : '';
+			}
 
 		} else {
 
@@ -519,6 +633,7 @@ class CRMFWC_Contacts {
 			),
 			'province'    => $state,
 			'vatId'       => $vat_number,
+			'taxIdentificationNumber' => $identification_number,
 		);
 
 		if ( $company ) {
@@ -564,13 +679,11 @@ class CRMFWC_Contacts {
 
 		}
 
-		// if ( $italian_certified_email ) {
-		// 	$args['italianCertifiedEmail'] = $italian_certified_email;
-		// }
+		if ( $certified_email ) {
 
-		// if ( $public_entry_number ) {
-		// 	$args['publicEntryNumber'] = $public_entry_number;
-		// }
+			array_push( $args['emails'] , array( 'value' => $certified_email ) );
+		
+		}
 
 		return $args;
 

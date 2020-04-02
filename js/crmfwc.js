@@ -15,13 +15,7 @@ var crmfwcController = function() {
 		self.tzCheckbox();
 	    self.crmfwc_export_users();
 	    self.crmfwc_delete_remote_users();
-		self.get_user_groups('customers');
-		self.get_user_groups('suppliers');
-		self.crmfwc_export_products();
-		self.crmfwc_export_orders();
-		self.crmfwc_delete_remote_products();
 		self.crmfwc_disconnect();
-		self.book_invoice();
 		self.chosen();
 	}
 
@@ -263,6 +257,10 @@ var crmfwcController = function() {
 				self.delete_messages();
 				self.crmfwc_response_loading();
 
+		        $('html, body').animate({
+		        	scrollTop: $('#crmfwc-admin-menu').offset().top -30
+		        }, 'slow');
+
 				var export_company = $('tr.export-company .tzCheckBox').hasClass('checked') ? 1 : 0;
 				var export_orders  = $('tr.export-orders .tzCheckBox').hasClass('checked') ? 1 : 0;
 				var roles          = $('.crmfwc-contacts-role').val();
@@ -315,6 +313,10 @@ var crmfwcController = function() {
 				if ( answer ) {
 
 					self.crmfwc_response_loading();
+
+			        $('html, body').animate({
+			        	scrollTop: $('#crmfwc-admin-menu').offset().top -30
+			        }, 'slow');
 					
 					var data = {
 						'action': 'delete-remote-users',
@@ -342,219 +344,6 @@ var crmfwcController = function() {
 
 			})
 
-		})
-
-	}
-
-
-	/**
-	 * Export products to CRM in Cloud
-	 */
-	self.crmfwc_export_products = function() {
-
-		jQuery(function($){
-
-			$('.button-primary.crmfwc.export.products').on('click', function(e){
-
-				e.preventDefault();
-
-				self.delete_messages();
-
-				var terms = $('.crmfwc-products-categories').val();
-
-				var data = {
-					'action': 'export-products',
-					'crmfwc-export-products-nonce': crmfwcProducts.exportNonce,
-					'terms': terms
-				}
-
-				$.post(ajaxurl, data, function(response){
-										
-					var result = JSON.parse(response);
-
-					for (var i = 0; i < result.length; i++) {
-
-						var error = 'error' === result[i][0] ? true : false;
-						var update = 0 !== i ? true : false; 
-
-						self.crmfwc_response_message( result[i][1], error, false );
-
-					}
-
-				})
-
-			})
-
-		})
-
-	}
-
-
-	/**
-	 * Delete all the products from CRM in Cloud
-	 */
-	self.crmfwc_delete_remote_products = function() {
-
-		jQuery(function($){
-
-			$('.button-primary.crmfwc.red.products').on('click', function(e){
-
-				e.preventDefault();
-
-				self.delete_messages();
-							
-				var answer = confirm( 'Vuoi cancellare tutti i prodotti da CkkM in Cloud?' );
-
-				if ( answer ) {
-
-					var data = {
-						'action': 'delete-remote-products',
-						'crmfwc-delete-products-nonce': crmfwcProducts.deleteNonce,
-					}
-
-					$.post(ajaxurl, data, function(response){
-
-						self.crmfwc_response_loading();
-
-						var result = JSON.parse(response);
-
-						for (var i = 0; i < result.length; i++) {
-
-							var error = 'error' === result[i][0] ? true : false;
-							var update = 0 !== i ? true : false; 
-
-							self.crmfwc_response_message( result[i][1], error, false );
-	
-						}
-
-					})
-
-				}
-
-			})
-
-		})
-
-	}
-
-
-	/**
-	 * Show customers and suppliers groups in the plugin options page
-	 * @param {string} type customer or supplier
-	 */
-	self.get_user_groups = function(type) {
-
-		jQuery(function($){
-
-			var groups;
-			var data = {
-				'action': 'get-' + type + '-groups',
-				'confirm': 'yes' 
-			}
-
-			$.post(ajaxurl, data, function(response){
-
-				groups = JSON.parse(response);
-
-				if (typeof groups === 'object') {
-
-					for (key in groups) {
-						$('.crmfwc-' + type + '-groups').append('<option value="' + key + '">' + groups[key] + '</option>');
-					}
-
-				} else {
-
-					$('.crmfwc-' + type + '-groups').append('<option>' + groups + '</option>');
-
-				}
-
-				$('.crmfwc-' + type + '-groups').addClass('crmfwc-select');
-		        self.chosen(true);
-
-			})
-
-		})
-
-	}
-
-
-	/**
-	 * Export orders to CRM in Cloud
-	 */
-	self.crmfwc_export_orders = function() {
-
-		jQuery(function($){
-
-			$('.button-primary.crmfwc.export.orders').on('click', function(e){
-
-				e.preventDefault();
-
-				self.delete_messages();
-
-				var statuses = $('.crmfwc-orders-statuses').val();
-
-				var data = {
-					'action': 'export-orders',
-					'crmfwc-export-orders-nonce': crmfwcOrders.exportNonce,
-					'statuses': statuses
-				}
-
-				$.post(ajaxurl, data, function(response){
-										
-					var result = JSON.parse(response);
-
-					for (var i = 0; i < result.length; i++) {
-
-						var error = 'error' === result[i][0] ? true : false;
-						var update = 0 !== i ? true : false; 
-
-						self.crmfwc_response_message( result[i][1], error, false );
-
-					}
-
-				})
-
-			})
-
-		})
-
-	}
-
-
-	/**
-	 * Show the book invoices option only with issue invoices option activated
-	 */
-	self.book_invoice = function() {
-
-		jQuery(function($){
-
-			var	issue_invoices 		 = $('.crmfwc-issue-invoices');
-			var issue_invoice_button = $('.crmfwc-issue-invoices-field span.tzCheckBox');
-			var	book_invoices_field  = $('.crmfwc-book-invoices-field');
-			var	send_invoices_field  = $('.crmfwc-send-invoices-field');
-			
-			if ( $(issue_invoices).attr('checked') == 'checked' ) {
-
-				book_invoices_field.show();
-				send_invoices_field.show();
-
-			}
-
-			$(issue_invoice_button).on( 'click', function(){
-				
-				if ( $(this).hasClass('checked') ) {
-				
-					book_invoices_field.show();
-					send_invoices_field.show();
-				
-				} else {
-				
-					book_invoices_field.hide('slow');			
-					send_invoices_field.hide('slow');			
-		
-				}
-
-			})
 		})
 
 	}
