@@ -3,7 +3,7 @@
  * Functions
  *
  * @author ilGhera
- * @package crm-in-cloud-for-wc/includes
+ * @package crm-in-cloud-for-wc-premium/includes
  * @since 0.9.0
  */
 
@@ -13,9 +13,9 @@
 require( CRMFWC_DIR . 'plugin-update-checker/plugin-update-checker.php' );
 
 $crmfwc_update_checker = Puc_v4_Factory::buildUpdateChecker(
-	'https://www.ilghera.com/wp-update-server-2/?action=get_metadata&slug=crm-in-cloud-for-wc',
+	'https://www.ilghera.com/wp-update-server-2/?action=get_metadata&slug=crm-in-cloud-for-wc-premium',
 	CRMFWC_FILE,
-	'crm-in-cloud-for-wc'
+	'crm-in-cloud-for-wc-premium'
 );
 
 
@@ -55,7 +55,7 @@ function crmfwc_update_message( $plugin_data, $response ) {
 
 	if ( ! $key ) {
 
-		$message = 'A <b>Premium Key</b> is required for keeping this plugin up to date. Please, add yours in the <a href="' . CRMFWC_SETTINGS . '">options page</a> or click <a href="https://www.ilghera.com/product/wc-exporter-for-reviso-premium/" target="_blank">here</a> for prices and details.';
+		$message = 'A <b>Premium Key</b> is required for keeping this plugin up to date. Please, add yours in the <a href="' . CRMFWC_SETTINGS . '">options page</a> or click <a href="https://www.ilghera.com/product/crm-in-cloud-for…commerce-premium/" target="_blank">here</a> for prices and details.';
 
 	} else {
 
@@ -66,11 +66,11 @@ function crmfwc_update_message( $plugin_data, $response ) {
 
 		if ( $limit < $now ) {
 
-			$message = 'It seems like your <strong>Premium Key</strong> is expired. Please, click <a href="https://www.ilghera.com/product/wc-exporter-for-reviso-premium/" target="_blank">here</a> for prices and details.';
+			$message = 'It seems like your <strong>Premium Key</strong> is expired. Please, click <a href="https://www.ilghera.com/product/crm-in-cloud-for…commerce-premium/" target="_blank">here</a> for prices and details.';
 
-		} elseif ( '7082' !== $decoded_key[2] ) { // temp.
+		} elseif ( '7675' !== $decoded_key[2] ) { // temp.
 
-			$message = 'It seems like your <strong>Premium Key</strong> is not valid. Please, click <a href="https://www.ilghera.com/product/wc-exporter-for-reviso-premium/" target="_blank">here</a> for prices and details.';
+			$message = 'It seems like your <strong>Premium Key</strong> is not valid. Please, click <a href="https://www.ilghera.com/product/crm-in-cloud-for…commerce-premium/" target="_blank">here</a> for prices and details.';
 
 		}
 
@@ -87,4 +87,4 @@ function crmfwc_update_message( $plugin_data, $response ) {
 	echo ( $message ) ? '<br><span class="crmfwc-alert">' . wp_kses( $message, $allowed_tags ) . '</span>' : '';
 
 }
-add_action( 'in_plugin_update_message-' . CRMFWC_DIR_NAME . '/wc-exporter-for-reviso.php', 'crmfwc_update_message', 10, 2 );
+add_action( 'in_plugin_update_message-' . CRMFWC_DIR_NAME . '/crm-in-cloud-for-wc.php', 'crmfwc_update_message', 10, 2 );

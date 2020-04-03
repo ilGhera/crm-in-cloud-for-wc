@@ -2,7 +2,7 @@
  * JS
  * 
  * @author ilGhera
- * @package crm-in-cloud-for-wc/js
+ * @package crm-in-cloud-for-wc-premium/js
  * @since 0.9.0
  */
 

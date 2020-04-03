@@ -3,7 +3,7 @@
  * Handles the API calls
  *
  * @author ilGhera
- * @package crm-in-cloud-for-wc/includes
+ * @package crm-in-cloud-for-wc-premium/includes
  * @since 0.9.0
  */
 class CRMFWC_Call {

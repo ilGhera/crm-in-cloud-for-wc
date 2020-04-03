@@ -3,7 +3,7 @@
  * Contacts options
  *
  * @author ilGhera
- * @package crm-in-cloud-for-wc/admin
+ * @package crm-in-cloud-for-wc-premium/admin
  * @since 0.9.0
  */
 
