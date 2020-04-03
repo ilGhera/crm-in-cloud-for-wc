@@ -44,6 +44,6 @@ This plugin sends data to an external service, like the products bought by the u
 == Changelog ==
 
 = 0.9.0 = 
-Release Date: 04 April 2020
+Release Date: 03 April 2020
 
 * First release
