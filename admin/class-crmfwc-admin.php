@@ -144,7 +144,6 @@ class CRMFWC_Admin {
 			echo '</div>';
 
 			echo '<div class="wrap-right">';
-				echo '<!-- <iframe width="300" height="900" scrolling="no" src="https://www.ilghera.com/images/crmfwc-premium-iframe.html"></iframe> -->';
 			echo '</div>';
 
 			echo '<div class="clear"></div>';
