@@ -443,6 +443,9 @@ class CRMFWC_Contacts {
 
 		if ( isset( $_POST['crmfwc-export-users-nonce'] ) && wp_verify_nonce( wp_unslash( $_POST['crmfwc-export-users-nonce'] ), 'crmfwc-export-users' ) ) {
 
+			/*Save to the db*/
+			update_option( 'crmfwc-users-roles', $roles );
+
 			/*Check options*/
 			$roles    = isset( $_POST['roles'] ) ? $this->sanitize_array( $_POST['roles'] ) : array();
 			$args     = array( 'role__in' => $roles );
