@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: CRM in Cloud for WooCommerce - Premium
+ * Plugin Name: CRM in Cloud for WC - Premium
  * Plugin URI: https://www.ilghera.com/product/crm-in-cloud-for-woocommerce
  * Description: Synchronize your WordPress/ WooCommerce site with CRM in Cloud exporting users and orders in real time
  * Author: ilGhera
