@@ -82,4 +82,4 @@ function load_crmfwc_premium() {
 	}
 
 }
-add_action( 'plugins_loaded', 'load_crmfwc_premium', 1 );
+add_action( 'plugins_loaded', 'load_crmfwc_premium', -10 );
