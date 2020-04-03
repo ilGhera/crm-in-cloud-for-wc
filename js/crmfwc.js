@@ -146,7 +146,7 @@ var crmfwcController = function() {
 				if(response) {
 
 					/*Activate plugin tools*/
-					self.crmfwc_tools_control();
+					// self.crmfwc_tools_control();
 			
 					$('.check-connection').html(response);
 					$('.crmfwc-connect').hide();
