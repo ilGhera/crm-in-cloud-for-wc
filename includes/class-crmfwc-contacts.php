@@ -9,38 +9,6 @@
 class CRMFWC_Contacts {
 
 	/**
-	 * Export the user orders as opportunities in CRM in Cloud
-	 *
-	 * @var int
-	 */
-	private $export_orders;
-
-
-	/**
-	 * Export the company linked to the user if present
-	 *
-	 * @var int
-	 */
-	private $export_company;
-
-
-	/**
-	 * Delete remote company linked to the contacts
-	 *
-	 * @var int
-	 */
-	private $delete_company;
-
-
-	/**
-	 * Export the new orders as opportunities in CRM in Cloud
-	 *
-	 * @var int
-	 */
-	private $wc_export_orders;
-
-
-	/**
 	 * Class constructor
 	 */
 	public function __construct() {
@@ -51,19 +19,9 @@ class CRMFWC_Contacts {
 		add_action( 'crmfwc_delete_remote_single_user_event', array( $this, 'delete_remote_single_user' ), 10, 1 );
 		add_action( 'wp_ajax_export-users', array( $this, 'export_users' ) );
 		add_action( 'crmfwc_export_single_user_event', array( $this, 'export_single_user' ), 10, 2 );
-		add_action( 'woocommerce_order_status_completed', array( $this, 'wc_order_callback' ), 10, 1 );
 
 		/*Class call instance*/
 		$this->crmfwc_call = new CRMFWC_Call();
-
-		/*Get the complete phase to use with orders as opportunities*/
-		$this->completed_phase = $this->get_completed_opportunity_phase();
-
-		/*Get options*/
-		$this->export_orders     = get_option( 'crmfwc-export-orders' );
-		$this->export_company    = get_option( 'crmfwc-export-company' );
-		$this->delete_company    = get_option( 'crmfwc-delete-company' );
-		$this->wc_export_orders  = get_option( 'crmfwc-wc-export-orders' );
 
 	}
 
@@ -117,72 +75,6 @@ class CRMFWC_Contacts {
 
 	}
 
-	/**
-	 * Check if a company exists in CRM in Cloud
-	 *
-	 * @param  int $id the company id in CRM in Cloud.
-	 * @return bool
-	 */
-	private function company_exists( $id = null ) {
-
-		$output = false;
-
-		if ( 0 < $id ) {
-
-			$response = $this->crmfwc_call->call( 'get', 'Company/Exists/' . $id );
-
-			if ( $response ) {
-
-				$output = true;
-
-			}
-
-		}
-
-		return $output;
-
-	}
-
-
-	/**
-	 * Export a single comany to CRM in Cloud
-	 *
-	 * @param  int    $user_id the WP user id.
-	 * @param  array  $args    the  company data.
-	 * @param  string $company_name the company name.
-	 * @return int    the CRM in Cloud company id
-	 */
-	private function export_single_company( $user_id, $args, $company_name = null ) {
-
-		if ( 0 !== $user_id ) {
-
-			$company_id = get_user_meta( $user_id, 'crmfwc-company-id', true );
-
-		} else {
-
-			$company_id = $this->search_remote_company( $company_name );
-
-		}
-
-		/*Update company if already in CRM in Cloud*/
-		if ( $company_id ) {
-
-			$args['id'] = $company_id;
-
-		}
-
-		$response = $this->crmfwc_call->call( 'post', 'Company/CreateOrUpdate', $args );
-
-		if ( is_int( $response ) ) {
-
-			update_user_meta( $user_id, 'crmfwc-company-id', $response );
-
-			return $response;
-
-		}
-
-	}
-
 
 	/**
 	 * Get customers and suppliers from CRM in Cloud
@@ -228,174 +120,6 @@ class CRMFWC_Contacts {
 		}
 
 		return $output;
-
-	}
-
-
-	/**
-	 * Get the completed phase from CRM in Cloud
-	 *
-	 * @return int the phase id
-	 */
-	private function get_completed_opportunity_phase() {
-
-		$phase_id = get_option( 'crmfwc-completed-phase' );
-
-		if ( $phase_id ) {
-
-			return $phase_id;
-
-		} else {
-
-			$phases = $this->crmfwc_call->call( 'get', 'OpportunityPhase/Get' );
-
-			if ( $phases ) {
-
-				foreach ( $phases as $key => $value ) {
-
-					$phase = $this->crmfwc_call->call( 'get', 'OpportunityPhase/View/' . $value );
-
-					if ( isset( $phase ) ) {
-
-						if ( 3 === $phase->status && 100 === $phase->weight ) {
-
-							update_option( 'crmfwc-completed-phase', $phase->id );
-
-							return $phase->id;
-
-						}
-
-					}
-
-				}
-
-			}
-
-		}
-
-	}
-
-
-	/**
-	 * Setup all the opportunities of a single order
-	 *
-	 * @param  object $order      the WC order.
-	 * @param  int    $remote_id  the CRM in Cloud user id.
-	 * @param  bool   $cross_type export opportunities to company (0) or contact (1).
-	 * @return array the opportunities data
-	 */
-	public function get_single_order_opportunities( $order, $remote_id = null, $cross_type = 0 ) {
-
-		$output = array();
-
-		foreach ( $order->get_items() as $item_id => $item ) {
-
-			$product        = $item->get_product();
-			$completed_date = date_i18n( get_option( 'date_format' ), strtotime( $order->get_date_completed() ) );
-			$description    = __( 'Order: ', 'crm-in-cloud-for-wc' ) . ' #' . $order->get_id();
-			$description   .= ' - ' . __( 'Date: ', 'crm-in-cloud-for-wc' ) . $completed_date;
-			$quantity       = 1 < $item->get_quantity() ? ' (' . $item->get_quantity() . ')' : '';
-
-			$args = array(
-				'amount'           => wc_format_decimal( $order->get_item_total( $item, false, false ), 2 ),
-				'budget'           => wc_format_decimal( $order->get_item_total( $item, false, false ), 2 ) * $item->get_quantity(),
-				'closeDate'        => $order->get_date_completed() ? $order->get_date_completed()->format( 'Y-m-d G:i:s' ) : '',
-				'createdDate'      => $order->get_date_created() ? $order->get_date_created()->format( 'Y-m-d G:i:s' ) : '',
-				'crossId'          => $remote_id,
-				'crossType'        => $cross_type,
-				'description'      => $description,
-				'phase'            => $this->completed_phase,
-				'probability'      => 100,
-				'status'           => 3,
-				'title'            => $item['name'] . $quantity,
-			);
-
-			array_push( $output, $args );
-
-		}
-
-		return $output;
-
-	}
-
-
-	/**
-	 * Prepare data to set opportunities in CRM in Cloud from the user WC orders
-	 *
-	 * @param  int  $user_id    the WP user id.
-	 * @param  int  $remote_id  the CRM in Cloud user id.
-	 * @param  bool $cross_type export opportunities to company (0) or contact (1).
-	 * @return array the opportunities data
-	 */
-	private function get_user_opportunities( $user_id, $remote_id, $cross_type = 0 ) {
-
-		$output = array();
-
-		$posts = get_posts(
-			array(
-				'numberposts' => -1,
-				'meta_key'    => '_customer_user',
-				'meta_value'  => $user_id,
-				'post_type'   => wc_get_order_types(),
-				'post_status' => 'wc-completed', /*array_keys( wc_get_order_statuses() ),*/
-			)
-		);
-
-		if ( $posts ) {
-
-			foreach ( $posts as $post ) {
-
-				$order               = new WC_Order( $post->ID );
-				$args                = $this->get_single_order_opportunities( $order, $remote_id, $cross_type );
-				$output[ $post->ID ] = $args;
-
-			}
-
-		}
-
-		return $output;
-
-	}
-
-
-	/**
-	 * Export orders data to CRM in Cloud as opportunities
-	 *
-	 * @param  int  $user_id   the WP user id.
-	 * @param  int  $remote_id the CRM in Cloud user id.
-	 * @param  bool $cross_type export opportunities to company (0) or contact (1).
-	 * @return void
-	 */
-	private function export_opportunities( $user_id, $remote_id, $cross_type = 0 ) {
-
-		$data = $this->get_user_opportunities( $user_id, $remote_id, $cross_type );
-
-		if ( is_array( $data ) ) {
-
-			foreach ( $data as $key => $value ) {
-
-				$meta_key            = 1 === $cross_type ? 'crmfwc-contact-opportunities' : 'crmfwc-company-opportunities';
-				$saved_opportunities = get_post_meta( $key, $meta_key, true );
-
-				if ( ! $saved_opportunities ) {
-
-					if ( is_array( $value ) && ! empty( $value ) ) {
-
-						update_post_meta( $key, $meta_key, 1 );
-
-						foreach ( $value as $opportunity ) {
-
-							$response = $this->crmfwc_call->call( 'post', 'Opportunity/CreateOrUpdate', $opportunity );
-
-						}
-
-					}
-
-				}
-
-			}
-
-		}
 
 	}
 
@@ -508,7 +232,7 @@ class CRMFWC_Contacts {
 
 
 	/**
-	 * Prepare the single user data to export to Reviso
+	 * Prepare the single user data to export to CRM in Cloud
 	 *
 	 * @param  int    $user_id  the WP user id.
 	 * @param  object $order the WC order to get the customer details.
@@ -640,17 +364,6 @@ class CRMFWC_Contacts {
 
 			$args['companyName'] = $company;
 
-			/*Create the company in CRM in Cloud only if set in the options*/
-			if ( $this->export_company ) {
-
-				/*Export the company to CRM in Cloud*/
-				$company_id = $this->export_single_company( $user_id, $args, $company );
-
-				/*Add the company id to the contact information*/
-				$args['companyId'] = $company_id;
-
-			}
-
 		}
 
 		/*Update contact if already in CRM in Cloud*/
@@ -691,7 +404,7 @@ class CRMFWC_Contacts {
 
 
 	/**
-	 * Export single WP user to Reviso
+	 * Export single WP user to CRM in Cloud
 	 *
 	 * @param  int    $user_id the WP user id.
 	 * @param  object $order the WC order to get the customer details.
@@ -714,21 +427,6 @@ class CRMFWC_Contacts {
 
 				}
 
-				/*Export orders ad opportunities only if set in the options*/
-				if ( $this->export_orders ) {
-
-					/*Export user opportunities*/
-					$this->export_opportunities( $user_id, $response, 1 ); // temp.
-
-					/*Export company opportunities*/
-					if ( isset( $args['companyId'] ) ) {
-
-						$this->export_opportunities( $user_id, $args['companyId'] );
-
-					}
-
-				}
-
 			}
 
 		}
@@ -737,7 +435,7 @@ class CRMFWC_Contacts {
 
 
 	/**
-	 * Export WP users as customers/ suppliers in Reviso
+	 * Export WP users as contacts to CRM in Cloud
 	 *
 	 * @return void
 	 */
@@ -746,15 +444,7 @@ class CRMFWC_Contacts {
 		if ( isset( $_POST['crmfwc-export-users-nonce'] ) && wp_verify_nonce( wp_unslash( $_POST['crmfwc-export-users-nonce'] ), 'crmfwc-export-users' ) ) {
 
 			/*Check options*/
-			$roles          = isset( $_POST['roles'] ) ? $this->sanitize_array( $_POST['roles'] ) : array();
-			$export_company = isset( $_POST['export-company'] ) ? sanitize_text_field( wp_unslash( $_POST['export-company'] ) ) : 0;
-			$export_orders  = isset( $_POST['export-orders'] ) ? sanitize_text_field( wp_unslash( $_POST['export-orders'] ) ) : 0;
-
-			/*Save to the db*/
-			update_option( 'crmfwc-users-roles', $roles );
-			update_option( 'crmfwc-export-company', $export_company );
-			update_option( 'crmfwc-export-orders', $export_orders );
-
+			$roles    = isset( $_POST['roles'] ) ? $this->sanitize_array( $_POST['roles'] ) : array();
 			$args     = array( 'role__in' => $roles );
 			$users    = get_users( $args );
 			$response = array();
@@ -820,48 +510,6 @@ class CRMFWC_Contacts {
 
 	}
 
-	/**
-	 * Search company on CRM in Cloud by company name
-	 *
-	 * @param  string $company_name the company name.
-	 * @return int the remote company id
-	 */
-	public function search_remote_company( $company_name ) {
-
-		$response = $this->crmfwc_call->call( 'get', "Company/Search?filter=startswith(companyName, '$company_name')" );
-
-		if ( isset( $response[0]->id ) ) {
-
-			return $response[0]->id;
-
-		}
-
-	}
-
-
-	/**
-	 * Export user and his opportunities when a WC order is completed
-	 *
-	 * @param  int $order_id the WC order.
-	 * @return void
-	 */
-	public function wc_order_callback( $order_id ) {
-
-		/*Export new WC orders only if set in the options*/
-		if ( $this->wc_export_orders ) {
-
-			$order = new WC_Order( $order_id );
-
-			if ( is_object( $order ) && $order->get_customer_id() ) {
-
-				$this->export_single_user( $order->get_customer_id(), $order );
-
-			}
-
-		}
-
-	}
-
 
 	/**
 	 * Delete CRM in cloud contact id and company id from the db
@@ -884,44 +532,6 @@ class CRMFWC_Contacts {
 
 			/*Contact id*/
 			delete_user_meta( $users[0]->ID, 'crmfwc-id' );
-
-			/*Company id*/
-			$company_id = get_user_meta( $users[0]->ID, 'crmfwc-company-id', true );
-
-			/*Delete company only if set in the options*/
-			if ( $this->delete_company && $company_id ) {
-
-				/*Delete from CRM in Cloud*/
-				$this->crmfwc_call->call( 'delete', 'Company/Delete/' . $company_id );
-
-				/*delete info from the db*/
-				delete_user_meta( $users[0]->ID, 'crmfwc-company-id' );
-
-			}
-
-		}
-
-	}
-
-
-	/**
-	 * Delete all opportunities information from the db
-	 *
-	 * @return void
-	 */
-	public function delete_opportunities() {
-
-		global $wpdb;
-
-		$table = $wpdb->prefix . 'postmeta';
-
-		/*Delete contact opportunities*/
-		$wpdb->delete( $table, array( 'meta_key' => 'crmfwc-contact-opportunities' ) );
-
-		/*Delete company opportunities only if set in the options*/
-		if ( $this->delete_company ) {
-
-			$wpdb->delete( $table, array( 'meta_key' => 'crmfwc-company-opportunities' ) );
 
 		}
 
@@ -948,17 +558,11 @@ class CRMFWC_Contacts {
 
 
 	/**
-	 * Delete all customers/ suppliers in Reviso
+	 * Delete all contacts in CRM in Cloud
 	 */
 	public function delete_remote_users() {
 
 		if ( isset( $_POST['crmfwc-delete-users-nonce'] ) && wp_verify_nonce( wp_unslash( $_POST['crmfwc-delete-users-nonce'] ), 'crmfwc-delete-users' ) ) {
-
-			/*Check option*/
-			$delete_company = isset( $_POST['delete-company'] ) ? sanitize_text_field( wp_unslash( $_POST['delete-company'] ) ) : 0;
-
-			/*Save to the db*/
-			update_option( 'crmfwc-delete-company', $delete_company );
 
 			$users = $this->get_remote_users();
 
@@ -980,9 +584,6 @@ class CRMFWC_Contacts {
 					);
 
 				}
-
-				/*Delete opportunities*/
-				$this->delete_opportunities();
 
 				$response[] = array(
 					'ok',

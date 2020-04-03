@@ -19,12 +19,12 @@ function go_premium() {
 
 	$allowed = array(
 		'span' => array(
-			'class' => [],
+			'class' => array(),
 		),
 		'a'    => array(
-			'target' => [],
-			'title'  => [],
-			'href'   => [],
+			'target' => array(),
+			'title'  => array(),
+			'href'   => array(),
 		),
 	);
 

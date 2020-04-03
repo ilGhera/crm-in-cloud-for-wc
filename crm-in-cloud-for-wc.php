@@ -55,7 +55,7 @@ function load_crmfwc() {
 		define( 'CRMFWC_ADMIN', CRMFWC_DIR . 'admin/' );
 		define( 'CRMFWC_DIR_NAME', basename( dirname( __FILE__ ) ) );
 		define( 'CRMFWC_INCLUDES', CRMFWC_DIR . 'includes/' );
-		define( 'CRMFWC_SETTINGS', admin_url( 'admin.php?page=wc-exporter-for-reviso' ) );
+		define( 'CRMFWC_SETTINGS', admin_url( 'admin.php?page=crm-in-cloud-for-wc' ) );
 
 		/*Internationalization*/
 		$locale = apply_filters( 'plugin_locale', get_locale(), 'crm-in-cloud-for-wc' );

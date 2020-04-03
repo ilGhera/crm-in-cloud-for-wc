@@ -69,7 +69,7 @@ $contacts_roles = get_option( 'crmfwc-users-roles' );
 		<tr>
 			<th scope="row"><?php esc_html_e( 'Delete contacts', 'crm-in-cloud-for-wc' ); ?></th>
 			<td>
-				<p class="description"><?php esc_html_e( 'Delete all contacts on CRM in Cloud.', 'crm-in-cloud-for-wc' ); ?></p>
+				<p class="description"><?php esc_html_e( 'Delete all contacts on CRM in Cloud', 'crm-in-cloud-for-wc' ); ?></p>
 			</td>
 		</tr>
 		<tr class="delete-company">
