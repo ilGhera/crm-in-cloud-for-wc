@@ -121,7 +121,7 @@ class CRMFWC_Admin {
 					echo '<input type="text" class="regular-text code" name="crmfwc-premium-key" id="crmfwc-premium-key" placeholder="' . esc_html( __( 'Add your Premium Key', 'crm-in-cloud-for-wc' ) ) . '" value="' . esc_attr( $key ) . '" />';
 					echo '<p class="description">' . esc_html( __( 'Add your Premium Key and keep updated your copy of CRM in Cloud for WooCommerce.', 'crm-in-cloud-for-wc' ) ) . '</p>';
 					wp_nonce_field( 'crmfwc-premium-key', 'crmfwc-premium-key-nonce' );
-					echo '<input type="submit" class="button button-primary" value="' . esc_html( __( 'Save ', 'crm-in-cloud-for-wc' ) ) . '" />';
+					echo '<input type="submit" class="button button-primary" value="' . esc_html( __( 'Save', 'crm-in-cloud-for-wc' ) ) . '" />';
 					echo '</form>';
 
 					/*Plugin options menu*/
