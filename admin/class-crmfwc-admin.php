@@ -102,7 +102,7 @@ class CRMFWC_Admin {
 				echo '<div id="crmfwc-generale">';
 
 					/*Header*/
-					echo '<h1 class="crmfwc main">' . esc_html( __( 'CRM in Cloud for WooCommerce - Premium', 'crm-in-cloud-for-wc' ) ) . '</h1>';
+					echo '<h1 class="crmfwc main">' . esc_html( __( 'CRM in Cloud for WooCommerce', 'crm-in-cloud-for-wc' ) ) . '</h1>';
 
 					/*Plugin options menu*/
 					echo '<div class="icon32 icon32-woocommerce-settings" id="icon-woocommerce"><br /></div>';

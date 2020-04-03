@@ -83,7 +83,7 @@ $contacts_roles = get_option( 'crmfwc-users-roles' );
 	</table>
 
 	<p class="submit">
-		<input type="submit" class="button-primary crmfwc red users contacts" value="<?php esc_html_e( 'Delete from CRM in Cloud', 'crm-in-cloud-for-wc' ); ?>" disabled />
+		<input type="submit" class="button-primary crmfwc red users contacts" value="<?php esc_html_e( 'Delete from CRM in Cloud', 'crm-in-cloud-for-wc' ); ?>" />
 	</p>
 
 </form>
