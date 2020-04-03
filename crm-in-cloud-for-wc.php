@@ -73,4 +73,4 @@ function load_crmfwc() {
 	}
 
 }
-add_action( 'plugins_loaded', 'load_crmfwc', 100 );
+add_action( 'plugins_loaded', 'load_crmfwc', -1 );
