@@ -6,7 +6,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/crm-in-cloud-for-"
 "wc\n"
 "POT-Creation-Date: 2020-04-03 08:25+0200\n"
-"PO-Revision-Date: 2020-04-03 08:27+0200\n"
+"PO-Revision-Date: 2020-04-04 07:28+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: it_IT\n"
@@ -144,7 +144,7 @@ msgstr ""
 #: includes/class-crmfwc-contacts.php:474
 #, php-format
 msgid "%1$d contact(s) export process has begun"
-msgstr "Il processo di esportazione di %1$d contatto/ contatti è iniziato"
+msgstr "Il processo di esportazione di %1$d contatti è iniziato"
 
 #: includes/class-crmfwc-contacts.php:481
 msgid "No contacts to export"
@@ -153,7 +153,7 @@ msgstr "Nessun contatto da esportare"
 #: includes/class-crmfwc-contacts.php:591
 #, php-format
 msgid "%1$d users(s) delete process has begun"
-msgstr "Il processo di cancellazione di %1$d contatto/ contatti è iniziato"
+msgstr "Il processo di cancellazione di %1$d contatti è iniziato"
 
 #: includes/class-crmfwc-contacts.php:600
 msgid "ERROR! There are not users to delete"

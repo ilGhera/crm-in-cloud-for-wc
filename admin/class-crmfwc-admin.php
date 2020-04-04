@@ -31,10 +31,6 @@ class CRMFWC_Admin {
 
 			/*js*/
 			wp_enqueue_script( 'crmfwc-js', CRMFWC_URI . 'js/crmfwc.js', array( 'jquery' ), '1.0', true );
-			wp_enqueue_script( 'bootstrap-js', plugin_dir_url( __DIR__ ) . 'js/bootstrap.min.js' );
-
-			/*css*/
-			wp_enqueue_style( 'bootstrap-iso', plugin_dir_url( __DIR__ ) . 'css/bootstrap-iso.css' );
 
 		}
 

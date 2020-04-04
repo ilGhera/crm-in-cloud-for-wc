@@ -268,6 +268,75 @@ h4.crmfwc-connection-status {
 	display: none;
 }
 
+.bootstrap-iso .alert {
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.bootstrap-iso .alert h4 {
+  margin-top: 0;
+  color: inherit;
+}
+
+.bootstrap-iso .alert .alert-link {
+  font-weight: bold;
+}
+
+.bootstrap-iso .alert > p,
+.bootstrap-iso .alert > ul {
+  margin-bottom: 0;
+}
+
+.bootstrap-iso .alert > p + p {
+  margin-top: 5px;
+}
+
+.bootstrap-iso .alert-info {
+  background-color: #d9edf7;
+  color: #31708f;
+  background-image: -webkit-linear-gradient(top, #d9edf7 0%, #b9def0 100%);
+  background-image: -o-linear-gradient(top, #d9edf7 0%, #b9def0 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#d9edf7), to(#b9def0));
+  background-image: linear-gradient(to bottom, #d9edf7 0%, #b9def0 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9edf7', endColorstr='#ffb9def0', GradientType=0);
+  border-color: #9acfea;
+}
+
+.bootstrap-iso .alert-info hr {
+  border-top-color: #a6e1ec;
+}
+
+.bootstrap-iso .alert-info .alert-link {
+  color: #245269;
+}
+
+.bootstrap-iso .alert-danger {
+  background-color: #f2dede;
+  color: #a94442;
+  background-image: -webkit-linear-gradient(top, #f2dede 0%, #e7c3c3 100%);
+  background-image: -o-linear-gradient(top, #f2dede 0%, #e7c3c3 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#f2dede), to(#e7c3c3));
+  background-image: linear-gradient(to bottom, #f2dede 0%, #e7c3c3 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff2dede', endColorstr='#ffe7c3c3', GradientType=0);
+  border-color: #dca7a7;
+
+}
+
+.bootstrap-iso .alert-danger hr {
+  border-top-color: #e4b9c0;
+}
+
+.bootstrap-iso .alert-danger .alert-link {
+  color: #843534;
+}
+
 @media screen and (max-width: 1000px) {
 
 	.wrap-left {
