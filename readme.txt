@@ -50,11 +50,19 @@ This plugin sends data to an external service, like the products bought by the u
 
 == Screenshots ==
 
+1. Contact list imported from WordPress
+2. Single WordPress user imported with all his information
+3. Tools available for exporting WordPress users to CRM in Cloud
+4. Company imported in CRM in Cloud
+5. WooCommerce orders imported in CRM in Cloud as opportunities
+6. New WooCommerce orders exported in real time
+7. Delete all in a click
+8. Check the scheduled actions
 
 
 == Changelog ==
 
 = 0.9.0 = 
-Release Date: 03 April 2020
+Release Date: 08 April 2020
 
 * First release
