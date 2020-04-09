@@ -25,11 +25,11 @@ Synchronize your WordPress/ WooCommerce site with CRM in Cloud exporting users a
 
 This plugin sends data to an external service, like the products bought by the user and profile informations.
 
-= Service endpoint: =
-[https://app.crmincloud.it/api/v1/Contact](https://app.crmincloud.it/api/v1/Contact)
-
 = Service informations: =
 [https://www.teamsystem.com/crm-in-cloud](https://www.teamsystem.com/crm-in-cloud)
+
+= Service endpoint: =
+[https://app.crmincloud.it/api/v1/Contact](https://app.crmincloud.it/api/v1/Contact)
 
 = Service privacy policy: =
 [https://www.teamsystem.com/privacy-policy](https://www.teamsystem.com/privacy-policy)
