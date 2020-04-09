@@ -21,12 +21,16 @@ Synchronize your WordPress/ WooCommerce site with CRM in Cloud exporting users a
 * Export new orders to CRM in Cloud as opportunities in real time (Premium).
 * Delete all data in CRM in Cloud with a click.
 
-= Try *CRM in Cloud* for free! =
-[https://www.teamsystem.com/crm-in-cloud](https://www.teamsystem.com/crm-in-cloud)
+= Try CRM in Cloud for free! =
+[https://www.teamsystem.com/store/gestione-relazione-clienti/crm-in-cloud](https://www.teamsystem.com/store/gestione-relazione-clienti/crm-in-cloud)
+
 
 **IMPORTANT NOTES**
 
 This plugin sends data to an external service, like the products bought by the user and profile informations.
+
+= Service informations: =
+[https://www.teamsystem.com/crm-in-cloud](https://www.teamsystem.com/crm-in-cloud)
 
 = Service endpoint: =
 [https://app.crmincloud.it/api/v1/Contact](https://app.crmincloud.it/api/v1/Contact)
