@@ -708,13 +708,9 @@ class CRMFWC_Contacts {
 
 		$args = $this->prepare_user_data( $user_id, $order );
 
-        error_log( 'USER ARGS: ' . print_r( $args, true ) );
-
 		if ( $args ) {
 
 			$response = $this->crmfwc_call->call( 'post', 'Contact/CreateOrUpdate', $args );
-
-            error_log( 'RESPONSE: ' . print_r( $response, true ) );
 
 			if ( is_int( $response ) ) {
 
@@ -864,8 +860,6 @@ class CRMFWC_Contacts {
 			$order = new WC_Order( $order_id );
 
 			if ( is_object( $order ) && $order->get_customer_id() ) {
-
-                error_log( 'CUSTOMER ID: ' . $order->get_customer_id() );
 
 				$this->export_single_user( $order->get_customer_id(), $order );
 
