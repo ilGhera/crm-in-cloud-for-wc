@@ -248,20 +248,22 @@ class CRMFWC_Contacts {
 		} else {
 
 			$phases = $this->crmfwc_call->call( 'get', 'OpportunityPhase/Get' );
+            error_log( 'PHASES: ' . print_r( $phases, true ) );
 
 			if ( $phases ) {
 
 				foreach ( $phases as $key => $value ) {
 
 					$phase = $this->crmfwc_call->call( 'get', 'OpportunityPhase/View/' . $value );
+                    error_log( 'PHASE VALUE: ' . print_r( $phase, true ) );
 
 					if ( isset( $phase ) ) {
 
 						if ( 3 === $phase->status && 100 === $phase->weight ) {
 
-							update_option( 'crmfwc-completed-phase', $phase->id );
+							update_option( 'crmfwc-completed-phase', $phase->description );
 
-							return $phase->id;
+							return $phase->description;
 
 						}
 
@@ -385,7 +387,12 @@ class CRMFWC_Contacts {
 
 						foreach ( $value as $opportunity ) {
 
+                            error_log( 'OPPORTUNITY: ' . print_r( $opportunity, true ) );
+
 							$response = $this->crmfwc_call->call( 'post', 'Opportunity/CreateOrUpdate', $opportunity );
+
+
+                            error_log( 'RESPONSE OPPORTUNITY: ' . print_r( $response, true ) );
 
 						}
 
@@ -701,9 +708,13 @@ class CRMFWC_Contacts {
 
 		$args = $this->prepare_user_data( $user_id, $order );
 
+        error_log( 'USER ARGS: ' . print_r( $args, true ) );
+
 		if ( $args ) {
 
 			$response = $this->crmfwc_call->call( 'post', 'Contact/CreateOrUpdate', $args );
+
+            error_log( 'RESPONSE: ' . print_r( $response, true ) );
 
 			if ( is_int( $response ) ) {
 
@@ -853,6 +864,8 @@ class CRMFWC_Contacts {
 			$order = new WC_Order( $order_id );
 
 			if ( is_object( $order ) && $order->get_customer_id() ) {
+
+                error_log( 'CUSTOMER ID: ' . $order->get_customer_id() );
 
 				$this->export_single_user( $order->get_customer_id(), $order );
 
