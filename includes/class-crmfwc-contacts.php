@@ -248,14 +248,12 @@ class CRMFWC_Contacts {
 		} else {
 
 			$phases = $this->crmfwc_call->call( 'get', 'OpportunityPhase/Get' );
-            error_log( 'PHASES: ' . print_r( $phases, true ) );
 
 			if ( $phases ) {
 
 				foreach ( $phases as $key => $value ) {
 
 					$phase = $this->crmfwc_call->call( 'get', 'OpportunityPhase/View/' . $value );
-                    error_log( 'PHASE VALUE: ' . print_r( $phase, true ) );
 
 					if ( isset( $phase ) ) {
 
@@ -387,12 +385,7 @@ class CRMFWC_Contacts {
 
 						foreach ( $value as $opportunity ) {
 
-                            error_log( 'OPPORTUNITY: ' . print_r( $opportunity, true ) );
-
 							$response = $this->crmfwc_call->call( 'post', 'Opportunity/CreateOrUpdate', $opportunity );
-
-
-                            error_log( 'RESPONSE OPPORTUNITY: ' . print_r( $response, true ) );
 
 						}
 
