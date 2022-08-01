@@ -529,8 +529,20 @@ class CRMFWC_Contacts {
 		}
 
 	}
-/** Check if a contact exists in CRM in Cloud @param  int $id the id user in CRM in Cloud. @return bool */ private function user_exists( $id = null ) { $output = false;
-if ( $id ) {
+
+
+	/**
+	 * Check if a contact exists in CRM in Cloud
+	 *
+	 * @param  int $id the id user in CRM in Cloud.
+	 * @return bool
+	 */
+	private function user_exists( $id = null ) {
+
+		$output = false;
+
+		if ( $id ) {
+
 			$response = $this->crmfwc_call->call( 'get', 'Contact/Exists/' . $id );
 
 			if ( $response ) {
