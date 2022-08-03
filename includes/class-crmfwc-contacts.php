@@ -62,10 +62,11 @@ class CRMFWC_Contacts {
 		$this->pending_payment_phase = $this->get_pending_payment_opportunity_phase();
 
 		/*Get options*/
-		$this->export_orders     = get_option( 'crmfwc-export-orders' );
-		$this->export_company    = get_option( 'crmfwc-export-company' );
-		$this->delete_company    = get_option( 'crmfwc-delete-company' );
-		$this->wc_export_orders  = get_option( 'crmfwc-wc-export-orders' );
+		$this->export_orders       = get_option( 'crmfwc-export-orders' );
+		$this->export_company      = get_option( 'crmfwc-export-company' );
+		$this->delete_company      = get_option( 'crmfwc-delete-company' );
+		$this->wc_export_orders    = get_option( 'crmfwc-wc-export-orders' );
+        $this->split_opportunities = get_option( 'crmfwc-wc-split-opportunities' );
         
         /* error_log( 'ORDER STATUSES: ' . print_r( wc_get_order_types(), true ) ); */
 	}
@@ -374,52 +375,90 @@ class CRMFWC_Contacts {
 	 */
 	public function get_single_order_opportunities( $order, $remote_id = null, $cross_type = 0 ) {
 
-		$output = array();
+        $output            = array();
+        $phase_information = array();
+        $completed_date    = date_i18n( get_option( 'date_format' ), strtotime( $order->get_date_completed() ) );
+        $title             = __( 'Order: ', 'crm-in-cloud-for-wc' ) . ' #' . $order->get_id();
+        /* $title            .= ' - ' . __( 'Date: ', 'crm-in-cloud-for-wc' ) . $completed_date; */
 
-		foreach ( $order->get_items() as $item_id => $item ) {
+        /* Opportunity args */
+        $args = array(
+            'closeDate'   => $order->get_date_completed() ? $order->get_date_completed()->format( 'Y-m-d G:i:s' ) : '',
+            'createdDate' => $order->get_date_created() ? $order->get_date_created()->format( 'Y-m-d G:i:s' ) : '',
+            'crossId'     => $remote_id,
+            'crossType'   => $cross_type,
+            'title'       => $title,
+        );
 
-            $more           = array();
-			$product        = $item->get_product();
-			$completed_date = date_i18n( get_option( 'date_format' ), strtotime( $order->get_date_completed() ) );
-			$description    = __( 'Order: ', 'crm-in-cloud-for-wc' ) . ' #' . $order->get_id();
-			$description   .= ' - ' . __( 'Date: ', 'crm-in-cloud-for-wc' ) . $completed_date;
-			$quantity       = 1 < $item->get_quantity() ? ' (' . $item->get_quantity() . ')' : '';
+        /* Phase information */
+        if ( 'completed' === $order->get_status() ) {
 
-			$args = array(
-				'amount'           => wc_format_decimal( $order->get_item_total( $item, false, false ), 2 ),
-				'budget'           => wc_format_decimal( $order->get_item_total( $item, false, false ), 2 ) * $item->get_quantity(),
-				'closeDate'        => $order->get_date_completed() ? $order->get_date_completed()->format( 'Y-m-d G:i:s' ) : '',
-				'createdDate'      => $order->get_date_created() ? $order->get_date_created()->format( 'Y-m-d G:i:s' ) : '',
-				'crossId'          => $remote_id,
-				'crossType'        => $cross_type,
-				'description'      => $description,
-				'title'            => $item['name'] . $quantity,
-			);
+            $phase_information = array(
+                'phase'       => $this->completed_phase,
+                'probability' => 100,
+                'status'      => 3,
+            );
 
-            error_log( 'STATUS: ' . $order->get_status() );
-            if ( 'completed' === $order->get_status() ) {
+        } else {
 
+            $phase_information = array(
+                'phase'       => $this->pending_payment_phase,
+                'probability' => 80,
+                'status'      => 1,
+            );
+
+        }
+
+        /* error_log( 'ORDER: ' . print_r( $order, true ) ); */
+
+        if ( $this->split_opportunities ) {
+
+            foreach ( $order->get_items() as $item_id => $item ) {
+
+                $quantity = 1 < $item->get_quantity() ? ' (' . $item->get_quantity() . ')' : '';
+
+                /* Add specific information about the order item */
                 $more = array(
-                    'phase'            => $this->completed_phase,
-                    'probability'      => 100,
-                    'status'           => 3,
+                    'amount'      => wc_format_decimal( $order->get_item_total( $item, false, false ), 2 ),
+                    'budget'      => wc_format_decimal( $order->get_item_total( $item, false, false ), 2 ) * $item->get_quantity(),
+                    'description' => $item['name'] . $quantity,
                 );
 
-            } else {
 
-                $more = array(
-                    'phase'            => $this->pending_payment_phase,
-                    'probability'      => 80,
-                    'status'           => 1,
-                );
+                /* Complete the opportunity data */
+                $data = array_merge( $args, $more, $phase_information );
+
+                $output[ $item_id ] = $data;
 
             }
 
-            $data = array_merge( $args, $more );
+        } else {
 
-			$output[ $item_id ] = $data;
+            $description = null;
 
-		}
+            /* Get the items products names */
+            foreach ( $order->get_items() as $item_id => $item ) {
+
+                $separator = $description ? ' | ' : null;
+                $quantity     = 1 < $item->get_quantity() ? ' (' . $item->get_quantity() . ')' : '';
+                $description    .= isset( $item['name'] ) ? $separator . $item['name'] . $quantity : $title;
+                /* $description .= isset( $item['name'] ) ? $item['name'] . $quantity . "\r\n" : $description; */
+                /* $description    .= $separator . $title->get_name(); */
+
+            }
+
+            $more = array(
+                'amount'      => wc_format_decimal( $order->get_total(), 2 ),
+                'budget'      => wc_format_decimal( $order->get_total(), 2 ),
+                'description' => $description,
+            );
+
+            /* Complete the opportunity data */
+            $data = array_merge( $args, $more, $phase_information );
+
+            $output[] = $data;
+
+        }
 
 		return $output;
 
@@ -478,7 +517,7 @@ class CRMFWC_Contacts {
 
         $endpoint = 'Opportunity/CreateOrUpdate/';
 		$data     = $this->get_user_opportunities( $user_id, $remote_id, $cross_type );
-        error_log( 'DATA: ' . print_r( $data, true ) );
+        /* error_log( 'DATA: ' . print_r( $data, true ) ); */
 
 		if ( is_array( $data ) ) {
 
@@ -490,6 +529,8 @@ class CRMFWC_Contacts {
 				if ( ! $saved_opportunities || $order_id === $key ) {
 
 					if ( is_array( $value ) && ! empty( $value ) ) {
+
+                    error_log( 'OPPORTUNITY DATA: ' . print_r( $value, true ) );
 
                         update_post_meta( $key, $meta_key, 1 );
 
@@ -504,11 +545,11 @@ class CRMFWC_Contacts {
 
                                 /* Delete the old opportunity */
                                 $delete = $this->crmfwc_call->call( 'delete', 'Opportunity/' . $opportunity_id );
-                                error_log( 'DELETE: ' . print_r( $delete, true ) );
+                                /* error_log( 'DELETE: ' . print_r( $delete, true ) ); */
 
                             }
 
-                            error_log( 'ENDPOINT: ' . $endpoint );
+                            /* error_log( 'ENDPOINT: ' . $endpoint ); */
 							$response = $this->crmfwc_call->call( 'post', $endpoint, $val );
                             error_log( 'RESPONSE OPPORTUNITY: ' . print_r( $response, true ) );
 
