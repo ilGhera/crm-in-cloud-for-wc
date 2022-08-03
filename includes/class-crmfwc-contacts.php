@@ -62,11 +62,12 @@ class CRMFWC_Contacts {
 		$this->pending_payment_phase = $this->get_pending_payment_opportunity_phase();
 
 		/*Get options*/
-		$this->export_orders       = get_option( 'crmfwc-export-orders' );
-		$this->export_company      = get_option( 'crmfwc-export-company' );
-		$this->delete_company      = get_option( 'crmfwc-delete-company' );
-		$this->wc_export_orders    = get_option( 'crmfwc-wc-export-orders' );
-        $this->split_opportunities = get_option( 'crmfwc-wc-split-opportunities' );
+		$this->export_orders         = get_option( 'crmfwc-export-orders' );
+		$this->export_company        = get_option( 'crmfwc-export-company' );
+		$this->delete_company        = get_option( 'crmfwc-delete-company' );
+		$this->wc_export_orders      = get_option( 'crmfwc-wc-export-orders' );
+        $this->split_opportunities   = get_option( 'crmfwc-wc-split-opportunities' );
+        $this->company_opportunities = get_option( 'crmfwc-wc-company-opportunities' );
         
         /* error_log( 'ORDER STATUSES: ' . print_r( wc_get_order_types(), true ) ); */
 	}
@@ -377,9 +378,7 @@ class CRMFWC_Contacts {
 
         $output            = array();
         $phase_information = array();
-        $completed_date    = date_i18n( get_option( 'date_format' ), strtotime( $order->get_date_completed() ) );
         $title             = __( 'Order: ', 'crm-in-cloud-for-wc' ) . ' #' . $order->get_id();
-        /* $title            .= ' - ' . __( 'Date: ', 'crm-in-cloud-for-wc' ) . $completed_date; */
 
         /* Opportunity args */
         $args = array(
@@ -442,8 +441,6 @@ class CRMFWC_Contacts {
                 $separator = $description ? ' | ' : null;
                 $quantity     = 1 < $item->get_quantity() ? ' (' . $item->get_quantity() . ')' : '';
                 $description    .= isset( $item['name'] ) ? $separator . $item['name'] . $quantity : $title;
-                /* $description .= isset( $item['name'] ) ? $item['name'] . $quantity . "\r\n" : $description; */
-                /* $description    .= $separator . $title->get_name(); */
 
             }
 
@@ -898,7 +895,7 @@ class CRMFWC_Contacts {
 					$this->export_opportunities( $user_id, $response, 1, $order_id ); // temp.
 
 					/*Export company opportunities*/
-					if ( isset( $args['companyId'] ) ) {
+					if ( $this->company_opportunities && isset( $args['companyId'] ) ) {
 
 						$this->export_opportunities( $user_id, $args['companyId'], 0, $order_id );
 
