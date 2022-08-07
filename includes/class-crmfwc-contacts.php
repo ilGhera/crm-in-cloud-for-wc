@@ -41,6 +41,22 @@ class CRMFWC_Contacts {
 
 
 	/**
+	 * Create an opportunity for every single order item
+	 *
+	 * @var bool
+	 */
+	private $split_opportunities;
+
+
+	/**
+	 * Export opportunities for the company as well if it exists
+	 *
+	 * @var bool
+	 */
+	private $company_opportunities;
+
+
+	/**
 	 * Class constructor
 	 */
 	public function __construct() {
@@ -104,7 +120,7 @@ class CRMFWC_Contacts {
 	 * @param  array $array the array to sanitize.
 	 * @return array        the sanitized array.
 	 */
-	public function sanitize_array( $array ) {
+	public static function sanitize_array( $array ) {
 
 		$output = array();
 
@@ -677,7 +693,7 @@ class CRMFWC_Contacts {
 
 
 	/**
-	 * Prepare the single user data to export to Reviso
+	 * Prepare the single user data to export to CRM in Cloud
 	 *
 	 * @param  int    $user_id  the WP user id.
 	 * @param  object $order the WC order to get the customer details.
@@ -860,7 +876,7 @@ class CRMFWC_Contacts {
 
 
 	/**
-	 * Export single WP user to Reviso
+	 * Export single WP user to CRM in Cloud
 	 *
 	 * @param  int    $user_id the WP user id.
 	 * @param  object $order the WC order to get the customer details.
@@ -911,7 +927,7 @@ class CRMFWC_Contacts {
 
 
 	/**
-	 * Export WP users as customers/ suppliers in Reviso
+	 * Export WP users as customers/ suppliers in CRM in Cloud
 	 *
 	 * @return void
 	 */
@@ -920,7 +936,7 @@ class CRMFWC_Contacts {
 		if ( isset( $_POST['crmfwc-export-users-nonce'] ) && wp_verify_nonce( wp_unslash( $_POST['crmfwc-export-users-nonce'] ), 'crmfwc-export-users' ) ) {
 
 			/*Check options*/
-			$roles          = isset( $_POST['roles'] ) ? $this->sanitize_array( $_POST['roles'] ) : array();
+			$roles          = isset( $_POST['roles'] ) ? self::sanitize_array( $_POST['roles'] ) : array();
 			$export_company = isset( $_POST['export-company'] ) ? sanitize_text_field( wp_unslash( $_POST['export-company'] ) ) : 0;
 			$export_orders  = isset( $_POST['export-orders'] ) ? sanitize_text_field( wp_unslash( $_POST['export-orders'] ) ) : 0;
 
@@ -1124,7 +1140,7 @@ class CRMFWC_Contacts {
 
 
 	/**
-	 * Delete all customers/ suppliers in Reviso
+	 * Delete all customers/ suppliers in CRM in Cloud
 	 */
 	public function delete_remote_users() {
 
@@ -1186,4 +1202,5 @@ class CRMFWC_Contacts {
 	}
 
 }
-new CRMFWC_Contacts( true );
+new CRMFWC_Contacts();
+

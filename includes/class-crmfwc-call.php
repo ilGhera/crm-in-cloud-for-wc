@@ -125,6 +125,8 @@ class CRMFWC_Call {
 
 			if ( isset( $output->error ) || isset( $output->message ) ) {
 
+                error_log( 'ENDPOINT: ' . $endpoint );
+                error_log( 'ARGS: ' . print_r( $args, true ) );
 				error_log( 'CRMFWC | ERROR: ' . print_r( $output, true ) );
 
 			}
