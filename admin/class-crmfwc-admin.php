@@ -40,6 +40,7 @@ class CRMFWC_Admin {
 		$export_users_nonce    = wp_create_nonce( 'crmfwc-export-users' );
 		$delete_users_nonce    = wp_create_nonce( 'crmfwc-delete-users' );
 		$export_products_nonce = wp_create_nonce( 'crmfwc-export-products' );
+		$delete_products_nonce = wp_create_nonce( 'crmfwc-delete-products' );
 
 		wp_localize_script(
 			'crmfwc-js',
@@ -48,6 +49,7 @@ class CRMFWC_Admin {
 				'exportUsersNonce'    => $export_users_nonce,
 				'deleteUsersNonce'    => $delete_users_nonce,
 				'exportProductsNonce' => $export_products_nonce,
+				'deleteProductsNonce' => $delete_products_nonce,
 				'responseLoading'     => CRMFWC_URI . 'images/loader.gif',
 			)
 		);
