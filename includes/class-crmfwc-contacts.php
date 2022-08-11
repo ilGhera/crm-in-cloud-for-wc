@@ -70,8 +70,9 @@ class CRMFWC_Contacts {
 		add_action( 'woocommerce_thankyou', array( $this, 'wc_order_callback' ), 10, 1 );
 		add_action( 'woocommerce_order_status_completed', array( $this, 'wc_order_callback' ), 10, 1 );
 
-		/*Class call instance*/
+		/*Classes instance*/
 		$this->crmfwc_call = new CRMFWC_Call();
+        $this->products    = new CRMFWC_Products();
 
 		/*Get the complete phase to use with orders as opportunities*/
 		$this->completed_phase       = $this->get_completed_opportunity_phase();
@@ -85,7 +86,6 @@ class CRMFWC_Contacts {
         $this->split_opportunities   = get_option( 'crmfwc-wc-split-opportunities' );
         $this->company_opportunities = get_option( 'crmfwc-wc-company-opportunities' );
         
-        /* error_log( 'ORDER STATUSES: ' . print_r( wc_get_order_types(), true ) ); */
 	}
 
 
@@ -93,6 +93,7 @@ class CRMFWC_Contacts {
 	 * Increase the time limit for porocessing the actions
 	 *
 	 * @param  int $time_limit the time limit in seconds.
+     *
 	 * @return int the updated time
 	 */
 	public function eg_increase_time_limit( $time_limit ) {
@@ -106,6 +107,7 @@ class CRMFWC_Contacts {
 	 * Increase the number of actions executed in a single process
 	 *
 	 * @param  int $batch_size the number of actions.
+     *
 	 * @return int the number updated
 	 */
 	public function eg_increase_action_scheduler_batch_size( $batch_size ) {
@@ -118,6 +120,7 @@ class CRMFWC_Contacts {
 	 * Sanitize every single array element
 	 *
 	 * @param  array $array the array to sanitize.
+     *
 	 * @return array        the sanitized array.
 	 */
 	public static function sanitize_array( $array ) {
@@ -142,6 +145,7 @@ class CRMFWC_Contacts {
 	 * Check if a company exists in CRM in Cloud
 	 *
 	 * @param  int $id the company id in CRM in Cloud.
+     *
 	 * @return bool
 	 */
 	private function company_exists( $id = null ) {
@@ -171,6 +175,7 @@ class CRMFWC_Contacts {
 	 * @param  int    $user_id the WP user id.
 	 * @param  array  $args    the  company data.
 	 * @param  string $company_name the company name.
+     *
 	 * @return int    the CRM in Cloud company id
 	 */
 	private function export_single_company( $user_id, $args, $company_name = null ) {
@@ -209,6 +214,7 @@ class CRMFWC_Contacts {
 	 * Get customers and suppliers from CRM in Cloud
 	 *
 	 * @param int $id the specific CRM in Cloud customer to get.
+     *
 	 * @return array
 	 */
 	public function get_remote_users( $id = null ) {
@@ -388,6 +394,7 @@ class CRMFWC_Contacts {
 	 * @param  object $order      the WC order.
 	 * @param  int    $remote_id  the CRM in Cloud user id.
 	 * @param  bool   $cross_type export opportunities to company (0) or contact (1).
+     *
 	 * @return array the opportunities data
 	 */
 	public function get_single_order_opportunities( $order, $remote_id = null, $cross_type = 0 ) {
@@ -430,15 +437,19 @@ class CRMFWC_Contacts {
 
             foreach ( $order->get_items() as $item_id => $item ) {
 
-                $quantity = 1 < $item->get_quantity() ? ' (' . $item->get_quantity() . ')' : '';
+                $quantity          = 1 < $item->get_quantity() ? ' (' . $item->get_quantity() . ')' : '';
+                $remote_product_id = $this->products->get_remote_product_id( $item->get_product_id(), true );
+
 
                 /* Add specific information about the order item */
                 $more = array(
                     'amount'      => wc_format_decimal( $order->get_item_total( $item, false, false ), 2 ),
                     'budget'      => wc_format_decimal( $order->get_item_total( $item, false, false ), 2 ) * $item->get_quantity(),
                     'description' => $item['name'] . $quantity,
+                    'products'    => array(
+                        $this->products->prepare_opportunity_product_data( $remote_product_id, $item->get_quantity() ),
+                    ),
                 );
-
 
                 /* Complete the opportunity data */
                 $data = array_merge( $args, $more, $phase_information );
@@ -450,13 +461,16 @@ class CRMFWC_Contacts {
         } else {
 
             $description = null;
+            $products    = array();
 
             /* Get the items products names */
             foreach ( $order->get_items() as $item_id => $item ) {
 
-                $separator = $description ? ' | ' : null;
-                $quantity     = 1 < $item->get_quantity() ? ' (' . $item->get_quantity() . ')' : '';
-                $description    .= isset( $item['name'] ) ? $separator . $item['name'] . $quantity : $title;
+                $remote_product_id = $this->products->get_remote_product_id( $item->get_product_id(), true );
+                $products[]        = $this->products->prepare_opportunity_product_data( $remote_product_id, $item->get_quantity() );
+                $separator         = $description ? ' | ' : null;
+                $quantity          = 1 < $item->get_quantity() ? ' (' . $item->get_quantity() . ')' : '';
+                $description      .= isset( $item['name'] ) ? $separator . $item['name'] . $quantity : $title;
 
             }
 
@@ -464,6 +478,7 @@ class CRMFWC_Contacts {
                 'amount'      => wc_format_decimal( $order->get_total(), 2 ),
                 'budget'      => wc_format_decimal( $order->get_total(), 2 ),
                 'description' => $description,
+                'products'    => $products,
             );
 
             /* Complete the opportunity data */
@@ -484,6 +499,7 @@ class CRMFWC_Contacts {
 	 * @param  int  $user_id    the WP user id.
 	 * @param  int  $remote_id  the CRM in Cloud user id.
 	 * @param  bool $cross_type export opportunities to company (0) or contact (1).
+     *
 	 * @return array the opportunities data
 	 */
 	private function get_user_opportunities( $user_id, $remote_id, $cross_type = 0 ) {
@@ -524,6 +540,7 @@ class CRMFWC_Contacts {
 	 * @param int  $remote_id the CRM in Cloud user id.
 	 * @param bool $cross_type export opportunities to company (0) or contact (1).
      * @param int
+     *
 	 * @return void
 	 */
 	private function export_opportunities( $user_id, $remote_id, $cross_type = 0, $order_id = null ) {
@@ -589,6 +606,7 @@ class CRMFWC_Contacts {
 	 * Check if a contact exists in CRM in Cloud
 	 *
 	 * @param  int $id the id user in CRM in Cloud.
+     *
 	 * @return bool
 	 */
 	private function user_exists( $id = null ) {
@@ -617,6 +635,7 @@ class CRMFWC_Contacts {
 	 *
 	 * @param  string $field the field to retrieve.
 	 * @param  bool   $order_meta prepend an undescore if true.
+     *
 	 * @return string the meta_key that will be used to get data from the db
 	 */
 	public function get_tax_field_name( $field, $order_meta = false ) {
@@ -697,6 +716,7 @@ class CRMFWC_Contacts {
 	 *
 	 * @param  int    $user_id  the WP user id.
 	 * @param  object $order the WC order to get the customer details.
+     *
 	 * @return array
 	 */
 	public function prepare_user_data( $user_id = 0, $order = null ) {
@@ -880,6 +900,7 @@ class CRMFWC_Contacts {
 	 *
 	 * @param  int    $user_id the WP user id.
 	 * @param  object $order the WC order to get the customer details.
+     *
 	 * @return void
 	 */
 	public function export_single_user( $user_id = 0, $order = null ) {
@@ -996,6 +1017,7 @@ class CRMFWC_Contacts {
 	 * Search contact on CRM in Cloud by email
 	 *
 	 * @param  string $email the contact email.
+     *
 	 * @return int the remote contact id
 	 */
 	public function search_remote_contact( $email ) {
@@ -1014,6 +1036,7 @@ class CRMFWC_Contacts {
 	 * Search company on CRM in Cloud by company name
 	 *
 	 * @param  string $company_name the company name.
+     *
 	 * @return int the remote company id
 	 */
 	public function search_remote_company( $company_name ) {
@@ -1033,6 +1056,7 @@ class CRMFWC_Contacts {
 	 * Export user and his opportunities when a WC order is completed
 	 *
 	 * @param  int $order_id the WC order.
+     *
 	 * @return void
 	 */
 	public function wc_order_callback( $order_id ) {
@@ -1059,6 +1083,7 @@ class CRMFWC_Contacts {
 	 * Delete CRM in cloud contact id and company id from the db
 	 *
 	 * @param  int $id the CRM in Cloud contact id.
+     *
 	 * @return void
 	 */
 	public function delete_remote_id( $id ) {

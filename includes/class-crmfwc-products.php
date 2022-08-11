@@ -11,44 +11,95 @@ class CRMFWC_Products {
 	/**
 	 * Class constructor
 	 */
-	public function __construct() {
+	public function __construct( $init = false ) {
 
-		/*Class call instance*/
-		$this->crmfwc_call = new CRMFWC_Call();
+        /*Class call instance*/
+        $this->crmfwc_call = new CRMFWC_Call();
 
-        /* $this->get_remote_products(); */
-        /* $this->get_remote_products_cats(); */
+        if ( $init ) {
 
-		add_action( 'wp_ajax_export-products', array( $this, 'export_products' ) );
-		add_action( 'crmfwc_export_single_product_event', array( $this, 'export_single_product' ), 10, 1 );
-        add_action( 'save_post_product', array( $this, 'export_single_product' ), 10, 1 );
-        add_action( 'saved_term', array( $this, 'export_single_product_cat' ), 10, 1 );
-		add_action( 'wp_ajax_delete-remote-products', array( $this, 'delete_remote_products' ) );
-		add_action( 'crmfwc_delete_remote_single_product_event', array( $this, 'delete_remote_single_product' ), 10, 1 );
+            /* $this->get_remote_products(); */
+            /* $this->get_remote_products_cats(); */
+            /* $this->get_remote_tax_codes(); */
+
+            add_action( 'wp_ajax_export-products', array( $this, 'export_products' ) );
+            add_action( 'crmfwc_export_single_product_event', array( $this, 'export_single_product' ), 10, 1 );
+            add_action( 'save_post_product', array( $this, 'export_single_product' ), 10, 1 );
+            add_action( 'saved_term', array( $this, 'export_single_product_cat' ), 10, 1 );
+            add_action( 'wp_ajax_delete-remote-products', array( $this, 'delete_remote_products' ) );
+            add_action( 'crmfwc_delete_remote_single_product_event', array( $this, 'delete_remote_single_product' ), 10, 1 );
+
+        }
 
     }
 
-    public function get_remote_products() {
+
+    /**
+     * Get all the products from CRM in Cloud
+     *
+     * @param int $remote_id the remote product id.
+     *
+'     * @return array the remote products IDs
+     */
+    public function get_remote_products( $remote_id = null ) {
         
         $response = $this->crmfwc_call->call( 'get', 'Catalog' );
         /* error_log( 'REMOTE PRODUCTS: ' . print_r( $response, true ) ); */
-
-        if ( is_array( $response ) ) {
-
-            foreach ( $response as $id ) {
-
-                $prod = $this->crmfwc_call->call( 'get', 'Catalog/' . $id );
-                /* error_log( 'REMOTE PROD.: ' . print_r( $prod, true ) ); */
-
-            }
-
-        }
 
         return $response;
 
     }
 
 
+    /**
+     * Prepare the product data to export with the opportunity 
+     *
+     * @param int $remote_id the remote product ID.
+     * @param int $qta       the item quantity in the order.
+     *
+     * @return object
+     */
+    public function prepare_opportunity_product_data( $remote_id, $qta = 1 ) {
+
+        $output  = null;
+        $product = $this->crmfwc_call->call( 'get', 'Catalog/' . $remote_id );
+ 
+        if ( is_object( $product ) && isset( $product->id ) ) {
+
+            $output = array(
+                    'active'               => 1,
+                    'productId'            => $product->id,
+                    'productName'          => $product->productName,
+                    'productPrice'         => $product->price,
+                    'productQta'           => $qta,
+                    'productTaxableAmount' => $product->price,
+                    /* 'discountFormula' => */ 
+                    /* 'id'        => */ 
+                    /* 'productUm' => */ 
+                    /* 'productUmId' => 0 */
+            );
+
+            /* Taxable amount based on the WC options */
+            $taxable_amount = $product->price;
+
+            if ( get_option( 'woocommerce_prices_include_tax' ) ) {
+
+            }
+
+            $output['productTaxableAmount'] = $taxable_amount;
+
+        }
+
+        return $output;
+
+    }
+
+
+    /**
+     * Get all the products categories from CRM in Cloud
+     *
+     * @return array
+     */
     public function get_remote_products_cats() {
         
         $response = $this->crmfwc_call->call( 'get', 'CatalogCategories' );
@@ -84,7 +135,36 @@ class CRMFWC_Products {
 
     }
 
+    
+    /**
+     * Check if a WC product was already exported
+     *
+     * @param int  $product_id the WC product id.
+     * @param bool $export     add the product to CRM in cloud if necessary.
+     *
+     * @return int the remote product id
+     */
+    public function get_remote_product_id( $product_id, $export = false ) {
 
+        $remote_product_id = get_post_meta( $product_id, 'crmfwc-remote-id', true );
+
+        /* Export the product if necessary */
+        if ( ! $remote_product_id && $export ) {
+
+            $remote_product_id = $this->export_single_product( $product_id );
+
+        }
+
+        return $remote_product_id;
+
+    }
+
+
+    /**
+     * Export a dingle product category to CRM in Cloud
+     *
+     * @return int the remote cat id
+     */
     public function export_single_product_cat( $term_id, $update = true ) {
 
         /* Get the term */
@@ -174,6 +254,13 @@ class CRMFWC_Products {
     }
 
 
+    /**
+     * Export a list of products categories
+     *
+     * @param array $cat_ids the WC product categories IDs.
+     *
+     * $return array the remote cats IDs
+     */
     public function export_product_cats( $cat_ids ) {
 
         $output = array();
@@ -193,6 +280,156 @@ class CRMFWC_Products {
     }
 
 
+    /**
+     * Get the tax values from CRM in Cloud
+     *
+     * @return array
+     */
+    public function get_remote_tax_codes() {
+
+        $output    = array();
+        $transient = get_transient( 'crmfwc-remote-tax-codes' );
+
+        if ( $transient ) {
+
+            error_log( 'TRANSIENT: ' . print_r( $transient, true ) );
+            $output = $transient;
+
+        } else {
+
+            $response = $this->crmfwc_call->call( 'get', 'TaxValue' );
+            error_log( 'TAX VALUES: ' . print_r( $response, true ) );
+
+            if ( is_array( $response ) ) {
+
+                foreach ( $response as $code ) {
+                    
+                    $tax = $this->crmfwc_call->call( 'get', 'TaxValue/' . $code );
+                    error_log( 'TAX: ' . print_r( $tax, true ) );
+
+                    if ( is_object( $tax ) && isset( $tax->taxCode ) ) {
+
+                        $output[ $tax->taxValue ] = $tax->taxCode;
+
+                    }
+                }
+
+                set_transient( 'crmfwc-remote-tax-codes', $output, DAY_IN_SECONDS );
+
+            }
+
+        }
+
+        return $output;
+
+    }
+
+
+    /**
+     * Add a new tax code to CRM in Cloud
+     *
+     * @param int @tax_rate the product tax rate.
+     *
+     * @return int the tax code
+     */
+    private function add_remote_tax_code( $tax_rate ) {
+
+        $args = array(
+            'active'         => 1,
+            'taxValue'       => $tax_rate,
+            'taxCode'        => $tax_rate,
+            'taxDescription' => sprintf( __( 'Taxable %d%%', 'crm-in-cloud-for-wc' ), $tax_rate ),
+        );
+
+        $response = $this->crmfwc_call->call( 'post', 'TaxValue', $args );
+        error_log( 'ADD NEW TAX CODE: ' . print_r( $response, true ) );
+
+        if ( is_int( $response ) ) {
+
+            delete_transient( 'crmfwc-remote-tax-codes' );
+
+            return $tax_rate;
+
+        }
+
+    }
+
+
+    /**
+	 * Get the product tax rate 
+	 *
+	 * @param  int $product_id the WC product ID.
+     *
+	 * @return int
+	 */
+	private function get_tax_rate( $product_id  ) {
+
+		$output = 'FC';
+
+		if ( 'yes' === get_option( 'woocommerce_calc_taxes' ) ) {
+
+			$output            = 0;
+			$tax_status        = get_post_meta( $product_id, '_tax_status', true );
+			$parent_id         = wp_get_post_parent_id( $product_id );
+			$parent_tax_status = $parent_id ? get_post_meta( $parent_id, '_tax_status', true ) : '';
+
+			if ( 'taxable' == $tax_status || ( '' == $tax_status && 'taxable' === $parent_tax_status ) ) {
+
+				/* Null with VAT 22 */
+				$tax_class = $tax_status ? get_post_meta( $product_id, '_tax_class', true ) : get_post_meta( $parent_id, '_tax_class', true );
+
+				if ( 'parent' === $tax_class && 'taxable' === $parent_tax_status ) {
+                    
+					$tax_class = get_post_meta( $parent_id, '_tax_class', true );
+
+				}
+
+				global $wpdb;
+
+				$query = "SELECT tax_rate, tax_rate_name FROM " . $wpdb->prefix . "woocommerce_tax_rates WHERE tax_rate_class = '" . $tax_class . "'";
+
+				$results = $wpdb->get_results( $query, ARRAY_A );
+
+				if ( $results ) {
+
+					$output = intval( $results[0]['tax_rate'] );
+
+				}
+			}
+		}
+		
+		return $output;
+
+	}
+
+
+    /**
+     * Get the remote tax code corresponding to the product tax rat
+     *
+	 * @param  int $product_id the WC product ID.
+     *
+     * @return int the tax code
+     */
+    private function get_remote_tax_code( $product_id ) {
+
+        $tax_rate  = $this->get_tax_rate( $product_id );
+        $tax_codes = $this->get_remote_tax_codes();
+
+        if ( isset( $tax_codes[ $tax_rate ] ) ) {
+
+            $output = $tax_codes[ $tax_rate ];
+
+        } else {
+
+            $output = $this->add_remote_tax_code( $tax_rate );
+
+        }
+
+        return $output;
+
+    }
+
+
 	/**
 	 * Export single WP product to CRM in Cloud
 	 *
@@ -203,8 +440,15 @@ class CRMFWC_Products {
 	public function export_single_product( $product_id ) {
 
         $product   = wc_get_product( $product_id );
+
+        if ( ! is_object( $product ) ) {
+            
+            return;
+
+        }
+
         $remote_id = get_post_meta( $product_id, 'crmfwc-remote-id', true );
-        error_log( 'PRODUCT: ' . print_r( $product, true ) );
+        /* error_log( 'PRODUCT: ' . print_r( $product, true ) ); */
 
         /* Delete the product in CRM in Cloud */
         if ( 'trash' === $product->get_status() ) {
@@ -217,12 +461,12 @@ class CRMFWC_Products {
         }
 
         $args = array(
-            'active'  => 1,
-            'code'    => $product->get_sku(),
-            'codeEAN' => $product->get_sku(),
+            'active'      => 1,
+            'code'        => $product->get_sku(),
+            'codeEAN'     => $product->get_sku(),
             'description' => $product->get_description(),
             'productName' => $product->get_title(),
-            'taxCode'     => 22,
+            'taxCode'     => $this->get_remote_tax_code( $product_id ), 
             'price'       => $product->get_price(),
         );
 
@@ -364,6 +608,8 @@ class CRMFWC_Products {
 
 	/**
 	 * Delete all customers/ suppliers in CRM in Cloud
+     *
+     * @return void
 	 */
 	public function delete_remote_products() {
 
@@ -422,5 +668,5 @@ class CRMFWC_Products {
 	}
 
 }
-new CRMFWC_Products();
+new CRMFWC_Products( true );
 
