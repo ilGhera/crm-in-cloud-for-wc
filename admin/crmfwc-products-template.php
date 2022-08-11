@@ -17,7 +17,7 @@ $products_cats = get_option( 'crmfwc-products-cats' );
 
 	<table class="form-table">
 		<tr>
-			<th scope="row"><?php echo esc_html_e( 'User categories', 'crm-in-cloud-for-wc' ); ?></th>
+			<th scope="row"><?php echo esc_html_e( 'Products categories', 'crm-in-cloud-for-wc' ); ?></th>
 			<td>
 				<select class="crmfwc-products-cats crmfwc-select" name="crmfwc-products-cats[]" multiple>
 					<?php

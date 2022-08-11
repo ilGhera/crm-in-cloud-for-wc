@@ -560,13 +560,13 @@ class CRMFWC_Contacts {
 
 					if ( is_array( $value ) && ! empty( $value ) ) {
 
-                    error_log( 'OPPORTUNITY DATA: ' . print_r( $value, true ) );
+                    /* error_log( 'OPPORTUNITY DATA: ' . print_r( $value, true ) ); */
 
                         update_post_meta( $key, $meta_key, 1 );
 
 						foreach ( $value as $k => $val ) {
 
-                            error_log( 'OPPORTUNITY: ' . print_r( $val, true ) );
+                            /* error_log( 'OPPORTUNITY: ' . print_r( $val, true ) ); */
 
                             if ( $order_id === $key && isset( $val['status'] ) && 3 === $val['status'] ) {
 
@@ -581,7 +581,7 @@ class CRMFWC_Contacts {
 
                             /* error_log( 'ENDPOINT: ' . $endpoint ); */
 							$response = $this->crmfwc_call->call( 'post', $endpoint, $val );
-                            error_log( 'RESPONSE OPPORTUNITY: ' . print_r( $response, true ) );
+                            /* error_log( 'RESPONSE OPPORTUNITY: ' . print_r( $response, true ) ); */
 
                             if ( is_int( $response ) ) {
 

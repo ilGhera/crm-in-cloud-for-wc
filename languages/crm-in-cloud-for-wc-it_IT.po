@@ -5,8 +5,8 @@ msgstr ""
 "Project-Id-Version: CRM in Cloud for WooCommerce - Premium 0.9.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/crm-in-cloud-for-"
 "wc\n"
-"POT-Creation-Date: 2022-07-29 16:27+0200\n"
-"PO-Revision-Date: 2022-07-29 16:27+0200\n"
+"POT-Creation-Date: 2022-08-11 16:04+0200\n"
+"PO-Revision-Date: 2022-08-11 16:07+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: it_IT\n"
@@ -20,27 +20,27 @@ msgstr ""
 "X-Poedit-KeywordsList: _;__;esc_html_e;esc_html__\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: admin/class-crmfwc-admin.php:80
+#: admin/class-crmfwc-admin.php:84
 msgid "It seems like you don't have permission to see this page"
 msgstr "Sembra che tu non abbia il permesso di visualizzare questa pagina"
 
-#: admin/class-crmfwc-admin.php:92
+#: admin/class-crmfwc-admin.php:96
 msgid "ATTENTION! It seems like Woocommerce is not installed."
 msgstr "ATTENZIONE! Sembra che WooCommerce non sia installato."
 
-#: admin/class-crmfwc-admin.php:101
+#: admin/class-crmfwc-admin.php:105
 msgid "CRM in Cloud for WooCommerce - Premium"
 msgstr ""
 
-#: admin/class-crmfwc-admin.php:116
+#: admin/class-crmfwc-admin.php:120
 msgid "Premium Key"
 msgstr ""
 
-#: admin/class-crmfwc-admin.php:117
+#: admin/class-crmfwc-admin.php:121
 msgid "Add your Premium Key"
 msgstr "Aggiungi la tua Premium Key"
 
-#: admin/class-crmfwc-admin.php:118
+#: admin/class-crmfwc-admin.php:122
 msgid ""
 "Add your Premium Key and keep updated your copy of CRM in Cloud for "
 "WooCommerce."
@@ -48,19 +48,23 @@ msgstr ""
 "Aggiungi la tua Premium Key e mantieni aggiornato CRM in Cloud for "
 "WooCommerce."
 
-#: admin/class-crmfwc-admin.php:120 admin/crmfwc-wc-template.php:37
+#: admin/class-crmfwc-admin.php:124 admin/crmfwc-wc-template.php:58
 msgid "Save"
 msgstr "Salva"
 
-#: admin/class-crmfwc-admin.php:126
+#: admin/class-crmfwc-admin.php:130
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: admin/class-crmfwc-admin.php:127
+#: admin/class-crmfwc-admin.php:131
 msgid "Contacts"
 msgstr "Contatti"
 
-#: admin/class-crmfwc-admin.php:128
+#: admin/class-crmfwc-admin.php:132
+msgid "Products"
+msgstr "Prodotti"
+
+#: admin/class-crmfwc-admin.php:133
 msgid "WooCommerce"
 msgstr ""
 
@@ -80,7 +84,7 @@ msgstr "Esporta azienda"
 msgid "Export the company if present in the user profile"
 msgstr "Esporta l'azienda se presente nel profilo dell'utente"
 
-#: admin/crmfwc-contacts-template.php:52 admin/crmfwc-wc-template.php:26
+#: admin/crmfwc-contacts-template.php:52 admin/crmfwc-wc-template.php:33
 msgid "Export orders"
 msgstr "Esporta ordini"
 
@@ -88,7 +92,7 @@ msgstr "Esporta ordini"
 msgid "Export user orders as opportunities in CRM in Cloud"
 msgstr "Esporta gli ordini dell'utente come opportunità in CRM in Cloud"
 
-#: admin/crmfwc-contacts-template.php:61
+#: admin/crmfwc-contacts-template.php:61 admin/crmfwc-products-template.php:43
 msgid "Export to CRM in Cloud"
 msgstr "Esporta in CRM in Cloud"
 
@@ -108,9 +112,26 @@ msgstr "Cancella azienda"
 msgid "Delete the company linked to the contact in CRM in Cloud"
 msgstr "Cancella l'azienda collegata al contatto in CRM in Cloud"
 
-#: admin/crmfwc-contacts-template.php:86
+#: admin/crmfwc-contacts-template.php:86 admin/crmfwc-products-template.php:61
 msgid "Delete from CRM in Cloud"
 msgstr "Cancella da CRM in Cloud"
+
+#: admin/crmfwc-products-template.php:20
+msgid "Products categories"
+msgstr "Categorie prodotti"
+
+#: admin/crmfwc-products-template.php:36
+msgid "Select the product categories to export to CRM in Cloud"
+msgstr ""
+"Seleziona una o più categorie di prodotti da esportare verso CRM in Cloud"
+
+#: admin/crmfwc-products-template.php:53
+msgid "Delete products"
+msgstr "Cancella prodotti"
+
+#: admin/crmfwc-products-template.php:55
+msgid "Delete all products on CRM in Cloud"
+msgstr "Cancella tutti i prodotti presenti in CRM in Cloud"
 
 #: admin/crmfwc-settings-template.php:21
 msgid "Connect"
@@ -132,9 +153,25 @@ msgstr "Connettiti a CRM in Cloud utilizzando le tue credenziali"
 msgid "Connect to CRM in Cloud"
 msgstr "Connessione a CRM in Cloud"
 
-#: admin/crmfwc-wc-template.php:29
+#: admin/crmfwc-wc-template.php:36
 msgid "Export new orders as opportunities in CRM in Cloud"
 msgstr "Esporta nuovi ordini come opportunità in CRM in Cloud"
+
+#: admin/crmfwc-wc-template.php:40
+msgid "Split opportunities"
+msgstr ""
+
+#: admin/crmfwc-wc-template.php:43
+msgid "Create an opportunity for every single order item"
+msgstr ""
+
+#: admin/crmfwc-wc-template.php:47
+msgid "Export company opportunities"
+msgstr "Esporta opportunità per le aziende"
+
+#: admin/crmfwc-wc-template.php:50
+msgid "Export opportunities for the company as well if it exists"
+msgstr ""
 
 #: crm-in-cloud-for-wc.php:25
 msgid "WARNING! CRM in Cloud for WC requires WooCommerce to be activated."
@@ -142,36 +179,55 @@ msgstr ""
 "ATTENZIONE! CRM in Cloud richiede che WooCommerce sia attivo per essere "
 "utilizzato."
 
-#: includes/class-crmfwc-contacts.php:246
-#: includes/class-crmfwc-contacts.php:294
+#: includes/class-crmfwc-contacts.php:270
+#: includes/class-crmfwc-contacts.php:318
 msgid "Pending payment"
 msgstr "In attesa di pagamento"
 
-#: includes/class-crmfwc-contacts.php:383
+#: includes/class-crmfwc-contacts.php:404
 msgid "Order: "
 msgstr "Ordine: "
 
-#: includes/class-crmfwc-contacts.php:384
-msgid "Date: "
-msgstr "Data: "
-
-#: includes/class-crmfwc-contacts.php:888
+#: includes/class-crmfwc-contacts.php:995
 #, php-format
 msgid "%1$d contact(s) export process has begun"
 msgstr "Il processo di esportazione di %1$d contatti è iniziato"
 
-#: includes/class-crmfwc-contacts.php:895
+#: includes/class-crmfwc-contacts.php:1002
 msgid "No contacts to export"
 msgstr "Nessun contatto da esportare"
 
-#: includes/class-crmfwc-contacts.php:1096
+#: includes/class-crmfwc-contacts.php:1207
 #, php-format
 msgid "%1$d users(s) delete process has begun"
 msgstr "Il processo di cancellazione di %1$d contatti è iniziato"
 
-#: includes/class-crmfwc-contacts.php:1105
+#: includes/class-crmfwc-contacts.php:1216
 msgid "ERROR! There are not users to delete"
 msgstr "ERRORE! Non ci sono contatti da eliminare"
+
+#: includes/class-crmfwc-products.php:341
+#, php-format
+msgid "Taxable %d%%"
+msgstr ""
+
+#: includes/class-crmfwc-products.php:569
+#, php-format
+msgid "%1$d product(s) export process has begun"
+msgstr "Il processo di esportazione di %1$d prodotti è iniziato"
+
+#: includes/class-crmfwc-products.php:576
+msgid "No products to export"
+msgstr "Nessun prodotto da esportare"
+
+#: includes/class-crmfwc-products.php:648
+#, php-format
+msgid "%1$d products(s) delete process has begun"
+msgstr "Il processo di cancellazione di %1$d prodotti è iniziato"
+
+#: includes/class-crmfwc-products.php:657
+msgid "ERROR! There are not products to delete"
+msgstr "ERRORE! Non ci sono prodotti da eliminare"
 
 #: includes/class-crmfwc-settings.php:160
 msgid "Disconnect from CRM in Cloud"
@@ -798,6 +854,9 @@ msgstr ""
 #: plugin-update-checker/Puc/v4p11/Vcs/PluginUpdateChecker.php:100
 msgid "There is no changelog available."
 msgstr ""
+
+#~ msgid "Date: "
+#~ msgstr "Data: "
 
 #~ msgid ""
 #~ "Synchronize your WordPress/ WooCommerce site with CRM in Cloud exporting "

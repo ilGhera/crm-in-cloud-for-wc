@@ -103,14 +103,14 @@ class CRMFWC_Products {
     public function get_remote_products_cats() {
         
         $response = $this->crmfwc_call->call( 'get', 'CatalogCategories' );
-        error_log( 'REMOTE PRODUCTS CATS: ' . print_r( $response, true ) );
+        /* error_log( 'REMOTE PRODUCTS CATS: ' . print_r( $response, true ) ); */
 
         if ( is_array( $response ) ) {
 
             foreach ( $response as $id ) {
 
                 $cat = $this->crmfwc_call->call( 'get', 'CatalogCategories/' . $id );
-                error_log( 'REMOTE PROD. CAT: ' . print_r( $cat, true ) );
+                /* error_log( 'REMOTE PROD. CAT: ' . print_r( $cat, true ) ); */
 
             }
 
@@ -129,7 +129,7 @@ class CRMFWC_Products {
     private function remote_product_exists( $remote_id ) {
 
         $response = $this->crmfwc_call->call( 'get', 'Catalog/' . $remote_id . '/Exists');
-        error_log( 'EXISTS: ' . $response );
+        /* error_log( 'EXISTS: ' . $response ); */
 
         return $response;
 
@@ -170,8 +170,8 @@ class CRMFWC_Products {
         /* Get the term */
         $term                 = get_term( $term_id, 'product_cat' );
         $remote_products_cats = get_option( 'crmfwc-remote-products-cats' ) ? get_option( 'crmfwc-remote-products-cats' ) : array();
-        error_log( 'REMOTE PRODUCTS CATS: ' . print_r( $remote_products_cats, true ) );
-        error_log( 'TERM SLUG: ' . $term->slug );
+        /* error_log( 'REMOTE PRODUCTS CATS: ' . print_r( $remote_products_cats, true ) ); */
+        /* error_log( 'TERM SLUG: ' . $term->slug ); */
 
         if ( is_object( $term ) && isset( $term->slug ) ) {
                 
@@ -179,7 +179,7 @@ class CRMFWC_Products {
 
             if ( $remote_cat_id && ! $update ) {
 
-                error_log( 'CAT EXISTS!' );
+                /* error_log( 'CAT EXISTS!' ); */
 
                 /* Output directly if already in the db */
                 return $remote_cat_id;
@@ -189,7 +189,7 @@ class CRMFWC_Products {
                 if ( $remote_cat_id && $update ) {
 
                     $delete = $this->crmfwc_call->call( 'delete', 'CatalogCategories/' . $remote_cat_id );
-                    error_log( 'DELETE REMOTE CAT: ' . print_r( $delete, true ) );
+                    /* error_log( 'DELETE REMOTE CAT: ' . print_r( $delete, true ) ); */
 
                 }
 
@@ -292,20 +292,20 @@ class CRMFWC_Products {
 
         if ( $transient ) {
 
-            error_log( 'TRANSIENT: ' . print_r( $transient, true ) );
+            /* error_log( 'TRANSIENT: ' . print_r( $transient, true ) ); */
             $output = $transient;
 
         } else {
 
             $response = $this->crmfwc_call->call( 'get', 'TaxValue' );
-            error_log( 'TAX VALUES: ' . print_r( $response, true ) );
+            /* error_log( 'TAX VALUES: ' . print_r( $response, true ) ); */
 
             if ( is_array( $response ) ) {
 
                 foreach ( $response as $code ) {
                     
                     $tax = $this->crmfwc_call->call( 'get', 'TaxValue/' . $code );
-                    error_log( 'TAX: ' . print_r( $tax, true ) );
+                    /* error_log( 'TAX: ' . print_r( $tax, true ) ); */
 
                     if ( is_object( $tax ) && isset( $tax->taxCode ) ) {
 
@@ -342,7 +342,7 @@ class CRMFWC_Products {
         );
 
         $response = $this->crmfwc_call->call( 'post', 'TaxValue', $args );
-        error_log( 'ADD NEW TAX CODE: ' . print_r( $response, true ) );
+        /* error_log( 'ADD NEW TAX CODE: ' . print_r( $response, true ) ); */
 
         if ( is_int( $response ) ) {
 
@@ -454,7 +454,7 @@ class CRMFWC_Products {
         if ( 'trash' === $product->get_status() ) {
 
             $delete = $this->delete_remote_single_product( $remote_id );
-            error_log( 'YES DELETE: ' . print_r( $delete, true ) );
+            /* error_log( 'YES DELETE: ' . print_r( $delete, true ) ); */
 
             return;
 
@@ -471,29 +471,29 @@ class CRMFWC_Products {
         );
 
         $cat_ids = $product->get_category_ids();
-        error_log( 'CAT IDS: ' . print_r( $cat_ids, true ) );
+        /* error_log( 'CAT IDS: ' . print_r( $cat_ids, true ) ); */
 
         /* Add categories to CRM in Cloud */
         $remote_cats = $this->export_product_cats( $cat_ids );
-        error_log( 'REMOTE CATS 2: ' . print_r( $remote_cats, true ) );
+        /* error_log( 'REMOTE CATS 2: ' . print_r( $remote_cats, true ) ); */
 
         if ( is_array( $remote_cats ) && isset( $remote_cats[0] ) ) {
 
             $args['category'] = $remote_cats[0];
         }
-        error_log( 'EXPORT ARGS: ' . print_r( $args, true ) );
+        /* error_log( 'EXPORT ARGS: ' . print_r( $args, true ) ); */
 
         /* Delete the remote product if exists */
         if ( $remote_id ) {
 
             $delete = $this->crmfwc_call->call( 'delete', 'Catalog/' . $remote_id );
-            error_log( 'DELETE: ' . print_r( $delete, true ) );
+            /* error_log( 'DELETE: ' . print_r( $delete, true ) ); */
 
         }
 
         /* Add product to CRM in Cloud */
         $response = $this->crmfwc_call->call( 'post', 'Catalog',  $args );
-        error_log( 'PRODUCT SENT: ' . print_r( $response, true ) );
+        /* error_log( 'PRODUCT SENT: ' . print_r( $response, true ) ); */
 
         if ( is_int( $response ) ) {
 
@@ -517,7 +517,7 @@ class CRMFWC_Products {
 
 			/*Check options*/
 			$cats = isset( $_POST['cats'] ) ? CRMFWC_Contacts::sanitize_array( $_POST['cats'] ) : array();
-            error_log( 'POST CATS: ' . print_r( $cats, true ) );
+            /* error_log( 'POST CATS: ' . print_r( $cats, true ) ); */
 
             /* Update data */
             update_option( 'crmfwc-products-cats', $cats );
@@ -539,7 +539,7 @@ class CRMFWC_Products {
                 );
 
             }
-            error_log( 'ARGS: ' . print_r( $args, true ) );
+            /* error_log( 'ARGS: ' . print_r( $args, true ) ); */
 
             $products = get_posts( $args );
             /* error_log( 'PRODUCTS: ' . print_r( $products, true ) ); */
@@ -596,10 +596,10 @@ class CRMFWC_Products {
      */
     public function delete_remote_single_product( $remote_id ) {
 
-        error_log( 'REMOTE ID: ' . $remote_id );
+        /* error_log( 'REMOTE ID: ' . $remote_id ); */
 
         $delete = $this->crmfwc_call->call( 'delete', 'Catalog/' . $remote_id );
-        error_log( 'DELETE: ' . print_r( $delete, true ) );
+        /* error_log( 'DELETE: ' . print_r( $delete, true ) ); */
 
         return $delete;
 
@@ -613,12 +613,12 @@ class CRMFWC_Products {
 	 */
 	public function delete_remote_products() {
 
-        error_log( 'TEST 1' );
+        /* error_log( 'TEST 1' ); */
         
 		if ( isset( $_POST['crmfwc-delete-products-nonce'] ) && wp_verify_nonce( wp_unslash( $_POST['crmfwc-delete-products-nonce'] ), 'crmfwc-delete-products' ) ) {
 
 			$products = $this->get_remote_products();
-            error_log( 'PRODUCTS TO DELETE: ' . print_r( $products, true ) );
+            /* error_log( 'PRODUCTS TO DELETE: ' . print_r( $products, true ) ); */
 
 			 if ( is_array( $products ) && ! empty( $products ) ) { 
 

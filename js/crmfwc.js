@@ -428,7 +428,7 @@ var crmfwcController = function() {
 
 					$.post(ajaxurl, data, function(response){
 
-                        console.log( response );
+                        // console.log( response );
 						var result = JSON.parse(response);
 
 						for (var i = 0; i < result.length; i++) {
