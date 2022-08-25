@@ -118,6 +118,7 @@ class CRMFWC_Call {
 				'body'    => $body,
 			)
 		);
+        error_log( 'ENDPOINT: ' . $endpoint );
 
 		if ( ! is_wp_error( $response ) && isset( $response['body'] ) ) {
 

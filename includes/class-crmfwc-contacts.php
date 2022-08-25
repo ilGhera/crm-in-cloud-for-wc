@@ -68,7 +68,7 @@ class CRMFWC_Contacts {
 		add_action( 'wp_ajax_export-users', array( $this, 'export_users' ) );
 		add_action( 'crmfwc_export_single_user_event', array( $this, 'export_single_user' ), 10, 2 );
 		add_action( 'woocommerce_thankyou', array( $this, 'wc_order_callback' ), 10, 1 );
-		add_action( 'woocommerce_order_status_completed', array( $this, 'wc_order_callback' ), 10, 1 );
+		add_action( 'woocommerce_order_status_changed', array( $this, 'wc_order_callback' ), 10, 1 );
 
 		/*Classes instance*/
 		$this->crmfwc_call = new CRMFWC_Call();
@@ -76,6 +76,7 @@ class CRMFWC_Contacts {
 
 		/*Get the complete phase to use with orders as opportunities*/
 		$this->completed_phase       = $this->get_completed_opportunity_phase();
+		$this->lost_phase            = $this->get_lost_opportunity_phase();
 		$this->pending_payment_phase = $this->get_pending_payment_opportunity_phase();
 
 		/*Get options*/
@@ -86,6 +87,8 @@ class CRMFWC_Contacts {
         $this->split_opportunities   = get_option( 'crmfwc-wc-split-opportunities' );
         $this->company_opportunities = get_option( 'crmfwc-wc-company-opportunities' );
         
+        /* $test = $this->crmfwc_call->call( 'get', 'Opportunity/357990'); */
+        /* error_log( 'TEST: ' . print_r( $test, true ) ); */
 	}
 
 
@@ -319,7 +322,7 @@ class CRMFWC_Contacts {
 
                             $done = true;
 
-							update_option( 'crmfwc-completed-phase', $phase->description );
+							update_option( 'crmfwc-pending-payment-phase', $phase->description );
 
 							return $phase->description;
 
@@ -389,6 +392,50 @@ class CRMFWC_Contacts {
 
 
 	/**
+	 * Get the lost phase from CRM in Cloud
+	 *
+	 * @return int the phase description
+	 */
+	private function get_lost_opportunity_phase() {
+
+		$phase_description = get_option( 'crmfwc-lost-phase' );
+
+		if ( $phase_description ) {
+
+			return $phase_description;
+
+		} else {
+
+			$phases = $this->crmfwc_call->call( 'get', 'OpportunityPhase/Get' );
+            /* error_log( 'PHASES: ' . print_r( $phases, true ) ); */
+
+			if ( $phases ) {
+
+				foreach ( $phases as $key => $value ) {
+
+					$phase = $this->crmfwc_call->call( 'get', 'OpportunityPhase/View/' . $value );
+                    /* error_log( 'PHASE VALUE: ' . print_r( $phase, true ) ); */
+
+					if ( isset( $phase ) ) {
+
+						if ( 4 === $phase->status && 0 === $phase->weight ) {
+
+							update_option( 'crmfwc-lost-phase', $phase->description );
+
+							return $phase->description;
+
+						}
+
+					}
+
+				}
+
+			}
+
+		}
+
+	}
+	/**
 	 * Setup all the opportunities of a single order
 	 *
 	 * @param  object $order      the WC order.
@@ -398,6 +445,8 @@ class CRMFWC_Contacts {
 	 * @return array the opportunities data
 	 */
 	public function get_single_order_opportunities( $order, $remote_id = null, $cross_type = 0 ) {
+
+        /* error_log( 'ORDER: ' . print_r( $order, true ) ); */
 
         $output            = array();
         $phase_information = array();
@@ -412,26 +461,34 @@ class CRMFWC_Contacts {
             'title'       => $title,
         );
 
+        error_log( 'ORDER STATUS: ' . print_r( $order->get_status(), true ) );
+
         /* Phase information */
-        if ( 'completed' === $order->get_status() ) {
-
-            $phase_information = array(
-                'phase'       => $this->completed_phase,
-                'probability' => 100,
-                'status'      => 3,
-            );
-
-        } else {
-
-            $phase_information = array(
-                'phase'       => $this->pending_payment_phase,
-                'probability' => 80,
-                'status'      => 1,
-            );
-
+        switch ( $order->get_status() ) {
+            case 'failed':
+            case 'cancelled':
+            case 'refunded':  
+                $phase_information = array(
+                    'phase'       => $this->lost_phase,
+                    'probability' => 0,
+                    'status'      => 4,
+                );
+                break;
+            case 'completed':
+                $phase_information = array(
+                    'phase'       => $this->completed_phase,
+                    'probability' => 100,
+                    'status'      => 3,
+                );
+                break;
+            default:
+                $phase_information = array(
+                    'phase'       => $this->pending_payment_phase,
+                    'probability' => 80,
+                    'status'      => 1,
+                );
         }
-
-        /* error_log( 'ORDER: ' . print_r( $order, true ) ); */
+        /* error_log( 'PHASE INFORMATION: ' . print_r( $phase_information, true ) ); */
 
         if ( $this->split_opportunities ) {
 
@@ -547,7 +604,7 @@ class CRMFWC_Contacts {
 
         $endpoint = 'Opportunity/CreateOrUpdate/';
 		$data     = $this->get_user_opportunities( $user_id, $remote_id, $cross_type );
-        /* error_log( 'DATA: ' . print_r( $data, true ) ); */
+        /* error_log( 'USER OPPORTUNITIES: ' . print_r( $data, true ) ); */
 
 		if ( is_array( $data ) ) {
 
@@ -566,9 +623,9 @@ class CRMFWC_Contacts {
 
 						foreach ( $value as $k => $val ) {
 
-                            /* error_log( 'OPPORTUNITY: ' . print_r( $val, true ) ); */
+                            error_log( 'OPPORTUNITY: ' . print_r( $val, true ) );
 
-                            if ( $order_id === $key && isset( $val['status'] ) && 3 === $val['status'] ) {
+                            if ( $order_id === $key ) {
 
                                 $opportunity_id  = get_post_meta( $key, 'crmfwc-opportunity-' . $cross_type . '-' . $k, true );
                                 /* $endpoint        = $endpoint . $opportunity_id; */
@@ -581,7 +638,7 @@ class CRMFWC_Contacts {
 
                             /* error_log( 'ENDPOINT: ' . $endpoint ); */
 							$response = $this->crmfwc_call->call( 'post', $endpoint, $val );
-                            /* error_log( 'RESPONSE OPPORTUNITY: ' . print_r( $response, true ) ); */
+                            error_log( 'RESPONSE OPPORTUNITY: ' . print_r( $response, true ) );
 
                             if ( is_int( $response ) ) {
 
@@ -905,44 +962,45 @@ class CRMFWC_Contacts {
 	 */
 	public function export_single_user( $user_id = 0, $order = null ) {
 
-		$args     = $this->prepare_user_data( $user_id, $order );
-        $order_id = is_object( $order ) ? $order->get_id() : null; 
+        $remote_id  = get_user_meta( $user_id, 'crmfwc-id', true );
+        $order_id   = is_object( $order ) ? $order->get_id() : null; 
+        $company_id = get_user_meta( $user_id, 'crmfwc-company-id', true );
 
-        /* error_log( 'USER ARGS: ' . print_r( $args, true ) ); */
+		if ( ! $order_id || $remote_id ) {
 
-		if ( $args ) {
+            $args       = $this->prepare_user_data( $user_id, $order );
+            $company_id = isset( $args['companyId'] ) ? $args['companyId'] : $company_id;
+			$remote_id  = $this->crmfwc_call->call( 'post', 'Contact/CreateOrUpdate', $args );
+            /* error_log( 'USER ARGS: ' . print_r( $args, true ) ); */
+            /* error_log( 'RESPONSE: ' . print_r( $remote_id, true ) ); */
 
-			$response = $this->crmfwc_call->call( 'post', 'Contact/CreateOrUpdate', $args );
-
-            /* error_log( 'RESPONSE: ' . print_r( $response, true ) ); */
-
-			if ( is_int( $response ) ) {
+			if ( is_int( $remote_id ) ) {
 
 				/*Update user:meta only if wp user exists*/
 				if ( 0 !== $user_id ) {
 
-					update_user_meta( $user_id, 'crmfwc-id', $response );
+					update_user_meta( $user_id, 'crmfwc-id', $remote_id );
 
 				}
 
-				/*Export orders ad opportunities only if set in the options*/
-				if ( $this->export_orders ) {
-
-					/*Export user opportunities*/
-					$this->export_opportunities( $user_id, $response, 1, $order_id ); // temp.
-
-					/*Export company opportunities*/
-					if ( $this->company_opportunities && isset( $args['companyId'] ) ) {
-
-						$this->export_opportunities( $user_id, $args['companyId'], 0, $order_id );
-
-					}
-
-				}
-
-			}
+            }
 
 		}
+
+        /*Export orders ad opportunities only if set in the options*/
+        if ( $this->export_orders || $order_id ) {
+
+            /*Export user opportunities*/
+            $this->export_opportunities( $user_id, $remote_id, 1, $order_id ); // temp.
+
+            /*Export company opportunities*/
+            if ( $this->company_opportunities ) {
+
+                $this->export_opportunities( $user_id, $company_id, 0, $order_id );
+
+            }
+
+        }
 
 	}
 
