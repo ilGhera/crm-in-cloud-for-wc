@@ -556,22 +556,29 @@ class CRMFWC_Contacts {
 	 * @param  int  $user_id    the WP user id.
 	 * @param  int  $remote_id  the CRM in Cloud user id.
 	 * @param  bool $cross_type export opportunities to company (0) or contact (1).
+	 * @param  int  $order_id   the WC order ID. 
      *
 	 * @return array the opportunities data
 	 */
-	private function get_user_opportunities( $user_id, $remote_id, $cross_type = 0 ) {
+	private function get_user_opportunities( $user_id, $remote_id, $cross_type = 0, $order_id = null ) {
 
 		$output = array();
+        $data   = array(
+            'numberposts' => -1,
+            'meta_key'    => '_customer_user',
+            'meta_value'  => $user_id,
+            'post_type'   => wc_get_order_types(),
+            'post_status' => array_keys( wc_get_order_statuses() ),
+        );
 
-		$posts = get_posts(
-			array(
-				'numberposts' => -1,
-				'meta_key'    => '_customer_user',
-				'meta_value'  => $user_id,
-				'post_type'   => wc_get_order_types(),
-				'post_status' => array_keys( wc_get_order_statuses() ),
-			)
-		);
+        /* Get only the specific order */
+        if ( $order_id ) {
+
+            $data['include'] = $order_id;
+
+        }
+
+		$posts = get_posts( $data );
 
 		if ( $posts ) {
 
@@ -603,7 +610,7 @@ class CRMFWC_Contacts {
 	private function export_opportunities( $user_id, $remote_id, $cross_type = 0, $order_id = null ) {
 
         $endpoint = 'Opportunity/CreateOrUpdate/';
-		$data     = $this->get_user_opportunities( $user_id, $remote_id, $cross_type );
+		$data     = $this->get_user_opportunities( $user_id, $remote_id, $cross_type, $order_id );
         /* error_log( 'USER OPPORTUNITIES: ' . print_r( $data, true ) ); */
 
 		if ( is_array( $data ) ) {
@@ -628,11 +635,9 @@ class CRMFWC_Contacts {
                             if ( $order_id === $key ) {
 
                                 $opportunity_id  = get_post_meta( $key, 'crmfwc-opportunity-' . $cross_type . '-' . $k, true );
-                                /* $endpoint        = $endpoint . $opportunity_id; */
 
-                                /* Delete the old opportunity */
-                                $delete = $this->crmfwc_call->call( 'delete', 'Opportunity/' . $opportunity_id );
-                                /* error_log( 'DELETE: ' . print_r( $delete, true ) ); */
+                                /* Update an existing opportunity */
+                                $val['id'] = $opportunity_id;
 
                             }
 
