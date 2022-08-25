@@ -84,6 +84,8 @@ class CRMFWC_Products {
 
             if ( get_option( 'woocommerce_prices_include_tax' ) ) {
 
+                //....
+
             }
 
             $output['productTaxableAmount'] = $taxable_amount;
@@ -439,7 +441,7 @@ class CRMFWC_Products {
 	 */
 	public function export_single_product( $product_id ) {
 
-        $product   = wc_get_product( $product_id );
+        $product = wc_get_product( $product_id );
 
         if ( ! is_object( $product ) ) {
             
@@ -486,8 +488,7 @@ class CRMFWC_Products {
         /* Delete the remote product if exists */
         if ( $remote_id ) {
 
-            $delete = $this->crmfwc_call->call( 'delete', 'Catalog/' . $remote_id );
-            /* error_log( 'DELETE: ' . print_r( $delete, true ) ); */
+            $args['id'] = $remote_id;
 
         }
 
