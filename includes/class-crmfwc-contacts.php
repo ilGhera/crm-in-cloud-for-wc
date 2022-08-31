@@ -967,11 +967,11 @@ class CRMFWC_Contacts {
 	 */
 	public function export_single_user( $user_id = 0, $order = null ) {
 
-        $remote_id  = get_user_meta( $user_id, 'crmfwc-id', true );
         $order_id   = is_object( $order ) ? $order->get_id() : null; 
+        $remote_id  = $user_id ? get_user_meta( $user_id, 'crmfwc-id', true ) : get_post_meta( $order_id, 'crmfwc-user-id', true );
         $company_id = get_user_meta( $user_id, 'crmfwc-company-id', true );
 
-		if ( ! $order_id || $remote_id ) {
+		if ( ! $order_id || ! $remote_id ) {
 
             $args       = $this->prepare_user_data( $user_id, $order );
             $company_id = isset( $args['companyId'] ) ? $args['companyId'] : $company_id;
@@ -986,7 +986,11 @@ class CRMFWC_Contacts {
 
 					update_user_meta( $user_id, 'crmfwc-id', $remote_id );
 
-				}
+                } elseif ( $order_id ) {
+
+					update_post_meta( $order_id, 'crmfwc-user-id', $remote_id );
+
+                }
 
             }
 
@@ -1128,8 +1132,9 @@ class CRMFWC_Contacts {
 		if ( $this->wc_export_orders ) {
 
 			$order = new WC_Order( $order_id );
+            error_log( 'CUSTOMER ID: ' . $order->get_customer_id() );
 
-			if ( is_object( $order ) && $order->get_customer_id() ) {
+			if ( is_object( $order ) ) {
 
                 /* error_log( 'CUSTOMER ID: ' . $order->get_customer_id() ); */
 

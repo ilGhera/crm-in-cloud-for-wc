@@ -72,7 +72,7 @@ class CRMFWC_Products {
                     'productName'          => $product->productName,
                     'productPrice'         => $product->price,
                     'productQta'           => $qta,
-                    'productTaxableAmount' => $product->price,
+                    /* 'productTaxableAmount' => $product->price, */
                     /* 'discountFormula' => */ 
                     /* 'id'        => */ 
                     /* 'productUm' => */ 
@@ -494,13 +494,22 @@ class CRMFWC_Products {
 
         /* Add product to CRM in Cloud */
         $response = $this->crmfwc_call->call( 'post', 'Catalog',  $args );
-        /* error_log( 'PRODUCT SENT: ' . print_r( $response, true ) ); */
 
-        if ( is_int( $response ) ) {
+        if ( ! is_int( $response ) ) {
 
-            update_post_meta( $product->get_id(), 'crmfwc-remote-id', $response );
+            /* Try to get the remote product by code (sku) */
+            $results = $this->crmfwc_call->call( 'get', "Catalog/SearchIds?filter=code eq '" . $product->get_sku() . "'" );
+
+            if ( isset( $results[0] ) && is_int( $results[0] ) ) {
+
+                $response = $results[0];
+                error_log( 'PRODUCT GET BY CODE: ' . print_r( $response, true ) );
+
+            }
 
         }
+
+        update_post_meta( $product->get_id(), 'crmfwc-remote-id', $response );
 
     }
 
