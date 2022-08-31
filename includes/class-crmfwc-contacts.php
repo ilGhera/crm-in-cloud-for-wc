@@ -451,11 +451,13 @@ class CRMFWC_Contacts {
         $output            = array();
         $phase_information = array();
         $title             = __( 'Order: ', 'crm-in-cloud-for-wc' ) . ' #' . $order->get_id();
+        $create_date       = $order->get_date_created() ? $order->get_date_created()->format( 'Y-m-d G:i:s' ) : '';
+
 
         /* Opportunity args */
         $args = array(
-            'closeDate'   => $order->get_date_completed() ? $order->get_date_completed()->format( 'Y-m-d G:i:s' ) : '',
-            'createdDate' => $order->get_date_created() ? $order->get_date_created()->format( 'Y-m-d G:i:s' ) : '',
+            'closeDate'   => $order->get_date_completed() ? $order->get_date_completed()->format( 'Y-m-d G:i:s' ) : $create_date,
+            'createdDate' => $create_date,
             'crossId'     => $remote_id,
             'crossType'   => $cross_type,
             'title'       => $title,
