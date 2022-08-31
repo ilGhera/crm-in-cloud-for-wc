@@ -632,16 +632,22 @@ class CRMFWC_Contacts {
 
 						foreach ( $value as $k => $val ) {
 
-                            error_log( 'OPPORTUNITY: ' . print_r( $val, true ) );
 
                             if ( $order_id === $key ) {
 
                                 $opportunity_id  = get_post_meta( $key, 'crmfwc-opportunity-' . $cross_type . '-' . $k, true );
+                                error_log( 'SAVED OPPORTUNITY ID: ' . $opportunity_id );
 
-                                /* Update an existing opportunity */
-                                $val['id'] = $opportunity_id;
+                                if ( $opportunity_id ) {
+
+                                    /* Update an existing opportunity */
+                                    $val['id'] = $opportunity_id;
+
+                                }
 
                             }
+
+                            error_log( 'OPPORTUNITY: ' . print_r( $val, true ) );
 
                             /* error_log( 'ENDPOINT: ' . $endpoint ); */
 							$response = $this->crmfwc_call->call( 'post', $endpoint, $val );
