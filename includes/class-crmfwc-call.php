@@ -77,14 +77,27 @@ class CRMFWC_Call {
 	/**
 	 * Define the headers to use in every API call
 	 *
-	 * @param  bool $login token not required in case of login.
+	 * @param bool  $login  token not required in case of login.
+	 * @param bool  $upload change headers in case of upload.
+     * @param string $boundary the boundary.
+     *
 	 * @return array
 	 */
-	public function headers( $login = false ) {
+	public function headers( $login = false, $upload = false, $boundary ) {
 
-		$output = array(
-			'Content-Type'  => 'application/json',
-		);
+        if ( $upload ) {
+
+            $output = array(
+                'content-type' => 'multipart/form-data; boundary=' . $boundary,
+            );
+
+        } else {
+
+            $output = array(
+                'Content-Type'  => 'application/json',
+            );
+
+        }
 
 		if ( ! $login ) {
 
@@ -99,27 +112,28 @@ class CRMFWC_Call {
 	/**
 	 * The call
 	 *
-	 * @param  string $method   could be GET, POST, DELETE or PUT.
-	 * @param  string $endpoint the endpoint's name.
-	 * @param  array  $args     the data.
-	 * @param  bool   $login    token not required in case of login.
+	 * @param string $method   could be GET, POST, DELETE or PUT.
+	 * @param string $endpoint the endpoint's name.
+	 * @param array  $args     the data.
+	 * @param bool   $login    token not required in case of login.
+	 * @param bool   $upload   change headers in case of upload.
+     * @param string $boundary the boundary.
+     *
 	 * @return mixed  the response
 	 */
-	public function call( $method, $endpoint = '', $args = null, $login = false ) {
+	public function call( $method, $endpoint = '', $args = null, $login = false, $upload = false, $boundary = null ) {
 
-		$body = $args ? json_encode( $args ) : '';
+		$body = ( $args && ! $upload ) ? json_encode( $args ) : $args;
 
 		$response = wp_remote_request(
 			$this->base_url . $endpoint,
 			array(
 				'method'  => $method,
-				'headers' => $this->headers( $login ),
+				'headers' => $this->headers( $login, $upload, $boundary ),
 				'timeout' => 20,
 				'body'    => $body,
 			)
 		);
-        error_log( 'ENDPOINT: ' . $endpoint );
-        /* error_log( 'RESPONSE: ' . print_r( $response, true ) ); */
 
 		if ( ! is_wp_error( $response ) && isset( $response['body'] ) ) {
 
