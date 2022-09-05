@@ -69,6 +69,7 @@ class CRMFWC_Contacts {
 		add_action( 'crmfwc_export_single_user_event', array( $this, 'export_single_user' ), 10, 2 );
 		add_action( 'woocommerce_thankyou', array( $this, 'wc_order_callback' ), 10, 1 );
 		add_action( 'woocommerce_order_status_changed', array( $this, 'wc_order_callback' ), 10, 1 );
+        add_action( 'save_post_shop_order', array( $this, 'wc_order_callback' ), 10, 1 );
 
 		/*Classes instance*/
 		$this->crmfwc_call = new CRMFWC_Call();
@@ -87,8 +88,6 @@ class CRMFWC_Contacts {
         $this->split_opportunities   = get_option( 'crmfwc-wc-split-opportunities' );
         $this->company_opportunities = get_option( 'crmfwc-wc-company-opportunities' );
         
-        /* $test = $this->crmfwc_call->call( 'get', 'Opportunity/357990'); */
-        /* error_log( 'TEST: ' . print_r( $test, true ) ); */
 	}
 
 
@@ -276,7 +275,6 @@ class CRMFWC_Contacts {
         );
         
         $phase = $this->crmfwc_call->call( 'post', 'OpportunityPhase/CreateOrUpdate', $args );
-        /* error_log( 'NEW PHASE: ' . print_r( $phase, true ) ); */
 
         if ( is_int( $phase ) && 1 < $phase ) {
 
@@ -305,7 +303,6 @@ class CRMFWC_Contacts {
 		} else {
 
 			$phases = $this->crmfwc_call->call( 'get', 'OpportunityPhase/Get' );
-            /* error_log( 'PHASES: ' . print_r( $phases, true ) ); */
 
 			if ( $phases ) {
 
@@ -314,7 +311,6 @@ class CRMFWC_Contacts {
 				foreach ( $phases as $key => $value ) {
 
 					$phase = $this->crmfwc_call->call( 'get', 'OpportunityPhase/View/' . $value );
-                    /* error_log( 'PHASE VALUE: ' . print_r( $phase, true ) ); */
 
 					if ( isset( $phase ) ) {
 
@@ -361,14 +357,12 @@ class CRMFWC_Contacts {
 		} else {
 
 			$phases = $this->crmfwc_call->call( 'get', 'OpportunityPhase/Get' );
-            /* error_log( 'PHASES: ' . print_r( $phases, true ) ); */
 
 			if ( $phases ) {
 
 				foreach ( $phases as $key => $value ) {
 
 					$phase = $this->crmfwc_call->call( 'get', 'OpportunityPhase/View/' . $value );
-                    /* error_log( 'PHASE VALUE: ' . print_r( $phase, true ) ); */
 
 					if ( isset( $phase ) ) {
 
@@ -407,14 +401,12 @@ class CRMFWC_Contacts {
 		} else {
 
 			$phases = $this->crmfwc_call->call( 'get', 'OpportunityPhase/Get' );
-            /* error_log( 'PHASES: ' . print_r( $phases, true ) ); */
 
 			if ( $phases ) {
 
 				foreach ( $phases as $key => $value ) {
 
 					$phase = $this->crmfwc_call->call( 'get', 'OpportunityPhase/View/' . $value );
-                    /* error_log( 'PHASE VALUE: ' . print_r( $phase, true ) ); */
 
 					if ( isset( $phase ) ) {
 
@@ -446,8 +438,6 @@ class CRMFWC_Contacts {
 	 */
 	public function get_single_order_opportunities( $order, $remote_id = null, $cross_type = 0 ) {
 
-        /* error_log( 'ORDER: ' . print_r( $order, true ) ); */
-
         $output            = array();
         $phase_information = array();
         $title             = __( 'Order: ', 'crm-in-cloud-for-wc' ) . ' #' . $order->get_id();
@@ -462,8 +452,6 @@ class CRMFWC_Contacts {
             'crossType'   => $cross_type,
             'title'       => $title,
         );
-
-        error_log( 'ORDER STATUS: ' . print_r( $order->get_status(), true ) );
 
         /* Phase information */
         switch ( $order->get_status() ) {
@@ -490,7 +478,6 @@ class CRMFWC_Contacts {
                     'status'      => 1,
                 );
         }
-        /* error_log( 'PHASE INFORMATION: ' . print_r( $phase_information, true ) ); */
 
         if ( $this->split_opportunities ) {
 
@@ -576,7 +563,8 @@ class CRMFWC_Contacts {
         /* Get only the specific order */
         if ( $order_id ) {
 
-            $data['include'] = $order_id;
+            $data['p'] = $order_id;
+            $data['post_status'][] = 'trash';
 
         }
 
@@ -613,7 +601,6 @@ class CRMFWC_Contacts {
 
         $endpoint = 'Opportunity/CreateOrUpdate/';
 		$data     = $this->get_user_opportunities( $user_id, $remote_id, $cross_type, $order_id );
-        /* error_log( 'USER OPPORTUNITIES: ' . print_r( $data, true ) ); */
 
 		if ( is_array( $data ) ) {
 
@@ -626,19 +613,25 @@ class CRMFWC_Contacts {
 
 					if ( is_array( $value ) && ! empty( $value ) ) {
 
-                    /* error_log( 'OPPORTUNITY DATA: ' . print_r( $value, true ) ); */
-
                         update_post_meta( $key, $meta_key, 1 );
 
 						foreach ( $value as $k => $val ) {
 
-
                             if ( $order_id === $key ) {
 
                                 $opportunity_id  = get_post_meta( $key, 'crmfwc-opportunity-' . $cross_type . '-' . $k, true );
-                                error_log( 'SAVED OPPORTUNITY ID: ' . $opportunity_id );
 
                                 if ( $opportunity_id ) {
+
+                                    if ( 'trash' === get_post_status( $order_id ) ) {
+
+                                        $response = $this->crmfwc_call->call( 'delete', 'Opportunity/' . $opportunity_id );
+
+                                        delete_post_meta( $key, 'crmfwc-opportunity-' . $cross_type . '-' . $k );
+
+                                        continue;
+
+                                    }
 
                                     /* Update an existing opportunity */
                                     $val['id'] = $opportunity_id;
@@ -647,11 +640,7 @@ class CRMFWC_Contacts {
 
                             }
 
-                            error_log( 'OPPORTUNITY: ' . print_r( $val, true ) );
-
-                            /* error_log( 'ENDPOINT: ' . $endpoint ); */
 							$response = $this->crmfwc_call->call( 'post', $endpoint, $val );
-                            error_log( 'RESPONSE OPPORTUNITY: ' . print_r( $response, true ) );
 
                             if ( is_int( $response ) ) {
 
@@ -984,8 +973,6 @@ class CRMFWC_Contacts {
             $args       = $this->prepare_user_data( $user_id, $order );
             $company_id = isset( $args['companyId'] ) ? $args['companyId'] : $company_id;
 			$remote_id  = $this->crmfwc_call->call( 'post', 'Contact/CreateOrUpdate', $args );
-            /* error_log( 'USER ARGS: ' . print_r( $args, true ) ); */
-            /* error_log( 'RESPONSE: ' . print_r( $remote_id, true ) ); */
 
 			if ( is_int( $remote_id ) ) {
 
@@ -1137,14 +1124,11 @@ class CRMFWC_Contacts {
 	public function wc_order_callback( $order_id ) {
 
 		/*Export new WC orders only if set in the options*/
-		if ( $this->wc_export_orders ) {
+		if ( $this->wc_export_orders && ! wp_is_post_autosave( $order_id ) ) {
 
 			$order = new WC_Order( $order_id );
-            error_log( 'CUSTOMER ID: ' . $order->get_customer_id() );
 
 			if ( is_object( $order ) ) {
-
-                /* error_log( 'CUSTOMER ID: ' . $order->get_customer_id() ); */
 
 				$this->export_single_user( $order->get_customer_id(), $order );
 

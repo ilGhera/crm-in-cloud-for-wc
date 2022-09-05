@@ -460,74 +460,81 @@ class CRMFWC_Products {
 	 */
 	public function export_single_product( $product_id ) {
 
-        $product = wc_get_product( $product_id );
+        if ( wp_is_post_autosave( $product_id ) ) {
+
+            return;
+
+        }
+
+        $product   = wc_get_product( $product_id );
+        $remote_id = get_post_meta( $product_id, 'crmfwc-remote-id', true );
 
         if ( ! is_object( $product ) ) {
             
             return;
 
-        }
+        } elseif ( 'trash' === $product->get_status() && $remote_id ) {
 
-        $remote_id = get_post_meta( $product_id, 'crmfwc-remote-id', true );
-
-        /* Delete the product in CRM in Cloud */
-        if ( 'trash' === $product->get_status() ) {
-
+            /* Delete the product in CRM in Cloud */
             $delete = $this->delete_remote_single_product( $remote_id );
 
             return;
 
-        }
+        } elseif ( 'publish' === $product->get_status() ) {
 
-        $args = array(
-            'active'      => 1,
-            'code'        => $product->get_sku(),
-            'codeEAN'     => $product->get_sku(),
-            'description' => $product->get_description(),
-            'productName' => $product->get_title(),
-            'taxCode'     => $this->get_remote_tax_code( $product_id ), 
-            'price'       => $product->get_price(),
-        );
+            $product_code = $product->get_sku() ? $product->get_sku() : 'crmfwc-' . $product_id;
 
-        $cat_ids = $product->get_category_ids();
+            $args = array(
+                'active'      => 1,
+                'code'        => $product_code,
+                'codeEAN'     => $product_code,
+                'description' => $product->get_description(),
+                'productName' => $product->get_title(),
+                'taxCode'     => $this->get_remote_tax_code( $product_id ), 
+                'price'       => $product->get_price(),
+            );
 
-        /* Add categories to CRM in Cloud */
-        $remote_cats = $this->export_product_cats( $cat_ids );
+            $cat_ids = $product->get_category_ids();
 
-        if ( is_array( $remote_cats ) && isset( $remote_cats[0] ) ) {
+            /* Add categories to CRM in Cloud */
+            $remote_cats = $this->export_product_cats( $cat_ids );
 
-            $args['category'] = $remote_cats[0];
-        }
+            if ( is_array( $remote_cats ) && isset( $remote_cats[0] ) ) {
 
-        /* Delete the remote product if exists */
-        if ( $remote_id ) {
+                $args['category'] = $remote_cats[0];
+            }
 
-            $args['id'] = $remote_id;
+            /* Delete the remote product if exists */
+            if ( is_int( $remote_id ) ) {
 
-        }
-
-        /* Add product to CRM in Cloud */
-        $response = $this->crmfwc_call->call( 'post', 'Catalog',  $args );
-
-        if ( ! is_int( $response ) ) {
-
-            /* Try to get the remote product by code (sku) */
-            $results = $this->crmfwc_call->call( 'get', "Catalog/SearchIds?filter=code eq '" . $product->get_sku() . "'" );
-
-            if ( isset( $results[0] ) && is_int( $results[0] ) ) {
-
-                $response = $results[0];
+                $args['id'] = $remote_id;
 
             }
 
-        }
+            /* Add product to CRM in Cloud */
+            $response = $this->crmfwc_call->call( 'post', 'Catalog',  $args );
 
-        update_post_meta( $product->get_id(), 'crmfwc-remote-id', $response );
+            if ( ! is_int( $response ) ) {
 
-        if ( $product->get_image_id() ) {
+                /* Try to get the remote product by code (sku) */
+                $results = $this->crmfwc_call->call( 'get', "Catalog/SearchIds?filter=code eq '" . $product_code . "'" );
 
-            /* Export product image */
-            $this->export_product_image( $product->get_image_id(), $response );
+                if ( isset( $results[0] ) && is_int( $results[0] ) ) {
+
+                    $response = $results[0];
+
+                }
+
+            }
+
+            update_post_meta( $product->get_id(), 'crmfwc-remote-id', intval( $response ) );
+
+            if ( $product->get_image_id() ) {
+
+                /* Export product image */
+                $this->export_product_image( $product->get_image_id(), $response );
+
+            }
 
         }
 
