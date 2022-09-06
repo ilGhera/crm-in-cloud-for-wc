@@ -19,6 +19,9 @@ Synchronize your WordPress/ WooCommerce site with CRM in Cloud exporting users a
 * Create the *Company* in CRM in Cloud if exported with the user.
 * Export user orders to CRM in Cloud as opportunities.
 * Export new orders to CRM in Cloud as opportunities in real time.
+* Export products to CRM in Cloud by categories.
+* Export product images.
+* Update products in real time.
 * Delete all data in CRM in Cloud with a click.
 
 = Try CRM in Cloud for free! =
