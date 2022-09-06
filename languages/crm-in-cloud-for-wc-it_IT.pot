@@ -5,14 +5,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CRM in Cloud for WooCommerce - Premium 0.9.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/crm-in-cloud-for-wc\n"
+"POT-Creation-Date: 2022-09-06 12:33+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-04-03 08:25+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: Poedit 2.2.4\n"
+"X-Generator: Poedit 3.0.1\n"
 "X-Domain: crm-in-cloud-for-wc\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;esc_html_e;esc_html__\n"
@@ -43,7 +43,7 @@ msgstr ""
 msgid "Add your Premium Key and keep updated your copy of CRM in Cloud for WooCommerce."
 msgstr ""
 
-#: admin/class-crmfwc-admin.php:124 admin/crmfwc-wc-template.php:37
+#: admin/class-crmfwc-admin.php:124 admin/crmfwc-wc-template.php:58
 msgid "Save"
 msgstr ""
 
@@ -56,6 +56,10 @@ msgid "Contacts"
 msgstr ""
 
 #: admin/class-crmfwc-admin.php:132
+msgid "Products"
+msgstr ""
+
+#: admin/class-crmfwc-admin.php:133
 msgid "WooCommerce"
 msgstr ""
 
@@ -75,7 +79,7 @@ msgstr ""
 msgid "Export the company if present in the user profile"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:52 admin/crmfwc-wc-template.php:26
+#: admin/crmfwc-contacts-template.php:52 admin/crmfwc-wc-template.php:33
 msgid "Export orders"
 msgstr ""
 
@@ -83,7 +87,7 @@ msgstr ""
 msgid "Export user orders as opportunities in CRM in Cloud"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:61
+#: admin/crmfwc-contacts-template.php:61 admin/crmfwc-products-template.php:41
 msgid "Export to CRM in Cloud"
 msgstr ""
 
@@ -103,8 +107,24 @@ msgstr ""
 msgid "Delete the company linked to the contact in CRM in Cloud"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:86
+#: admin/crmfwc-contacts-template.php:86 admin/crmfwc-products-template.php:59
 msgid "Delete from CRM in Cloud"
+msgstr ""
+
+#: admin/crmfwc-products-template.php:19
+msgid "Products categories"
+msgstr ""
+
+#: admin/crmfwc-products-template.php:34
+msgid "Select the product categories to export to CRM in Cloud"
+msgstr ""
+
+#: admin/crmfwc-products-template.php:51
+msgid "Delete products"
+msgstr ""
+
+#: admin/crmfwc-products-template.php:53
+msgid "Delete all products on CRM in Cloud"
 msgstr ""
 
 #: admin/crmfwc-settings-template.php:21
@@ -127,30 +147,78 @@ msgstr ""
 msgid "Connect to CRM in Cloud"
 msgstr ""
 
-#: admin/crmfwc-wc-template.php:29
+#: admin/crmfwc-wc-template.php:36
 msgid "Export new orders as opportunities in CRM in Cloud"
+msgstr ""
+
+#: admin/crmfwc-wc-template.php:40
+msgid "Split opportunities"
+msgstr ""
+
+#: admin/crmfwc-wc-template.php:43
+msgid "Create an opportunity for every single order item"
+msgstr ""
+
+#: admin/crmfwc-wc-template.php:47
+msgid "Export company opportunities"
+msgstr ""
+
+#: admin/crmfwc-wc-template.php:50
+msgid "Export opportunities for the company as well if it exists"
 msgstr ""
 
 #: crm-in-cloud-for-wc.php:25
 msgid "WARNING! CRM in Cloud for WC requires WooCommerce to be activated."
 msgstr ""
 
-#: includes/class-crmfwc-contacts.php:474
+#: includes/class-crmfwc-contacts.php:272
+#: includes/class-crmfwc-contacts.php:317
+msgid "Pending payment"
+msgstr ""
+
+#: includes/class-crmfwc-contacts.php:443
+msgid "Order: "
+msgstr ""
+
+#: includes/class-crmfwc-contacts.php:1057
 #, php-format
 msgid "%1$d contact(s) export process has begun"
 msgstr ""
 
-#: includes/class-crmfwc-contacts.php:481
+#: includes/class-crmfwc-contacts.php:1064
 msgid "No contacts to export"
 msgstr ""
 
-#: includes/class-crmfwc-contacts.php:591
+#: includes/class-crmfwc-contacts.php:1291
 #, php-format
 msgid "%1$d users(s) delete process has begun"
 msgstr ""
 
-#: includes/class-crmfwc-contacts.php:600
+#: includes/class-crmfwc-contacts.php:1300
 msgid "ERROR! There are not users to delete"
+msgstr ""
+
+#: includes/class-crmfwc-products.php:329
+#, php-format
+msgid "Taxable %d%%"
+msgstr ""
+
+#: includes/class-crmfwc-products.php:603
+#, php-format
+msgid "%1$d product(s) export process has begun"
+msgstr ""
+
+#: includes/class-crmfwc-products.php:610
+msgid "No products to export"
+msgstr ""
+
+#: includes/class-crmfwc-products.php:676
+#, php-format
+msgid "%1$d products(s) delete process has begun"
+msgstr ""
+
+#: includes/class-crmfwc-products.php:685
+msgid "ERROR! There are not products to delete"
 msgstr ""
 
 #: includes/class-crmfwc-settings.php:160
@@ -295,68 +363,68 @@ msgstr ""
 msgid "Cancel the action now to avoid it being run in future"
 msgstr ""
 
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:201
+#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:224
 msgid "Now!"
 msgstr ""
 
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:237
+#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:260
 #, php-format
 msgid "Every %s"
 msgstr ""
 
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:243
+#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:266
 msgid "Non-repeating"
 msgstr ""
 
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:341
+#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:364
 msgid "It appears one or more database tables were missing. Attempting to re-create the missing table(s)."
 msgstr ""
 
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:374
+#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:397
 #, php-format
 msgid "A new queue has begun processing. <a href=\"%s\">View actions in-progress &raquo;</a>"
 msgstr ""
 
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:377
+#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:400
 #, php-format
 msgid "The next queue will begin processing in approximately %d seconds."
 msgstr ""
 
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:398
+#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:421
 #, php-format
 msgid "Successfully executed action: %s"
 msgstr ""
 
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:402
+#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:425
 #, php-format
 msgid "Successfully canceled action: %s"
 msgstr ""
 
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:406
+#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:429
 #, php-format
 msgid "Successfully processed change for action: %s"
 msgstr ""
 
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:412
+#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:435
 #, php-format
 msgid "Could not process change for action: \"%1$s\" (ID: %2$d). Error: %3$s"
 msgstr ""
 
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:458
+#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:481
 #, php-format
 msgid " (%s ago)"
 msgstr ""
 
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:461
+#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:484
 #, php-format
 msgid " (%s)"
 msgstr ""
 
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:609
+#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:634
 msgid "Search hook, args and claim ID"
 msgstr ""
 
-#: libraries/action-scheduler/classes/ActionScheduler_QueueRunner.php:193
+#: libraries/action-scheduler/classes/ActionScheduler_QueueRunner.php:211
 msgid "Every minute"
 msgstr ""
 
@@ -370,31 +438,35 @@ msgstr ""
 msgid "Action Scheduler has migrated data to custom tables; however, orphaned log entries exist in the WordPress Comments table. %1$s <a href=\"%2$s\">Learn more &raquo;</a>"
 msgstr ""
 
-#: libraries/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:101
+#: libraries/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:111
 msgid "Action Scheduler"
 msgstr ""
 
-#: libraries/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:101
-msgid "This section shows scheduled action counts."
+#: libraries/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:111
+msgid "This section shows details of Action Scheduler."
 msgstr ""
 
-#: libraries/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:104
+#: libraries/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:114
 msgid "Version:"
 msgstr ""
 
-#: libraries/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:108
+#: libraries/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:118
+msgid "Data store:"
+msgstr ""
+
+#: libraries/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:122
 msgid "Action Status"
 msgstr ""
 
-#: libraries/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:110
+#: libraries/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:124
 msgid "Count"
 msgstr ""
 
-#: libraries/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:111
+#: libraries/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:125
 msgid "Oldest Scheduled Date"
 msgstr ""
 
-#: libraries/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:112
+#: libraries/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:126
 msgid "Newest Scheduled Date"
 msgstr ""
 
@@ -431,22 +503,36 @@ msgstr ""
 msgid "Error processing action %1$s: %2$s"
 msgstr ""
 
-#: libraries/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_Scheduler_command.php:136
+#: libraries/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_Scheduler_command.php:30
+#, php-format
+msgid "Registered schema for %s"
+msgstr ""
+
+#: libraries/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_Scheduler_command.php:166
 #, php-format
 msgid "There was an error running the action scheduler: %s"
 msgstr ""
 
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Abstract_ListTable.php:467
+#: libraries/action-scheduler/classes/abstracts/ActionScheduler.php:195
+#, php-format
+msgid "%s() was called before the Action Scheduler data store was initialized"
+msgstr ""
+
+#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Abstract_ListTable.php:523
 msgid "Filter"
 msgstr ""
 
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Abstract_ListTable.php:567
+#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Abstract_ListTable.php:650
 #, php-format
 msgid "Search results for \"%s\""
 msgstr ""
 
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Abstract_ListTable.php:672
+#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Abstract_ListTable.php:755
 msgid "Search"
+msgstr ""
+
+#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Abstract_QueueRunner.php:96
+msgid "This action appears to be consistently failing. A new instance will not be scheduled."
 msgstr ""
 
 #: libraries/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:72
@@ -454,7 +540,7 @@ msgid "action created"
 msgstr ""
 
 #: libraries/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:76
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBLogger.php:134
+#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBLogger.php:142
 msgid "action canceled"
 msgstr ""
 
@@ -488,7 +574,7 @@ msgstr ""
 
 #: libraries/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:112
 #, php-format
-msgid "action timed out after %s seconds"
+msgid "action marked as failed after %s seconds. Unknown error occurred. Check server, PHP and database error logs to diagnose cause."
 msgstr ""
 
 #: libraries/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:118
@@ -523,103 +609,108 @@ msgstr ""
 msgid "There was a failure scheduling the next instance of this action: %s"
 msgstr ""
 
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Store.php:227
+#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Store.php:301
 #, php-format
 msgid "ActionScheduler_Action::$args too long. To ensure the args column can be indexed, action args should not be more than %d characters when encoded as JSON."
 msgstr ""
 
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Store.php:301
+#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Store.php:377
 msgid "Complete"
 msgstr ""
 
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Store.php:302
+#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Store.php:378
 msgid "Pending"
 msgstr ""
 
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Store.php:303
+#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Store.php:379
 msgid "In-progress"
 msgstr ""
 
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Store.php:304
+#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Store.php:380
 msgid "Failed"
 msgstr ""
 
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Store.php:305
+#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Store.php:381
 msgid "Canceled"
 msgstr ""
 
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:67
+#: libraries/action-scheduler/classes/actions/ActionScheduler_Action.php:37
+#, php-format
+msgid "Scheduled action for %1$s will not be executed as no callbacks are registered."
+msgstr ""
+
+#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:78
 msgid "Database error."
 msgstr ""
 
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:75
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:25
+#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:86
+#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:49
 #: libraries/action-scheduler/classes/migration/ActionScheduler_DBStoreMigrator.php:44
 #, php-format
 msgid "Error saving action: %s"
 msgstr ""
 
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:268
+#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:246
 msgid "Invalid value for select or count parameter. Cannot query actions."
 msgstr ""
 
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:458
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:548
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:580
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:777
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:819
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:457
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:468
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:495
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:773
+#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:451
+#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:543
+#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:574
+#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:797
+#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:840
+#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:515
+#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:534
+#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:564
+#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:974
 #, php-format
 msgid "Unidentified action %s"
 msgstr ""
 
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:661
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:627
+#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:663
+#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:717
 #, php-format
 msgid "The group \"%s\" does not exist."
 msgstr ""
 
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:675
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:607
+#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:683
+#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:696
 msgid "Unable to claim actions. Database error."
 msgstr ""
 
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:838
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:740
+#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:870
+#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:904
 msgid "Invalid action ID. No status found."
 msgstr ""
 
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:840
+#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:872
 msgid "Unknown status found for action."
 msgstr ""
 
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:62
+#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:101
 msgid "Unable to save action."
 msgstr ""
 
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:283
+#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:318
 msgid "Invalid schedule. Cannot save action."
 msgstr ""
 
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:689
+#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:824
 #, php-format
 msgid "Unable to unlock claim %s. Database error."
 msgstr ""
 
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:704
+#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:852
 #, php-format
 msgid "Unable to unlock claim on action %s. Database error."
 msgstr ""
 
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:716
+#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:878
 #, php-format
 msgid "Unable to mark failure on action %s. Database error."
 msgstr ""
 
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:840
+#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:1055
 #, php-format
 msgid "%s Support for strings longer than this will be removed in a future version."
 msgstr ""
@@ -694,7 +785,7 @@ msgstr ""
 msgid "Destination logger must be configured before running a migration"
 msgstr ""
 
-#: libraries/action-scheduler/classes/migration/Controller.php:142
+#: libraries/action-scheduler/classes/migration/Controller.php:162
 msgid "Action Scheduler migration in progress. The list of scheduled actions may be incomplete."
 msgstr ""
 
@@ -703,24 +794,29 @@ msgstr ""
 msgid "Migrated action with ID %1$d in %2$s to ID %3$d in %4$s"
 msgstr ""
 
-#: plugin-update-checker/Puc/v4p7/Plugin/Ui.php:54
+#: libraries/action-scheduler/functions.php:128
+#, php-format
+msgid "Caught exception while cancelling action: %s"
+msgstr ""
+
+#: plugin-update-checker/Puc/v4p11/Plugin/Ui.php:54
 msgid "View details"
 msgstr ""
 
-#: plugin-update-checker/Puc/v4p7/Plugin/Ui.php:77
+#: plugin-update-checker/Puc/v4p11/Plugin/Ui.php:77
 #, php-format
 msgid "More information about %s"
 msgstr ""
 
-#: plugin-update-checker/Puc/v4p7/Plugin/Ui.php:128
+#: plugin-update-checker/Puc/v4p11/Plugin/Ui.php:128
 msgid "Check for updates"
 msgstr ""
 
-#: plugin-update-checker/Puc/v4p7/Plugin/Ui.php:223
+#: plugin-update-checker/Puc/v4p11/Plugin/Ui.php:224
 #, php-format
 msgid "Unknown update checker status \"%s\""
 msgstr ""
 
-#: plugin-update-checker/Puc/v4p7/Vcs/PluginUpdateChecker.php:98
+#: plugin-update-checker/Puc/v4p11/Vcs/PluginUpdateChecker.php:100
 msgid "There is no changelog available."
 msgstr ""

@@ -4,7 +4,7 @@
  *
  * @author ilGhera
  * @package crm-in-cloud-for-wc/admin
- * @since 0.9.0
+ * @since 1.0.0
  */
 ?>
 
@@ -18,6 +18,20 @@
 				<input type="checkbox" name="crmfwc-wc-export-orders" disabled>
 				<p class="description"><?php esc_html_e( 'Export new orders as opportunities in CRM in Cloud', 'crm-in-cloud-for-wc' ); ?></p>
 				<?php go_premium(); ?>
+			</td>
+		</tr>
+		<tr class="wc-split-opportunities">
+			<th scope="row"><?php esc_html_e( 'Split opportunities', 'crm-in-cloud-for-wc' ); ?></th>
+			<td>
+				<input type="checkbox" name="crmfwc-wc-split-opportunities" disabled>
+				<p class="description"><?php esc_html_e( 'Create an opportunity for every single order item', 'crm-in-cloud-for-wc' ); ?></p>
+			</td>
+		</tr>
+		<tr class="wc-company-opportunities">
+			<th scope="row"><?php esc_html_e( 'Export company opportunities', 'crm-in-cloud-for-wc' ); ?></th>
+			<td>
+				<input type="checkbox" name="crmfwc-wc-company-opportunities" disabled>
+				<p class="description"><?php esc_html_e( 'Export opportunities for the company as well if it exists', 'crm-in-cloud-for-wc' ); ?></p>
 			</td>
 		</tr>
 	</table>

@@ -3,7 +3,7 @@
  * 
  * @author ilGhera
  * @package crm-in-cloud-for-wc/js
- * @since 0.9.0
+ * @since 1.0.0
  */
 
 var crmfwcController = function() {
@@ -15,6 +15,8 @@ var crmfwcController = function() {
 		self.tzCheckbox();
 	    self.crmfwc_export_users();
 	    self.crmfwc_delete_remote_users();
+	    self.crmfwc_export_products();
+	    self.crmfwc_delete_remote_products();
 		self.crmfwc_disconnect();
 		self.chosen();
 	}
@@ -264,8 +266,15 @@ var crmfwcController = function() {
 				var roles          = $('.crmfwc-contacts-role').val();
 				var data           = {
 					'action': 'export-users',
+<<<<<<< HEAD
 					'crmfwc-export-users-nonce': crmfwcSettings.exportNonce,
 					'roles': roles
+=======
+					'crmfwc-export-users-nonce': crmfwcSettings.exportUsersNonce,
+					'roles': roles,
+					'export-company': export_company,
+					'export-orders': export_orders
+>>>>>>> master
 				}
 
 				$.post(ajaxurl, data, function(response){
@@ -315,12 +324,117 @@ var crmfwcController = function() {
 					
 					var data = {
 						'action': 'delete-remote-users',
+<<<<<<< HEAD
 						'crmfwc-delete-users-nonce': crmfwcSettings.deleteNonce
+=======
+						'crmfwc-delete-users-nonce': crmfwcSettings.deleteUsersNonce,
+						'delete-company': delete_company
+>>>>>>> master
 					}
 
 
 					$.post(ajaxurl, data, function(response){
 
+						var result = JSON.parse(response);
+
+						for (var i = 0; i < result.length; i++) {
+
+							var error = 'error' === result[i][0] ? true : false;
+							var update = 0 !== i ? true : false; 
+
+							self.crmfwc_response_message( result[i][1], error, false );
+	
+						}
+
+					})
+
+				}
+
+			})
+
+		})
+
+	}
+
+
+	/**
+	 * Export WP products to CRM in Cloud
+	 */
+	self.crmfwc_export_products = function() {
+
+		jQuery(function($){
+
+			$('.button-primary.crmfwc.export-products').on('click', function(e){
+
+				e.preventDefault();
+
+				self.delete_messages();
+				self.crmfwc_response_loading();
+
+		        $('html, body').animate({
+		        	scrollTop: $('#crmfwc-admin-menu').offset().top -30
+		        }, 'slow');
+
+				var cats          = $('.crmfwc-products-cats').val();
+				var data           = {
+					'action': 'export-products',
+					'crmfwc-export-products-nonce': crmfwcSettings.exportProductsNonce,
+					'cats': cats
+				}
+
+				$.post(ajaxurl, data, function(response){
+
+					var result = JSON.parse(response);
+
+					for (var i = 0; i < result.length; i++) {
+
+						var error = 'error' === result[i][0] ? true : false;
+						var update = 0 !== i ? true : false; 
+
+						self.crmfwc_response_message( result[i][1], error, false );
+
+					}
+
+				})
+			
+			})
+
+		})
+
+	}
+
+
+	/**
+	 * Delete all the products from CRM in Cloud
+	 */
+	self.crmfwc_delete_remote_products = function() {
+
+		jQuery(function($){
+
+			$('.button-primary.crmfwc.red.products').on('click', function(e){
+
+				e.preventDefault();
+
+				self.delete_messages();
+
+				var answer = confirm( 'Vuoi cancellare tutti i prodotti da CRM in Cloud?' ); // temp.
+
+				if ( answer ) {
+
+					self.crmfwc_response_loading();
+
+			        $('html, body').animate({
+			        	scrollTop: $('#crmfwc-admin-menu').offset().top -30
+			        }, 'slow');
+					
+					var data = {
+						'action': 'delete-remote-products',
+						'crmfwc-delete-products-nonce': crmfwcSettings.deleteProductsNonce,
+					}
+
+					$.post(ajaxurl, data, function(response){
+
+                        // console.log( response );
 						var result = JSON.parse(response);
 
 						for (var i = 0; i < result.length; i++) {
