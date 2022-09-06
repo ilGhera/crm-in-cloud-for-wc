@@ -157,11 +157,11 @@ h3.crmfwc.main {
 	clear:both;
 }
 
-form#crmfwc-premium-key {
+#crmfwc-premium-key-form {
 	margin: 2rem 0;
 }
 
-form#crmfwc-premium-key label {
+#crmfwc-premium-key-form label {
 	font-size: 14px;
 	font-weight: bold;
 	display: block;
@@ -169,11 +169,11 @@ form#crmfwc-premium-key label {
 }
 
 
-form#crmfwc-premium-key input[type="text"] {
+#crmfwc-premium-key-form input[type="text"] {
 	width: 560px;
 }
 
-form#crmfwc-premium-key input.button {
+#crmfwc-premium-key-form input.button {
 	margin-top: 1rem;
 }
 

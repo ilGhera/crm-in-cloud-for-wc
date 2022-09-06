@@ -76,6 +76,7 @@ function load_crmfwc_premium() {
 		require_once( CRMFWC_INCLUDES . 'crmfwc-functions.php' );
 		require_once( CRMFWC_INCLUDES . 'class-crmfwc-call.php' );
 		require_once( CRMFWC_INCLUDES . 'class-crmfwc-settings.php' );
+		require_once( CRMFWC_INCLUDES . 'class-crmfwc-products.php' );
 		require_once( CRMFWC_INCLUDES . 'class-crmfwc-contacts.php' );
 		require_once( CRMFWC_DIR . 'libraries/action-scheduler/action-scheduler.php' );
 
