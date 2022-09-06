@@ -83,7 +83,7 @@ class CRMFWC_Call {
      *
 	 * @return array
 	 */
-	public function headers( $login = false, $upload = false, $boundary ) {
+	public function headers( $login = false, $upload = false, $boundary = null ) {
 
         if ( $upload ) {
 
