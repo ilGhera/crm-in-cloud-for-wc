@@ -43,7 +43,7 @@ $contacts_roles = get_option( 'crmfwc-users-roles' );
 			<td>
 				<input type="checkbox" name="crmfwc-export-company" disabled>
 				<p class="description"><?php esc_html_e( 'Export the company if present in the user profile', 'crm-in-cloud-for-wc' ); ?></p>
-				<?php go_premium(); ?>
+				<?php crmfwc_go_premium(); ?>
 			</td>
 		</tr>
 		<tr class="export-orders">
@@ -51,7 +51,7 @@ $contacts_roles = get_option( 'crmfwc-users-roles' );
 			<td>
 				<input type="checkbox" name="crmfwc-export-orders" disabled>
 				<p class="description"><?php esc_html_e( 'Export user orders as opportunities in CRM in Cloud', 'crm-in-cloud-for-wc' ); ?></p>
-				<?php go_premium(); ?>
+				<?php crmfwc_go_premium(); ?>
 			</td>
 		</tr>
 	</table>
@@ -77,7 +77,7 @@ $contacts_roles = get_option( 'crmfwc-users-roles' );
 			<td>
 				<input type="checkbox" name="crmfwc-delete-company">
 				<p class="description"><?php esc_html_e( 'Delete the company linked to the contact in CRM in Cloud', 'crm-in-cloud-for-wc' ); ?></p>
-				<?php go_premium(); ?>
+				<?php crmfwc_go_premium(); ?>
 			</td>
 		</tr>
 	</table>

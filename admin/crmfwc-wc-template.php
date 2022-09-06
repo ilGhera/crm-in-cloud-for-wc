@@ -17,7 +17,7 @@
 			<td>
 				<input type="checkbox" name="crmfwc-wc-export-orders" disabled>
 				<p class="description"><?php esc_html_e( 'Export new orders as opportunities in CRM in Cloud', 'crm-in-cloud-for-wc' ); ?></p>
-				<?php go_premium(); ?>
+				<?php crmfwc_go_premium(); ?>
 			</td>
 		</tr>
 		<tr class="wc-split-opportunities">

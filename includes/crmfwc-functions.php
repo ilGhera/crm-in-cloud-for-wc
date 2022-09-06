@@ -10,7 +10,7 @@
 /**
  * Go premium button
  */
-function go_premium() {
+function crmfwc_go_premium() {
 
 	$title = __( 'This is a premium functionality, click here for more information', 'crm-in-cloud-for-wc' );
 	$output = '<span class="crmfwc label label-warning premium">';
