@@ -9,7 +9,6 @@
 
 /*Get value from the db*/
 $products_cats = get_option( 'crmfwc-products-cats' );
-/* error_log( 'PRODUCTS CATS: ' . print_r( $products_cats, true ) ); */
 ?>
 
 <!-- Export form -->
@@ -22,7 +21,6 @@ $products_cats = get_option( 'crmfwc-products-cats' );
 				<select class="crmfwc-products-cats crmfwc-select" name="crmfwc-products-cats[]" multiple>
 					<?php
 					$cats = get_terms( 'product_cat' );
-                    /* error_log( 'CATS: ' . print_r( $cats, true ) ); */
 
 					foreach ( $cats as $cat ) {
 

@@ -505,7 +505,7 @@ class CRMFWC_Products {
             }
 
             /* Delete the remote product if exists */
-            if ( is_int( $remote_id ) ) {
+            if ( $remote_id ) {
 
                 $args['id'] = $remote_id;
 

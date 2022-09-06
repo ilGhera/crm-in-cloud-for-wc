@@ -67,9 +67,9 @@ class CRMFWC_Contacts {
 		add_action( 'crmfwc_delete_remote_single_user_event', array( $this, 'delete_remote_single_user' ), 10, 1 );
 		add_action( 'wp_ajax_export-users', array( $this, 'export_users' ) );
 		add_action( 'crmfwc_export_single_user_event', array( $this, 'export_single_user' ), 10, 2 );
-		add_action( 'woocommerce_thankyou', array( $this, 'wc_order_callback' ), 10, 1 );
-		add_action( 'woocommerce_order_status_changed', array( $this, 'wc_order_callback' ), 10, 1 );
-        add_action( 'save_post_shop_order', array( $this, 'wc_order_callback' ), 10, 1 );
+		/* add_action( 'woocommerce_thankyou', array( $this, 'wc_order_callback' ), 10, 1 ); */
+		/* add_action( 'woocommerce_order_status_changed', array( $this, 'wc_order_callback' ), 10, 1 ); */
+        add_action( 'save_post_shop_order', array( $this, 'wc_order_update_callback' ), 10, 3 );
 
 		/*Classes instance*/
 		$this->crmfwc_call = new CRMFWC_Call();
@@ -1117,24 +1117,48 @@ class CRMFWC_Contacts {
 	/**
 	 * Export user and his opportunities when a WC order is completed
 	 *
-	 * @param  int $order_id the WC order.
+	 * @param  int    $order_id the WC order id.
      *
 	 * @return void
 	 */
 	public function wc_order_callback( $order_id ) {
 
-		/*Export new WC orders only if set in the options*/
-		if ( $this->wc_export_orders && ! wp_is_post_autosave( $order_id ) ) {
+        /*Export new WC orders only if set in the options*/
+        if ( $this->wc_export_orders && ! wp_is_post_autosave( $order_id ) ) {
 
-			$order = new WC_Order( $order_id );
+            $order = wc_get_order( $order_id );
 
-			if ( is_object( $order ) ) {
+            if ( is_object( $order ) ) {
 
-				$this->export_single_user( $order->get_customer_id(), $order );
+                $this->export_single_user( $order->get_customer_id(), $order );
 
-			}
+            }
 
-		}
+        }
+
+	}
+
+
+	/**
+	 * Fired when a WC order is updated
+	 *
+	 * @param  int    $order_id the WC order id.
+	 * @param  object $post     the post.
+	 * @param  bool   $update   whether this is an existing post being updated.
+     *
+	 * @return void
+	 */
+	public function wc_order_update_callback( $order_id, $post, $update ) {
+
+        if ( $update ) {
+
+            $this->wc_order_callback( $order_id );
+
+        } else {
+
+            add_action( 'woocommerce_thankyou', array( $this, 'wc_order_callback' ), 10, 1 );
+
+        }
 
 	}
 
