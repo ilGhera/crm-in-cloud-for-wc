@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CRM in Cloud for WooCommerce - Premium 0.9.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/crm-in-cloud-for-wc\n"
-"POT-Creation-Date: 2022-08-11 16:07+0200\n"
+"POT-Creation-Date: 2022-09-06 12:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -87,7 +87,7 @@ msgstr ""
 msgid "Export user orders as opportunities in CRM in Cloud"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:61 admin/crmfwc-products-template.php:43
+#: admin/crmfwc-contacts-template.php:61 admin/crmfwc-products-template.php:41
 msgid "Export to CRM in Cloud"
 msgstr ""
 
@@ -107,23 +107,23 @@ msgstr ""
 msgid "Delete the company linked to the contact in CRM in Cloud"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:86 admin/crmfwc-products-template.php:61
+#: admin/crmfwc-contacts-template.php:86 admin/crmfwc-products-template.php:59
 msgid "Delete from CRM in Cloud"
 msgstr ""
 
-#: admin/crmfwc-products-template.php:20
+#: admin/crmfwc-products-template.php:19
 msgid "Products categories"
 msgstr ""
 
-#: admin/crmfwc-products-template.php:36
+#: admin/crmfwc-products-template.php:34
 msgid "Select the product categories to export to CRM in Cloud"
 msgstr ""
 
-#: admin/crmfwc-products-template.php:53
+#: admin/crmfwc-products-template.php:51
 msgid "Delete products"
 msgstr ""
 
-#: admin/crmfwc-products-template.php:55
+#: admin/crmfwc-products-template.php:53
 msgid "Delete all products on CRM in Cloud"
 msgstr ""
 
@@ -171,53 +171,53 @@ msgstr ""
 msgid "WARNING! CRM in Cloud for WC requires WooCommerce to be activated."
 msgstr ""
 
-#: includes/class-crmfwc-contacts.php:270
-#: includes/class-crmfwc-contacts.php:318
+#: includes/class-crmfwc-contacts.php:272
+#: includes/class-crmfwc-contacts.php:317
 msgid "Pending payment"
 msgstr ""
 
-#: includes/class-crmfwc-contacts.php:404
+#: includes/class-crmfwc-contacts.php:443
 msgid "Order: "
 msgstr ""
 
-#: includes/class-crmfwc-contacts.php:995
+#: includes/class-crmfwc-contacts.php:1057
 #, php-format
 msgid "%1$d contact(s) export process has begun"
 msgstr ""
 
-#: includes/class-crmfwc-contacts.php:1002
+#: includes/class-crmfwc-contacts.php:1064
 msgid "No contacts to export"
 msgstr ""
 
-#: includes/class-crmfwc-contacts.php:1207
+#: includes/class-crmfwc-contacts.php:1291
 #, php-format
 msgid "%1$d users(s) delete process has begun"
 msgstr ""
 
-#: includes/class-crmfwc-contacts.php:1216
+#: includes/class-crmfwc-contacts.php:1300
 msgid "ERROR! There are not users to delete"
 msgstr ""
 
-#: includes/class-crmfwc-products.php:341
+#: includes/class-crmfwc-products.php:329
 #, php-format
 msgid "Taxable %d%%"
 msgstr ""
 
-#: includes/class-crmfwc-products.php:569
+#: includes/class-crmfwc-products.php:603
 #, php-format
 msgid "%1$d product(s) export process has begun"
 msgstr ""
 
-#: includes/class-crmfwc-products.php:576
+#: includes/class-crmfwc-products.php:610
 msgid "No products to export"
 msgstr ""
 
-#: includes/class-crmfwc-products.php:648
+#: includes/class-crmfwc-products.php:676
 #, php-format
 msgid "%1$d products(s) delete process has begun"
 msgstr ""
 
-#: includes/class-crmfwc-products.php:657
+#: includes/class-crmfwc-products.php:685
 msgid "ERROR! There are not products to delete"
 msgstr ""
 
