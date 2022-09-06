@@ -3,7 +3,7 @@
  * 
  * @author ilGhera
  * @package crm-in-cloud-for-wc-premium/js
- * @since 0.9.0
+ * @since 1.0.0
  */
 
 var crmfwcController = function() {
