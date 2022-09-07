@@ -266,15 +266,10 @@ var crmfwcController = function() {
 				var roles          = $('.crmfwc-contacts-role').val();
 				var data           = {
 					'action': 'export-users',
-<<<<<<< HEAD
-					'crmfwc-export-users-nonce': crmfwcSettings.exportNonce,
-					'roles': roles
-=======
 					'crmfwc-export-users-nonce': crmfwcSettings.exportUsersNonce,
 					'roles': roles,
 					'export-company': export_company,
 					'export-orders': export_orders
->>>>>>> master
 				}
 
 				$.post(ajaxurl, data, function(response){
@@ -324,12 +319,8 @@ var crmfwcController = function() {
 					
 					var data = {
 						'action': 'delete-remote-users',
-<<<<<<< HEAD
-						'crmfwc-delete-users-nonce': crmfwcSettings.deleteNonce
-=======
 						'crmfwc-delete-users-nonce': crmfwcSettings.deleteUsersNonce,
 						'delete-company': delete_company
->>>>>>> master
 					}
 
 
