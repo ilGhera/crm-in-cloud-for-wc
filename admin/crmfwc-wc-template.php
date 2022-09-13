@@ -25,6 +25,7 @@
 			<td>
 				<input type="checkbox" name="crmfwc-wc-split-opportunities" disabled>
 				<p class="description"><?php esc_html_e( 'Create an opportunity for every single order item', 'crm-in-cloud-for-wc' ); ?></p>
+				<?php crmfwc_go_premium(); ?>
 			</td>
 		</tr>
 		<tr class="wc-company-opportunities">
@@ -32,6 +33,7 @@
 			<td>
 				<input type="checkbox" name="crmfwc-wc-company-opportunities" disabled>
 				<p class="description"><?php esc_html_e( 'Export opportunities for the company as well if it exists', 'crm-in-cloud-for-wc' ); ?></p>
+				<?php crmfwc_go_premium(); ?>
 			</td>
 		</tr>
 	</table>
