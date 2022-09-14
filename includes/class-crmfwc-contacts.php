@@ -73,6 +73,7 @@ class CRMFWC_Contacts {
 		add_filter( 'action_scheduler_queue_runner_batch_size', array( $this, 'eg_increase_action_scheduler_batch_size' ) );
         add_action( 'admin_init', array( $this, 'contacts_settings' ), 10 );
         add_action( 'profile_update', array( $this, 'update_remote_contact' ), 10 );
+        add_action( 'delete_user', array( $this, 'delete_remote_contact' ), 10, 3 );
 		add_action( 'wp_ajax_delete-remote-users', array( $this, 'delete_remote_users' ) );
 		add_action( 'crmfwc_delete_remote_single_user_event', array( $this, 'delete_remote_single_user' ), 10, 1 );
 		add_action( 'wp_ajax_export-users', array( $this, 'export_users' ) );
@@ -811,7 +812,26 @@ class CRMFWC_Contacts {
         if ( $this->synchronize_contacts ) {
 
             $response = $this->export_single_user( $user_id, null, true );
-            error_log( 'UPDATE USER: ' . print_r( $response, true ) );
+
+        }
+
+    }
+
+
+    /**
+     * Delete remote contact in real time
+     *
+     * @param int $user_id the WP user id.
+     *
+     * @return void
+     */
+    public function delete_remote_contact( $user_id, $reassign, $user ) {
+
+        if ( $this->synchronize_contacts ) {
+
+			$crmfwc_id = get_user_meta( $user_id, 'crmfwc-id', true );
+
+            $response  = $this->delete_remote_single_user( $crmfwc_id, null, true );
 
         }
 
