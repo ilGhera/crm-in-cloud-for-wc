@@ -18,10 +18,6 @@ class CRMFWC_Products {
 
         if ( $init ) {
 
-            /* $this->get_remote_products(); */
-            /* $this->get_remote_products_cats(); */
-            /* $this->get_remote_tax_codes(); */
-
             add_action( 'wp_ajax_export-products', array( $this, 'export_products' ) );
             add_action( 'crmfwc_export_single_product_event', array( $this, 'export_single_product' ), 10, 1 );
             add_action( 'save_post_product', array( $this, 'export_single_product' ), 10, 1 );

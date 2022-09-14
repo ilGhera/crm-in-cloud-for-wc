@@ -64,6 +64,14 @@ class CRMFWC_Contacts {
     private $synchronize_contacts;
 
 
+    /**
+     * Synchronize company in real time
+     *
+     * @var bool
+     */
+    private $synchronize_companies;
+
+
 	/**
 	 * Class constructor
 	 */
@@ -97,6 +105,7 @@ class CRMFWC_Contacts {
         $this->split_opportunities   = get_option( 'crmfwc-wc-split-opportunities' );
         $this->company_opportunities = get_option( 'crmfwc-wc-company-opportunities' );
         $this->synchronize_contacts  = get_option( 'crmfwc-synchronize-contacts' );
+        $this->synchronize_companies = get_option( 'crmfwc-synchronize-companies' );
         
 	}
 
@@ -791,9 +800,11 @@ class CRMFWC_Contacts {
 		if ( isset( $_POST['crmfwc-contacts-settings-nonce'] ) && wp_verify_nonce( wp_unslash( $_POST['crmfwc-contacts-settings-nonce'] ), 'crmfwc-contacts-settings' ) ) {
 
             $synchronize_contacts = isset( $_POST['crmfwc-synchronize-contacts'] ) ? sanitize_text_field( wp_unslash( $_POST['crmfwc-synchronize-contacts'] ) ) : 0;
+            $synchronize_companies = isset( $_POST['crmfwc-synchronize-companies'] ) ? sanitize_text_field( wp_unslash( $_POST['crmfwc-synchronize-companies'] ) ) : 0;
 
             /*Save to the db*/
             update_option( 'crmfwc-synchronize-contacts', $synchronize_contacts );
+            update_option( 'crmfwc-synchronize-companies', $synchronize_companies );
 
         }
 
@@ -843,10 +854,11 @@ class CRMFWC_Contacts {
 	 *
 	 * @param  int    $user_id  the WP user id.
 	 * @param  object $order the WC order to get the customer details.
+     * @param  bool   $update user update with true.
      *
 	 * @return array
 	 */
-	public function prepare_user_data( $user_id = 0, $order = null ) {
+	public function prepare_user_data( $user_id = 0, $order = null, $update = false ) {
 
 		$website = null;
 
@@ -973,7 +985,7 @@ class CRMFWC_Contacts {
 			$args['companyName'] = $company;
 
 			/*Create the company in CRM in Cloud only if set in the options*/
-			if ( $this->export_company ) {
+			if ( $this->export_company || ( $update && $this->synchronize_companies ) ) {
 
 				/*Export the company to CRM in Cloud*/
 				$company_id = $this->export_single_company( $user_id, $args, $company );
@@ -1039,13 +1051,13 @@ class CRMFWC_Contacts {
 
 		if ( ! $order_id || ! $remote_id ) {
 
-            $args       = $this->prepare_user_data( $user_id, $order );
+            $args       = $this->prepare_user_data( $user_id, $order, $update );
             $company_id = isset( $args['companyId'] ) ? $args['companyId'] : $company_id;
 			$remote_id  = $this->crmfwc_call->call( 'post', 'Contact/CreateOrUpdate', $args );
 
 			if ( is_int( $remote_id ) ) {
 
-				/*Update user:meta only if wp user exists*/
+				/*Update user_meta only if wp user exists*/
 				if ( 0 !== $user_id ) {
 
 					update_user_meta( $user_id, 'crmfwc-id', $remote_id );

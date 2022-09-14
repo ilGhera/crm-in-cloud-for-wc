@@ -8,11 +8,12 @@
  */
 
 /*Get value from the db*/
-$contacts_roles       = get_option( 'crmfwc-users-roles' );
-$export_company       = get_option( 'crmfwc-export-company' ) ? get_option( 'crmfwc-export-company' ) : 0;
-$export_orders        = get_option( 'crmfwc-export-orders' ) ? get_option( 'crmfwc-export-orders' ) : 0;
-$delete_company       = get_option( 'crmfwc-delete-company' ) ? get_option( 'crmfwc-delete-company' ) : 0;
-$synchronize_contacts = get_option( 'crmfwc-synchronize-contacts' ) ? get_option( 'crmfwc-synchronize-contacts' ) : 0;
+$contacts_roles        = get_option( 'crmfwc-users-roles' );
+$export_company        = get_option( 'crmfwc-export-company' ) ? get_option( 'crmfwc-export-company' ) : 0;
+$export_orders         = get_option( 'crmfwc-export-orders' ) ? get_option( 'crmfwc-export-orders' ) : 0;
+$delete_company        = get_option( 'crmfwc-delete-company' ) ? get_option( 'crmfwc-delete-company' ) : 0;
+$synchronize_contacts  = get_option( 'crmfwc-synchronize-contacts' ) ? get_option( 'crmfwc-synchronize-contacts' ) : 0;
+$synchronize_companies = get_option( 'crmfwc-synchronize-companies' ) ? get_option( 'crmfwc-synchronize-companies' ) : 0;
 
 
 ?>
@@ -101,6 +102,13 @@ $synchronize_contacts = get_option( 'crmfwc-synchronize-contacts' ) ? get_option
 			<td>
 				<input type="checkbox" name="crmfwc-synchronize-contacts" value="1"<?php echo 1 == $synchronize_contacts ? ' checked="checked"' : ''; ?>>
 				<p class="description"><?php esc_html_e( 'Update contacts on CRM in Cloud in real time', 'crm-in-cloud-for-wc' ); ?></p>
+			</td>
+		</tr>
+		<tr class="synchronize-companies">
+			<th scope="row"><?php esc_html_e( 'Synchronize companies', 'crm-in-cloud-for-wc' ); ?></th>
+			<td>
+				<input type="checkbox" name="crmfwc-synchronize-companies" value="1"<?php echo 1 == $synchronize_companies ? ' checked="checked"' : ''; ?>>
+				<p class="description"><?php esc_html_e( 'Update companies on CRM in Cloud in real time', 'crm-in-cloud-for-wc' ); ?></p>
 			</td>
 		</tr>
         <?php wp_nonce_field( 'crmfwc-contacts-settings', 'crmfwc-contacts-settings-nonce' ); ?>
