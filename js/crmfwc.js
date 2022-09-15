@@ -14,6 +14,7 @@ var crmfwcController = function() {
 	    self.crmfwc_pagination();
 		self.tzCheckbox();
 	    self.crmfwc_export_users();
+	    self.crmfwc_users_options();
 	    self.crmfwc_delete_remote_users();
 	    self.crmfwc_export_products();
 	    self.crmfwc_delete_remote_products();
@@ -294,6 +295,44 @@ var crmfwcController = function() {
 		})
 
 	}
+
+
+	/**
+	 * Users synchronization options
+	 */
+	self.crmfwc_users_options = function() {
+
+		jQuery(function($){
+
+            var syncContacts  = $('.synchronize-contacts');
+            var syncCompanies = $('.synchronize-companies');
+            var span          = $('span.tzCheckBox', syncContacts);
+
+            // On load
+            if ( $(span).hasClass('checked') ) {
+
+                $(syncCompanies).show('slow');
+
+            }
+
+            // On change options
+            $(span).on('click', function(){
+                
+                if ( $(this).hasClass('checked') ) {
+
+                    $(syncCompanies).show('slow');
+
+                } else {
+
+                    $(syncCompanies).hide();
+
+                }
+
+            })
+
+        })
+
+    }
 
 
 	/**
