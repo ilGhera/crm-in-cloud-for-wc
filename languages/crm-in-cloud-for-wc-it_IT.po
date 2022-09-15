@@ -5,8 +5,8 @@ msgstr ""
 "Project-Id-Version: CRM in Cloud for WooCommerce - Premium 0.9.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/crm-in-cloud-for-"
 "wc\n"
-"POT-Creation-Date: 2022-09-14 08:56+0200\n"
-"PO-Revision-Date: 2022-09-14 08:56+0200\n"
+"POT-Creation-Date: 2022-09-14 11:35+0200\n"
+"PO-Revision-Date: 2022-09-14 11:35+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: it_IT\n"
@@ -52,7 +52,7 @@ msgstr ""
 msgid "Save"
 msgstr "Salva"
 
-#: admin/class-crmfwc-admin.php:130 admin/crmfwc-contacts-template.php:96
+#: admin/class-crmfwc-admin.php:130 admin/crmfwc-contacts-template.php:97
 msgid "Settings"
 msgstr "Impostazioni"
 
@@ -68,63 +68,71 @@ msgstr "Prodotti"
 msgid "WooCommerce"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:25
+#: admin/crmfwc-contacts-template.php:26
 msgid "User roles"
 msgstr "Ruoli utente"
 
-#: admin/crmfwc-contacts-template.php:43
+#: admin/crmfwc-contacts-template.php:44
 msgid "Select the user role(s) to export to CRM in Cloud"
 msgstr "Seleziona uno o più ruoli utente da esportare verso CRM in Cloud"
 
-#: admin/crmfwc-contacts-template.php:48
+#: admin/crmfwc-contacts-template.php:49
 msgid "Export company"
 msgstr "Esporta azienda"
 
-#: admin/crmfwc-contacts-template.php:51
+#: admin/crmfwc-contacts-template.php:52
 msgid "Export the company if present in the user profile"
 msgstr "Esporta l'azienda se presente nel profilo dell'utente"
 
-#: admin/crmfwc-contacts-template.php:55 admin/crmfwc-wc-template.php:33
+#: admin/crmfwc-contacts-template.php:56 admin/crmfwc-wc-template.php:33
 msgid "Export orders"
 msgstr "Esporta ordini"
 
-#: admin/crmfwc-contacts-template.php:58
+#: admin/crmfwc-contacts-template.php:59
 msgid "Export user orders as opportunities in CRM in Cloud"
 msgstr "Esporta gli ordini dell'utente come opportunità in CRM in Cloud"
 
-#: admin/crmfwc-contacts-template.php:64 admin/crmfwc-products-template.php:41
+#: admin/crmfwc-contacts-template.php:65 admin/crmfwc-products-template.php:41
 msgid "Export to CRM in Cloud"
 msgstr "Esporta in CRM in Cloud"
 
-#: admin/crmfwc-contacts-template.php:74
+#: admin/crmfwc-contacts-template.php:75
 msgid "Delete contacts"
 msgstr "Cancella contatti"
 
-#: admin/crmfwc-contacts-template.php:76
+#: admin/crmfwc-contacts-template.php:77
 msgid "Delete all contacts on CRM in Cloud"
 msgstr "Cancella tutti i contatti presenti in CRM in Cloud"
 
-#: admin/crmfwc-contacts-template.php:80
+#: admin/crmfwc-contacts-template.php:81
 msgid "Delete company"
 msgstr "Cancella azienda"
 
-#: admin/crmfwc-contacts-template.php:83
+#: admin/crmfwc-contacts-template.php:84
 msgid "Delete the company linked to the contact in CRM in Cloud"
 msgstr "Cancella l'azienda collegata al contatto in CRM in Cloud"
 
-#: admin/crmfwc-contacts-template.php:89 admin/crmfwc-products-template.php:59
+#: admin/crmfwc-contacts-template.php:90 admin/crmfwc-products-template.php:59
 msgid "Delete from CRM in Cloud"
 msgstr "Cancella da CRM in Cloud"
 
-#: admin/crmfwc-contacts-template.php:100
+#: admin/crmfwc-contacts-template.php:101
 msgid "Synchronize contacts"
 msgstr "Sincronizzazione contatti"
 
-#: admin/crmfwc-contacts-template.php:103
+#: admin/crmfwc-contacts-template.php:104
 msgid "Update contacts on CRM in Cloud in real time"
 msgstr "Aggiorna i contatti su CRM in Cloud in tempo reale"
 
-#: admin/crmfwc-contacts-template.php:110
+#: admin/crmfwc-contacts-template.php:108
+msgid "Synchronize companies"
+msgstr "Sincronizzazione aziende"
+
+#: admin/crmfwc-contacts-template.php:111
+msgid "Update companies on CRM in Cloud in real time"
+msgstr "Aggiorna le aziende su CRM in Cloud in tempo reale"
+
+#: admin/crmfwc-contacts-template.php:118
 msgid "Save settings"
 msgstr "Salva impostazioni"
 
@@ -192,53 +200,53 @@ msgstr ""
 "ATTENZIONE! CRM in Cloud richiede che WooCommerce sia attivo per essere "
 "utilizzato."
 
-#: includes/class-crmfwc-contacts.php:281
-#: includes/class-crmfwc-contacts.php:326
+#: includes/class-crmfwc-contacts.php:291
+#: includes/class-crmfwc-contacts.php:336
 msgid "Pending payment"
 msgstr "In attesa di pagamento"
 
-#: includes/class-crmfwc-contacts.php:452
+#: includes/class-crmfwc-contacts.php:462
 msgid "Order: "
 msgstr "Ordine: "
 
-#: includes/class-crmfwc-contacts.php:1107
+#: includes/class-crmfwc-contacts.php:1139
 #, php-format
 msgid "%1$d contact(s) export process has begun"
 msgstr "Il processo di esportazione di %1$d contatti è iniziato"
 
-#: includes/class-crmfwc-contacts.php:1114
+#: includes/class-crmfwc-contacts.php:1146
 msgid "No contacts to export"
 msgstr "Nessun contatto da esportare"
 
-#: includes/class-crmfwc-contacts.php:1341
+#: includes/class-crmfwc-contacts.php:1373
 #, php-format
 msgid "%1$d users(s) delete process has begun"
 msgstr "Il processo di cancellazione di %1$d contatti è iniziato"
 
-#: includes/class-crmfwc-contacts.php:1350
+#: includes/class-crmfwc-contacts.php:1382
 msgid "ERROR! There are not users to delete"
 msgstr "ERRORE! Non ci sono contatti da eliminare"
 
-#: includes/class-crmfwc-products.php:329
+#: includes/class-crmfwc-products.php:325
 #, php-format
 msgid "Taxable %d%%"
 msgstr "Tassabile %d%%"
 
-#: includes/class-crmfwc-products.php:603
+#: includes/class-crmfwc-products.php:599
 #, php-format
 msgid "%1$d product(s) export process has begun"
 msgstr "Il processo di esportazione di %1$d prodotti è iniziato"
 
-#: includes/class-crmfwc-products.php:610
+#: includes/class-crmfwc-products.php:606
 msgid "No products to export"
 msgstr "Nessun prodotto da esportare"
 
-#: includes/class-crmfwc-products.php:676
+#: includes/class-crmfwc-products.php:672
 #, php-format
 msgid "%1$d products(s) delete process has begun"
 msgstr "Il processo di cancellazione di %1$d prodotti è iniziato"
 
-#: includes/class-crmfwc-products.php:685
+#: includes/class-crmfwc-products.php:681
 msgid "ERROR! There are not products to delete"
 msgstr "ERRORE! Non ci sono prodotti da eliminare"
 
