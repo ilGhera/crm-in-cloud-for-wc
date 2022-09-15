@@ -5,8 +5,8 @@ msgstr ""
 "Project-Id-Version: CRM in Cloud for WooCommerce - Premium 0.9.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/crm-in-cloud-for-"
 "wc\n"
-"POT-Creation-Date: 2022-09-14 11:35+0200\n"
-"PO-Revision-Date: 2022-09-14 11:35+0200\n"
+"POT-Creation-Date: 2022-09-15 16:20+0200\n"
+"PO-Revision-Date: 2022-09-15 16:22+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: it_IT\n"
@@ -52,15 +52,15 @@ msgstr ""
 msgid "Save"
 msgstr "Salva"
 
-#: admin/class-crmfwc-admin.php:130 admin/crmfwc-contacts-template.php:97
+#: admin/class-crmfwc-admin.php:130
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: admin/class-crmfwc-admin.php:131
+#: admin/class-crmfwc-admin.php:131 admin/crmfwc-contacts-template.php:102
 msgid "Contacts"
 msgstr "Contatti"
 
-#: admin/class-crmfwc-admin.php:132
+#: admin/class-crmfwc-admin.php:132 admin/crmfwc-products-template.php:74
 msgid "Products"
 msgstr "Prodotti"
 
@@ -92,7 +92,7 @@ msgstr "Esporta ordini"
 msgid "Export user orders as opportunities in CRM in Cloud"
 msgstr "Esporta gli ordini dell'utente come opportunità in CRM in Cloud"
 
-#: admin/crmfwc-contacts-template.php:65 admin/crmfwc-products-template.php:41
+#: admin/crmfwc-contacts-template.php:65 admin/crmfwc-products-template.php:44
 msgid "Export to CRM in Cloud"
 msgstr "Esporta in CRM in Cloud"
 
@@ -112,46 +112,54 @@ msgstr "Cancella azienda"
 msgid "Delete the company linked to the contact in CRM in Cloud"
 msgstr "Cancella l'azienda collegata al contatto in CRM in Cloud"
 
-#: admin/crmfwc-contacts-template.php:90 admin/crmfwc-products-template.php:59
+#: admin/crmfwc-contacts-template.php:90 admin/crmfwc-products-template.php:62
 msgid "Delete from CRM in Cloud"
 msgstr "Cancella da CRM in Cloud"
 
-#: admin/crmfwc-contacts-template.php:101
-msgid "Synchronize contacts"
-msgstr "Sincronizzazione contatti"
+#: admin/crmfwc-contacts-template.php:98 admin/crmfwc-products-template.php:70
+msgid "Synchronization options"
+msgstr "Opzioni di sincronizzazione"
 
-#: admin/crmfwc-contacts-template.php:104
+#: admin/crmfwc-contacts-template.php:105
 msgid "Update contacts on CRM in Cloud in real time"
 msgstr "Aggiorna i contatti su CRM in Cloud in tempo reale"
 
-#: admin/crmfwc-contacts-template.php:108
-msgid "Synchronize companies"
-msgstr "Sincronizzazione aziende"
+#: admin/crmfwc-contacts-template.php:109
+msgid "Companies"
+msgstr "Aziende"
 
-#: admin/crmfwc-contacts-template.php:111
+#: admin/crmfwc-contacts-template.php:112
 msgid "Update companies on CRM in Cloud in real time"
 msgstr "Aggiorna le aziende su CRM in Cloud in tempo reale"
 
-#: admin/crmfwc-contacts-template.php:118
+#: admin/crmfwc-contacts-template.php:119 admin/crmfwc-products-template.php:91
 msgid "Save settings"
 msgstr "Salva impostazioni"
 
-#: admin/crmfwc-products-template.php:19
+#: admin/crmfwc-products-template.php:22 admin/crmfwc-products-template.php:81
 msgid "Products categories"
 msgstr "Categorie prodotti"
 
-#: admin/crmfwc-products-template.php:34
+#: admin/crmfwc-products-template.php:37
 msgid "Select the product categories to export to CRM in Cloud"
 msgstr ""
 "Seleziona una o più categorie di prodotti da esportare verso CRM in Cloud"
 
-#: admin/crmfwc-products-template.php:51
+#: admin/crmfwc-products-template.php:54
 msgid "Delete products"
 msgstr "Cancella prodotti"
 
-#: admin/crmfwc-products-template.php:53
+#: admin/crmfwc-products-template.php:56
 msgid "Delete all products on CRM in Cloud"
 msgstr "Cancella tutti i prodotti presenti in CRM in Cloud"
+
+#: admin/crmfwc-products-template.php:77
+msgid "Update products on CRM in Cloud in real time"
+msgstr "Aggiorna i prodotti su CRM in Cloud in tempo reale"
+
+#: admin/crmfwc-products-template.php:84
+msgid "Update products categories on CRM in Cloud in real time"
+msgstr "Aggiorna le categorie dei prodotti su CRM in Cloud in tempo reale"
 
 #: admin/crmfwc-settings-template.php:21
 msgid "Connect"
@@ -227,26 +235,26 @@ msgstr "Il processo di cancellazione di %1$d contatti è iniziato"
 msgid "ERROR! There are not users to delete"
 msgstr "ERRORE! Non ci sono contatti da eliminare"
 
-#: includes/class-crmfwc-products.php:325
+#: includes/class-crmfwc-products.php:348
 #, php-format
 msgid "Taxable %d%%"
 msgstr "Tassabile %d%%"
 
-#: includes/class-crmfwc-products.php:599
+#: includes/class-crmfwc-products.php:622
 #, php-format
 msgid "%1$d product(s) export process has begun"
 msgstr "Il processo di esportazione di %1$d prodotti è iniziato"
 
-#: includes/class-crmfwc-products.php:606
+#: includes/class-crmfwc-products.php:629
 msgid "No products to export"
 msgstr "Nessun prodotto da esportare"
 
-#: includes/class-crmfwc-products.php:672
+#: includes/class-crmfwc-products.php:695
 #, php-format
 msgid "%1$d products(s) delete process has begun"
 msgstr "Il processo di cancellazione di %1$d prodotti è iniziato"
 
-#: includes/class-crmfwc-products.php:681
+#: includes/class-crmfwc-products.php:704
 msgid "ERROR! There are not products to delete"
 msgstr "ERRORE! Non ci sono prodotti da eliminare"
 
@@ -879,6 +887,9 @@ msgstr ""
 #: plugin-update-checker/Puc/v4p13/Vcs/PluginUpdateChecker.php:101
 msgid "There is no changelog available."
 msgstr ""
+
+#~ msgid "Synchronize contacts"
+#~ msgstr "Sincronizzazione contatti"
 
 #~ msgid "Save options"
 #~ msgstr "Salva impostazioni"

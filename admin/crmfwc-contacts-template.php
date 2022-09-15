@@ -92,20 +92,21 @@ $synchronize_companies = get_option( 'crmfwc-synchronize-companies' ) ? get_opti
 
 </form>
 
+<!-- Settings form -->
 <form name="crmfwc-contacts-settings" class="crmfwc-form"  method="post" action="">
 
-    <h2><?php esc_html_e( 'Settings', 'crm-in-cloud-for-wc' ); ?></h2>
+    <h2><?php esc_html_e( 'Synchronization options', 'crm-in-cloud-for-wc' ); ?></h2>
 
 	<table class="form-table">
 		<tr class="synchronize-contacts">
-			<th scope="row"><?php esc_html_e( 'Synchronize contacts', 'crm-in-cloud-for-wc' ); ?></th>
+			<th scope="row"><?php esc_html_e( 'Contacts', 'crm-in-cloud-for-wc' ); ?></th>
 			<td>
 				<input type="checkbox" name="crmfwc-synchronize-contacts" value="1"<?php echo 1 == $synchronize_contacts ? ' checked="checked"' : ''; ?>>
 				<p class="description"><?php esc_html_e( 'Update contacts on CRM in Cloud in real time', 'crm-in-cloud-for-wc' ); ?></p>
 			</td>
 		</tr>
 		<tr class="synchronize-companies">
-			<th scope="row"><?php esc_html_e( 'Synchronize companies', 'crm-in-cloud-for-wc' ); ?></th>
+			<th scope="row"><?php esc_html_e( 'Companies', 'crm-in-cloud-for-wc' ); ?></th>
 			<td>
 				<input type="checkbox" name="crmfwc-synchronize-companies" value="1"<?php echo 1 == $synchronize_companies ? ' checked="checked"' : ''; ?>>
 				<p class="description"><?php esc_html_e( 'Update companies on CRM in Cloud in real time', 'crm-in-cloud-for-wc' ); ?></p>
@@ -119,3 +120,4 @@ $synchronize_companies = get_option( 'crmfwc-synchronize-companies' ) ? get_opti
 	</p>
 
 </form>
+

@@ -8,7 +8,10 @@
  */
 
 /*Get value from the db*/
-$products_cats = get_option( 'crmfwc-products-cats' );
+$products_cats              = get_option( 'crmfwc-products-cats' );
+$synchronize_products       = get_option( 'crmfwc-synchronize-products' );
+$synchronize_products_terms = get_option( 'crmfwc-synchronize-products-terms' );
+
 ?>
 
 <!-- Export form -->
@@ -44,7 +47,7 @@ $products_cats = get_option( 'crmfwc-products-cats' );
 </form>
 
 <!-- Delete form -->
-<form name="crmfwc-delete-products" class="crmfwc-form"  method="post" action="">
+<form name="crmfwc-delete-products" class="crmfwc-form one-of"  method="post" action="">
 
 	<table class="form-table">
 		<tr>
@@ -60,3 +63,33 @@ $products_cats = get_option( 'crmfwc-products-cats' );
 	</p>
 
 </form>
+
+<!-- Settings form -->
+<form name="crmfwc-products-settings" class="crmfwc-form"  method="post" action="">
+
+    <h2><?php esc_html_e( 'Synchronization options', 'crm-in-cloud-for-wc' ); ?></h2>
+
+	<table class="form-table">
+		<tr class="synchronize-products">
+			<th scope="row"><?php esc_html_e( 'Products', 'crm-in-cloud-for-wc' ); ?></th>
+			<td>
+				<input type="checkbox" name="crmfwc-synchronize-products" value="1"<?php echo 1 == $synchronize_products ? ' checked="checked"' : ''; ?>>
+				<p class="description"><?php esc_html_e( 'Update products on CRM in Cloud in real time', 'crm-in-cloud-for-wc' ); ?></p>
+			</td>
+		</tr>
+		<tr class="synchronize-products-terms">
+			<th scope="row"><?php esc_html_e( 'Products categories', 'crm-in-cloud-for-wc' ); ?></th>
+			<td>
+				<input type="checkbox" name="crmfwc-synchronize-products-terms" value="1"<?php echo 1 == $synchronize_products_terms ? ' checked="checked"' : ''; ?>>
+				<p class="description"><?php esc_html_e( 'Update products categories on CRM in Cloud in real time', 'crm-in-cloud-for-wc' ); ?></p>
+			</td>
+		</tr>
+        <?php wp_nonce_field( 'crmfwc-products-settings', 'crmfwc-products-settings-nonce' ); ?>
+	</table>
+
+	<p class="submit">
+		<input type="submit" class="button-primary crmfwc products-settings" value="<?php esc_html_e( 'Save settings', 'crm-in-cloud-for-wc' ); ?>" />
+	</p>
+
+</form>
+

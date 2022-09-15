@@ -790,7 +790,7 @@ class CRMFWC_Contacts {
 
 
     /**
-     * Export users options
+     * User synchronization options 
      *
      * @return void 
      */
