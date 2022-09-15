@@ -229,15 +229,16 @@ class CRMFWC_Products {
 
             } else {
 
-                if ( $remote_cat_id && $update ) {
-
-                    $delete = $this->crmfwc_call->call( 'delete', 'CatalogCategories/' . $remote_cat_id );
-
-                }
-
                 $args = array(
                     'description' => $term->name,
                 );
+
+                /* Update remote product cat providing the ID */
+                if ( $remote_cat_id && $update ) {
+
+                    $args['id'] = $remote_cat_id;
+
+                }
 
                 /* Check for a parent term */
                 if ( $term->parent ) {
