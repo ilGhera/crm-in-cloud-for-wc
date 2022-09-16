@@ -485,11 +485,10 @@ class CRMFWC_Products {
         /* Generate a boundary delimiter */
         $boundary = wp_generate_password( 24, false );
 
-        /* The bosy payload */
+        /* The body payload */
         $payload  = '--' . $boundary;
         $payload .= "\r\n";
         $payload .= 'Content-Disposition: form-data; name="file"; filename="' . $filename . '"' . "\r\n";
-        $payload .= "Content-Type: jpg\r\n"; // If you      know the mime-type
         $payload .= 'Content-Transfer-Encoding: binary' . "\r\n";
         $payload .= "\r\n";
         $payload .= file_get_contents( $image_path );

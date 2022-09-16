@@ -110,6 +110,7 @@ class CRMFWC_Contacts {
         /* Conditional hooks */
         if ( $this->synchronize_contacts ) {
 
+            add_action( 'user_register', array( $this, 'update_remote_contact' ), 10 );
             add_action( 'profile_update', array( $this, 'update_remote_contact' ), 10 );
             add_action( 'delete_user', array( $this, 'delete_remote_contact' ), 10, 3 );
 
@@ -1033,6 +1034,48 @@ class CRMFWC_Contacts {
 	}
 
 
+    /**
+     * Export the user image to CRM in Cloud
+     *
+     * @param int $user_id  the WP user id.
+     * @param int $remote_id the remote product id.
+     *
+     * @return void
+     */
+    private function export_contact_image( $user_id, $remote_id ) {
+
+        $image_url = get_avatar_url( $user_id, array( 'default' => '404' ) );
+        $headers   = @get_headers( $image_url );
+
+        if ( isset( $headers[0] ) && preg_match( "|200|", $headers[0] ) ) {
+
+            $info     = pathinfo( $image_url );
+            $filename = isset( $info['filename'] ) && $info['filename'] ? $info['filename'] : 'user-avatar';
+            $ext      = isset( $info['extension'] ) && $info['extension'] ? $info['extension'] : 'png'; 
+            $filename = $filename . '.' . $ext; 
+
+            /* Generate a boundary delimiter */
+            $boundary = wp_generate_password( 24, false );
+
+            /* The body payload */
+            $payload  = '--' . $boundary;
+            $payload .= "\r\n";
+            $payload .= 'Content-Disposition: form-data; name="file"; filename="' . $filename . '"' . "\r\n";
+            $payload .= 'Content-Transfer-Encoding: binary' . "\r\n";
+            $payload .= "\r\n";
+            $payload .= file_get_contents( $image_url, true );
+            $payload .= "\r\n";
+            $payload .= '--' . $boundary . '--';
+            $payload .= "\r\n\r\n";
+
+            /* The call */
+            $response = $this->crmfwc_call->call( 'post', 'Contact/' . $remote_id . '/Photo', $payload, false, true, $boundary );
+
+        }
+
+    }
+
+
 	/**
 	 * Export single WP user to CRM in Cloud
 	 *
@@ -1083,6 +1126,14 @@ class CRMFWC_Contacts {
                 $this->export_opportunities( $user_id, $company_id, 0, $order_id );
 
             }
+
+        }
+
+        /* Export avatar */
+        if ( $user_id && $remote_id ) {
+
+            $image_response = $this->export_contact_image( $user_id, $remote_id );
+
 
         }
 
