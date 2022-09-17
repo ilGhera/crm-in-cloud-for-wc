@@ -4,7 +4,7 @@
  * Plugin URI: https://www.ilghera.com/product/crm-in-cloud-for-woocommerce
  * Description: Synchronize your WordPress/ WooCommerce site with CRM in Cloud exporting users and orders in real time
  * Author: ilGhera
- * Version: 1.0.0
+ * Version: 1.1.0
  * Author URI: https://ilghera.com
  * Requires at least: 4.0
  * Tested up to: 6.0

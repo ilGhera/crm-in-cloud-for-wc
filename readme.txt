@@ -1,7 +1,7 @@
 === CRM in Cloud for WooCommerce - Premium ===
 Contributors: ghera74
 Tags: CRM in Cloud, CRM, WooCommerce, customers, TeamSystem, Danea, Easyfatt, Reviso, Fatture in Cloud
-Version: 1.0.0
+Version: 1.1.0
 Requires at least: 4.0
 Tested up to: 6.0
 License: GPLv2
@@ -17,6 +17,8 @@ Synchronize your WordPress/ WooCommerce site with CRM in Cloud exporting users a
 * Export WordPress users as *Contacts* in CRM in Cloud.
 * Select one or more WordPress user level to export.
 * Create the *Company* in CRM in Cloud if exported with the user.
+* Export users avatars.
+* Update users in real time.
 * Export user orders to CRM in Cloud as opportunities.
 * Export new orders to CRM in Cloud as opportunities in real time.
 * Export products to CRM in Cloud by categories.
@@ -50,6 +52,17 @@ This plugin sends data to an external service, like the products bought by the u
 
 
 == Changelog ==
+
+= 1.1.0 = 
+Release Date: 17 September 2022
+
+* Enhancement: Create, update and delete users in real time
+* Enhancement: Export users avatars 
+* Enhancement: Untrashed products synchronized with CRM in Cloud 
+* Enhancement: Products synchronization options
+* Enhancement: Users synchronization options
+* Bug fix: Product image not removed in CRM in Cloud
+
 
 = 1.0.0 = 
 Release Date: 06 September 2022

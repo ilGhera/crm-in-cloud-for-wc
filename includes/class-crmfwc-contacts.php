@@ -4,7 +4,7 @@
  *
  * @author ilGhera
  * @package crm-in-cloud-for-wc/includes
- * @since 1.0.0
+ * @since 1.1.0
  */
 class CRMFWC_Contacts {
 
@@ -732,7 +732,7 @@ class CRMFWC_Contacts {
 		$pec_name     = null;
 		$pa_code_name = null;
 
-		if ( get_option( 'wcexd_company_invoice' ) || get_option( 'wcexd_private_invoice' ) ) {
+		if ( function_exists( 'wcexd_options' ) && ( get_option( 'wcexd_company_invoice' ) || get_option( 'wcexd_private_invoice' ) ) ) {
 
 			/*WC Exporter for Danea*/
 			$cf_name      = 'billing_wcexd_cf';
@@ -740,7 +740,7 @@ class CRMFWC_Contacts {
 			$pec_name     = 'billing_wcexd_pec';
 			$pa_code_name = 'billing_wcexd_pa_code';
 
-		} elseif ( get_option( 'wcefr_company_invoice' ) || get_option( 'wcefr_private_invoice' ) ) {
+		} elseif ( class_exists( 'WCEFR_Admin' ) && ( get_option( 'wcefr_company_invoice' ) || get_option( 'wcefr_private_invoice' ) ) ) {
 
 			/*WC Exporter for Danea*/
 			$cf_name      = 'billing_wcefr_cf';
@@ -897,10 +897,15 @@ class CRMFWC_Contacts {
 			$company                 = isset( $user_data['billing_company'] ) ? ucwords( $user_data['billing_company'] ) : null;
 			$website                 = $user_details->user_url;
 
+            error_log( 'USER DATA: ' . print_r( $user_data, true ) );
+
 			/*Fiscal data*/
 			$pi_name = $this->get_tax_field_name( 'pi_name' );
+            error_log( 'PIVA NAME: ' . $pi_name );
+
 			if ( $pi_name ) {
 				$vat_number = isset( $user_data[ $pi_name ] ) ? $user_data[ $pi_name ] : '';
+                error_log( 'VAT NUMBER: ' . $vat_number );
 			}
 
 			$cf_name = $this->get_tax_field_name( 'cf_name' );
@@ -1029,6 +1034,7 @@ class CRMFWC_Contacts {
 		
 		}
 
+        error_log( 'USER ARGS: ' . print_r( $args, true ) );
 		return $args;
 
 	}
