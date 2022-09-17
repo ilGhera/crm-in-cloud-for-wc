@@ -472,6 +472,20 @@ class CRMFWC_Products {
 
 
     /**
+     * Delete the product image in CRM in Cloud
+     *
+     * @param int $remote_id the remote product id.
+     *
+     * @return void
+     */
+    private function delete_product_image( $remote_id ) {
+
+        $response = $this->crmfwc_call->call( 'delete', 'Catalog/' . $remote_id . '/Photo' );
+
+    }
+
+
+    /**
      * Export the product image to CRM in Cloud
      *
      * @param int $image_id  the WC product image id.
@@ -586,6 +600,11 @@ class CRMFWC_Products {
 
                 /* Export product image */
                 $this->export_product_image( $product->get_image_id(), $response );
+
+            } elseif ( $remote_id ) {
+
+                /* Delete product image */
+                $this->delete_product_image( $remote_id );
 
             }
 
