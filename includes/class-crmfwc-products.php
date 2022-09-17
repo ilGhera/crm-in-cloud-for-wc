@@ -48,7 +48,9 @@ class CRMFWC_Products {
             /* Conditionals hooks */
             if ( $this->synchronize_products ) {
 
-                add_action( 'save_post_product', array( $this, 'export_single_product' ), 10, 1 );
+                add_action( 'woocommerce_update_product', array( $this, 'export_single_product' ), 10, 1 );
+                add_action( 'trashed_post', array( $this, 'export_single_product' ), 10, 1 );
+                add_action( 'untrashed_post', array( $this, 'export_single_product' ), 10, 1 );
 
             }
 
@@ -505,20 +507,20 @@ class CRMFWC_Products {
 	/**
 	 * Export single WP product to CRM in Cloud
 	 *
-     * @param object @product the wp product.
+     * @param object @post_id the wp post id.
      *
 	 * @return void
 	 */
-	public function export_single_product( $product_id ) {
+	public function export_single_product( $post_id ) {
 
-        if ( wp_is_post_autosave( $product_id ) ) {
+        if ( wp_is_post_autosave( $post_id ) ) {
 
             return;
 
         }
 
-        $product   = wc_get_product( $product_id );
-        $remote_id = get_post_meta( $product_id, 'crmfwc-remote-id', true );
+        $product   = wc_get_product( $post_id );
+        $remote_id = get_post_meta( $post_id, 'crmfwc-remote-id', true );
 
         if ( ! is_object( $product ) ) {
             
@@ -527,13 +529,13 @@ class CRMFWC_Products {
         } elseif ( 'trash' === $product->get_status() && $remote_id ) {
 
             /* Delete the product in CRM in Cloud */
-            $delete = $this->delete_remote_single_product( $remote_id );
+            $delete = $this->delete_remote_single_product( $remote_id, $post_id );
 
             return;
 
         } elseif ( 'publish' === $product->get_status() ) {
 
-            $product_code = $product->get_sku() ? $product->get_sku() : 'crmfwc-' . $product_id;
+            $product_code = $product->get_sku() ? $product->get_sku() : 'crmfwc-' . $post_id;
 
             $args = array(
                 'active'      => 1,
@@ -541,7 +543,7 @@ class CRMFWC_Products {
                 'codeEAN'     => $product_code,
                 'description' => $product->get_description(),
                 'productName' => $product->get_title(),
-                'taxCode'     => $this->get_remote_tax_code( $product_id ), 
+                'taxCode'     => $this->get_remote_tax_code( $post_id ), 
                 'price'       => $product->get_price(),
             );
 
@@ -675,11 +677,18 @@ class CRMFWC_Products {
     /*
      * Delete a single product in CRM in Cloud
      *
-     * @param int $remote_id the remote product id.
+     * @param int $remote_id  the remote product id.
+     * @param int $product_id the WC product id.
      *
      * @return void
      */
-    public function delete_remote_single_product( $remote_id ) {
+    public function delete_remote_single_product( $remote_id, $product_id = null ) {
+
+        if ( $product_id ) {
+
+            delete_post_meta( $product_id, 'crmfwc-remote-id' );
+
+        }
 
         $delete = $this->crmfwc_call->call( 'delete', 'Catalog/' . $remote_id );
 
@@ -721,13 +730,13 @@ class CRMFWC_Products {
                 /* Delete all the remote products keys from the db */
                 delete_post_meta_by_key( 'crmfwc-remote-id' );
 
-				 $response[] = array( 
-				 	'ok', 
-				 	/* translators: 1: products count */ 
-				 	esc_html( sprintf( __( '%1$d products(s) delete process has begun', 'crm-in-cloud-for-wc' ), $n ) ), 
-				 ); 
+                $response[] = array( 
+                    'ok', 
+                    /* translators: 1: products count */ 
+                    esc_html( sprintf( __( '%1$d products(s) delete process has begun', 'crm-in-cloud-for-wc' ), $n ) ), 
+                ); 
 
-				 echo json_encode( $response ); 
+                echo json_encode( $response ); 
 
 			 } else { 
 
