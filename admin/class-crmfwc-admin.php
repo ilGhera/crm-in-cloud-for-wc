@@ -35,6 +35,8 @@ class CRMFWC_Admin {
 		}
 
 		wp_enqueue_style( 'crmfwc-style', CRMFWC_URI . 'css/crm-in-cloud-for-wc.css' );
+        wp_enqueue_style( 'bootstrap-iso', CRMFWC_URI . 'css/bootstrap-iso.css' );
+
 
 		/*Nonces*/
 		$export_users_nonce    = wp_create_nonce( 'crmfwc-export-users' );
@@ -128,6 +130,7 @@ class CRMFWC_Admin {
 					echo '<div class="icon32 icon32-woocommerce-settings" id="icon-woocommerce"><br /></div>';
 					echo '<h2 id="crmfwc-admin-menu" class="nav-tab-wrapper woo-nav-tab-wrapper">';
 						echo '<a href="#" data-link="crmfwc-settings" class="nav-tab nav-tab-active" onclick="return false;">' . esc_html( __( 'Settings', 'crm-in-cloud-for-wc' ) ) . '</a>';
+						echo '<a href="#" data-link="crmfwc-checkout" class="nav-tab" onclick="return false;">' . esc_html( __( 'Checkout', 'crm-in-cloud-for-wc' ) ) . '</a>';
 						echo '<a href="#" data-link="crmfwc-users" class="nav-tab" onclick="return false;">' . esc_html( __( 'Contacts', 'crm-in-cloud-for-wc' ) ) . '</a>';
 						echo '<a href="#" data-link="crmfwc-products" class="nav-tab" onclick="return false;">' . esc_html( __( 'Products', 'crm-in-cloud-for-wc' ) ) . '</a>';
 						echo '<a href="#" data-link="crmfwc-wc" class="nav-tab" onclick="return false;">' . esc_html( __( 'WooCommerce', 'crm-in-cloud-for-wc' ) ) . '</a>';
@@ -137,6 +140,13 @@ class CRMFWC_Admin {
 					echo '<div id="crmfwc-settings" class="crmfwc-admin" style="display: block;">';
 
 						include( CRMFWC_ADMIN . 'crmfwc-settings-template.php' );
+
+					echo '</div>';
+
+					/*Checkout*/
+					echo '<div id="crmfwc-checkout" class="crmfwc-admin">';
+
+                        include( CRMFWC_INCLUDES . 'wc-checkout-fields/templates/crmfwc-checkout-template.php' );
 
 					echo '</div>';
 

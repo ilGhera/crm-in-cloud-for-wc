@@ -5,8 +5,8 @@ msgstr ""
 "Project-Id-Version: CRM in Cloud for WooCommerce - Premium 0.9.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/crm-in-cloud-for-"
 "wc\n"
-"POT-Creation-Date: 2022-09-15 16:20+0200\n"
-"PO-Revision-Date: 2022-09-15 16:22+0200\n"
+"POT-Creation-Date: 2022-09-27 18:27+0200\n"
+"PO-Revision-Date: 2022-09-27 18:44+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: it_IT\n"
@@ -20,27 +20,27 @@ msgstr ""
 "X-Poedit-KeywordsList: _;__;esc_html_e;esc_html__\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: admin/class-crmfwc-admin.php:84
+#: admin/class-crmfwc-admin.php:86
 msgid "It seems like you don't have permission to see this page"
 msgstr "Sembra che tu non abbia il permesso di visualizzare questa pagina"
 
-#: admin/class-crmfwc-admin.php:96
+#: admin/class-crmfwc-admin.php:98
 msgid "ATTENTION! It seems like Woocommerce is not installed."
 msgstr "ATTENZIONE! Sembra che WooCommerce non sia installato."
 
-#: admin/class-crmfwc-admin.php:105
+#: admin/class-crmfwc-admin.php:107
 msgid "CRM in Cloud for WooCommerce - Premium"
 msgstr ""
 
-#: admin/class-crmfwc-admin.php:120
+#: admin/class-crmfwc-admin.php:122
 msgid "Premium Key"
 msgstr ""
 
-#: admin/class-crmfwc-admin.php:121
+#: admin/class-crmfwc-admin.php:123
 msgid "Add your Premium Key"
 msgstr "Aggiungi la tua Premium Key"
 
-#: admin/class-crmfwc-admin.php:122
+#: admin/class-crmfwc-admin.php:124
 msgid ""
 "Add your Premium Key and keep updated your copy of CRM in Cloud for "
 "WooCommerce."
@@ -48,23 +48,27 @@ msgstr ""
 "Aggiungi la tua Premium Key e mantieni aggiornato CRM in Cloud for "
 "WooCommerce."
 
-#: admin/class-crmfwc-admin.php:124 admin/crmfwc-wc-template.php:58
+#: admin/class-crmfwc-admin.php:126 admin/crmfwc-wc-template.php:58
 msgid "Save"
 msgstr "Salva"
 
-#: admin/class-crmfwc-admin.php:130
+#: admin/class-crmfwc-admin.php:132
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: admin/class-crmfwc-admin.php:131 admin/crmfwc-contacts-template.php:102
+#: admin/class-crmfwc-admin.php:133
+msgid "Checkout"
+msgstr ""
+
+#: admin/class-crmfwc-admin.php:134 admin/crmfwc-contacts-template.php:102
 msgid "Contacts"
 msgstr "Contatti"
 
-#: admin/class-crmfwc-admin.php:132 admin/crmfwc-products-template.php:74
+#: admin/class-crmfwc-admin.php:135 admin/crmfwc-products-template.php:74
 msgid "Products"
 msgstr "Prodotti"
 
-#: admin/class-crmfwc-admin.php:133
+#: admin/class-crmfwc-admin.php:136
 msgid "WooCommerce"
 msgstr ""
 
@@ -165,21 +169,25 @@ msgstr "Aggiorna le categorie dei prodotti su CRM in Cloud in tempo reale"
 msgid "Connect"
 msgstr "Connessione"
 
-#: admin/crmfwc-settings-template.php:23
+#: admin/crmfwc-settings-template.php:25
 msgid "Email"
 msgstr ""
 
-#: admin/crmfwc-settings-template.php:29
+#: admin/crmfwc-settings-template.php:26
 msgid "Password"
 msgstr ""
 
-#: admin/crmfwc-settings-template.php:30
+#: admin/crmfwc-settings-template.php:28
 msgid "Connect with your CRM in Cloud credentials"
 msgstr "Connettiti a CRM in Cloud utilizzando le tue credenziali"
 
-#: admin/crmfwc-settings-template.php:32
+#: admin/crmfwc-settings-template.php:29
 msgid "Connect to CRM in Cloud"
 msgstr "Connessione a CRM in Cloud"
+
+#: admin/crmfwc-settings-template.php:30
+msgid "Disconnect from CRM in Cloud"
+msgstr "Disconnessione da CRM in Cloud"
 
 #: admin/crmfwc-wc-template.php:36
 msgid "Export new orders as opportunities in CRM in Cloud"
@@ -208,59 +216,216 @@ msgstr ""
 "ATTENZIONE! CRM in Cloud richiede che WooCommerce sia attivo per essere "
 "utilizzato."
 
-#: includes/class-crmfwc-contacts.php:291
-#: includes/class-crmfwc-contacts.php:336
+#: includes/class-crmfwc-contacts.php:319
+#: includes/class-crmfwc-contacts.php:364
 msgid "Pending payment"
 msgstr "In attesa di pagamento"
 
-#: includes/class-crmfwc-contacts.php:462
+#: includes/class-crmfwc-contacts.php:490
 msgid "Order: "
 msgstr "Ordine: "
 
-#: includes/class-crmfwc-contacts.php:1139
+#: includes/class-crmfwc-contacts.php:1210
 #, php-format
 msgid "%1$d contact(s) export process has begun"
 msgstr "Il processo di esportazione di %1$d contatti è iniziato"
 
-#: includes/class-crmfwc-contacts.php:1146
+#: includes/class-crmfwc-contacts.php:1217
 msgid "No contacts to export"
 msgstr "Nessun contatto da esportare"
 
-#: includes/class-crmfwc-contacts.php:1373
+#: includes/class-crmfwc-contacts.php:1444
 #, php-format
 msgid "%1$d users(s) delete process has begun"
 msgstr "Il processo di cancellazione di %1$d contatti è iniziato"
 
-#: includes/class-crmfwc-contacts.php:1382
+#: includes/class-crmfwc-contacts.php:1453
 msgid "ERROR! There are not users to delete"
 msgstr "ERRORE! Non ci sono contatti da eliminare"
 
-#: includes/class-crmfwc-products.php:348
+#: includes/class-crmfwc-products.php:383
 #, php-format
 msgid "Taxable %d%%"
 msgstr "Tassabile %d%%"
 
-#: includes/class-crmfwc-products.php:622
+#: includes/class-crmfwc-products.php:675
 #, php-format
 msgid "%1$d product(s) export process has begun"
 msgstr "Il processo di esportazione di %1$d prodotti è iniziato"
 
-#: includes/class-crmfwc-products.php:629
+#: includes/class-crmfwc-products.php:682
 msgid "No products to export"
 msgstr "Nessun prodotto da esportare"
 
-#: includes/class-crmfwc-products.php:695
+#: includes/class-crmfwc-products.php:755
 #, php-format
 msgid "%1$d products(s) delete process has begun"
 msgstr "Il processo di cancellazione di %1$d prodotti è iniziato"
 
-#: includes/class-crmfwc-products.php:704
+#: includes/class-crmfwc-products.php:764
 msgid "ERROR! There are not products to delete"
 msgstr "ERRORE! Non ci sono prodotti da eliminare"
 
-#: includes/class-crmfwc-settings.php:160
-msgid "Disconnect from CRM in Cloud"
-msgstr "Disconnessione da CRM in Cloud"
+#: includes/class-crmfwc-settings.php:182
+msgid "Connected"
+msgstr "Connesso"
+
+#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:66
+msgid "VAT number"
+msgstr "Partita IVA"
+
+#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:67
+msgid "Fiscal code"
+msgstr "Codice fiscale"
+
+#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:68
+#: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:162
+msgid "PEC"
+msgstr ""
+
+#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:69
+#: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:171
+msgid "Recipient code"
+msgstr "Codice destinatario"
+
+#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:92
+msgid "Private (Receipt)"
+msgstr "Privato ( Ricevuta )"
+
+#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:96
+msgid "Private (Invoice)"
+msgstr "Privato ( Fattura )"
+
+#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:100
+msgid "Company (Invoice)"
+msgstr "Azienda ( Fattura )"
+
+#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:111
+msgid "Fiscal document"
+msgstr "Tipo documento"
+
+#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:379
+msgid "WARNING! The <strong>PEC</strong> entered is not a valid email address."
+msgstr ""
+"ATTENZIONE! La <strong>PEC</strong> inserita non è un indirizzo email valido."
+
+#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:390
+msgid "WARNING! The <strong>Tax Code</strong> entered is incorrect."
+msgstr "ATTENZIONE! Il <strong>Codice Fiscale</strong> inserito non è valido."
+
+#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:404
+msgid "WARNING! The <strong>VAT number</strong> entered is incorrect."
+msgstr "ATTENZIONE! La <strong>Partita IVA </strong> inserita non è valida."
+
+#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:458
+#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:507
+#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:528
+msgid "Electronic invoicing"
+msgstr "Fatturazione elettronica"
+
+#: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:97
+msgid "Tax documents"
+msgstr "Documenti fiscali"
+
+#: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:102
+msgid "Company ( Invoice )"
+msgstr "Azienda ( Fattura )"
+
+#: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:108
+msgid "Private ( Invoice )"
+msgstr "Privato ( Fattura )"
+
+#: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:114
+msgid "Private ( Receipt )"
+msgstr "Privato ( Ricevuta )"
+
+#: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:117
+msgid ""
+"By activating one or more types of invoice, the fields VAT and Tax Code will "
+"be displayed when needed."
+msgstr ""
+"Attivando uno o più tipi di fattura, verranno visualizzati i campi P.IVA e "
+"Codice Fiscale quando necessari."
+
+#: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:121
+msgid "Document type"
+msgstr "Tipo documento"
+
+#: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:126
+msgid "Put the document type selector on the top of the form"
+msgstr "Mostra la scelta del tipo di documento come primo campo"
+
+#: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:130
+msgid "Tax Code required"
+msgstr "CF obbligatorio"
+
+#: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:134
+msgid "Never"
+msgstr "Mai"
+
+#: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:135
+msgid "Only with receipts"
+msgstr "Solo Ricevuta"
+
+#: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:136
+msgid "Only with invoices"
+msgstr "Solo Fattura"
+
+#: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:137
+msgid "Always"
+msgstr "Sempre"
+
+#: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:140
+msgid "Make the Tax Code field mandatory"
+msgstr "Rendi obbligatorio il campo Codice Fiscale"
+
+#: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:144
+msgid "Tax Code validation"
+msgstr "Verifica C.F."
+
+#: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:149
+msgid "Activate the Tax Code validity check"
+msgstr "Attiva il controllo di validità del Codice Fiscale"
+
+#: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:153
+msgid "VIES validation"
+msgstr "Verifica VIES"
+
+#: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:158
+msgid ""
+"Activate the VIES validity check for the VAT Number <i>( SOAP activated on "
+"server is required )</i>"
+msgstr ""
+"Attiva il controllo VIES per la Partita IVA <i>( Richiede che SOAP sia "
+"attivo sul server )</i>"
+
+#: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:167
+msgid "Activate the PEC field for eletronic invoicing"
+msgstr "Attiva il campo PEC per la fatturazione elettronica"
+
+#: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:176
+msgid "Activate the Recipient Code field for electronic invoicing"
+msgstr "Attiva il campo Codice destinatario per la fatturazione elettronica"
+
+#: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:180
+msgid "Only EU"
+msgstr "Solo UE"
+
+#: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:185
+msgid "Make VAT Number field mandatory only for European Union countries "
+msgstr "P.IVA obbligatoria solo per i paesi dell'UE"
+
+#: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:189
+msgid "Only Italy"
+msgstr "Solo Italia"
+
+#: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:194
+msgid "Show PEC and Recipient Code fields only to Italian customers"
+msgstr "Mostra PEC e Codice destinatario solo per l'Italia"
+
+#: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:203
+msgid "Show the tax code field only to Italian customers"
+msgstr "Mostra il campo Codice fiscale solo per l'Italia"
 
 #: libraries/action-scheduler/classes/ActionScheduler_ActionFactory.php:229
 msgid "Invalid action - must be a recurring action."

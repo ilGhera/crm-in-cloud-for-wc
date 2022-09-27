@@ -9,6 +9,14 @@
 class CRMFWC_Contacts {
 
 	/**
+	 * Instance of the class CRMFWC_Call 
+	 *
+	 * @var object
+	 */
+	public $crmfwc_call;
+
+
+	/**
 	 * Export the user orders as opportunities in CRM in Cloud
 	 *
 	 * @var int
@@ -81,6 +89,17 @@ class CRMFWC_Contacts {
 		/*Classes instance*/
 		$this->crmfwc_call = new CRMFWC_Call();
         $this->products    = new CRMFWC_Products();
+
+        /*Check access*/
+        $token = $this->crmfwc_call->get_access_token();
+        error_log( 'TOKEN: ' . print_r( $token, true ) );
+
+        /*Exit if not connected*/
+        if ( ! $token || is_object( $token ) && isset( $token->error ) ) {
+
+            return;
+
+        }
 
 		/*Get the complete phase to use with orders as opportunities*/
 		$this->completed_phase       = $this->get_completed_opportunity_phase();
@@ -829,6 +848,7 @@ class CRMFWC_Contacts {
      */
     public function update_remote_contact( $user_id ) {
 
+        error_log( 'UPDATE USER!' );
         $response = $this->export_single_user( $user_id, null, true );
 
     }
