@@ -92,7 +92,6 @@ class CRMFWC_Contacts {
 
         /*Check access*/
         $token = $this->crmfwc_call->get_access_token();
-        error_log( 'TOKEN: ' . print_r( $token, true ) );
 
         /*Exit if not connected*/
         if ( ! $token || is_object( $token ) && isset( $token->error ) ) {
@@ -857,7 +856,6 @@ class CRMFWC_Contacts {
      */
     public function update_remote_contact( $user_id ) {
 
-        error_log( 'UPDATE USER!' );
         $response = $this->export_single_user( $user_id, null, true );
 
     }
@@ -1053,13 +1051,10 @@ class CRMFWC_Contacts {
 		}
 
 		if ( $certified_email ) {
-            error_log( 'SIII, PRESENTE!' );
 
 			array_push( $args['emails'] , array( 'value' => $certified_email ) );
 		
 		}
-
-        error_log( 'ARGS: ' . print_r( $args, true ) );
 
 		return $args;
 
@@ -1079,7 +1074,6 @@ class CRMFWC_Contacts {
         /* $image_url = get_avatar_url( $user_id, array( 'default' => '404' ) ); */
         $image_url = get_avatar_url( $user_id );
         $headers   = @get_headers( $image_url );
-        error_log( 'IMAGE URL: ' . $image_url );
 
         if ( isset( $headers[0] ) && preg_match( "|200|", $headers[0] ) ) {
 
@@ -1129,8 +1123,6 @@ class CRMFWC_Contacts {
 	public function export_single_user( $user_id = 0, $order = null, $update = false ) {
 
         $order_id   = is_object( $order ) ? $order->get_id() : null; 
-        error_log( 'ORDER ID: ' . $order_id );
-
         $remote_id  = $user_id ? get_user_meta( $user_id, 'crmfwc-id', true ) : get_post_meta( $order_id, 'crmfwc-user-id', true );
         $company_id = get_user_meta( $user_id, 'crmfwc-company-id', true );
 
@@ -1305,7 +1297,6 @@ class CRMFWC_Contacts {
 
             if ( is_object( $order ) ) {
 
-                error_log( 'WE ARE HERE!' );
                 $this->export_single_user( $order->get_customer_id(), $order );
 
             }
@@ -1344,7 +1335,6 @@ class CRMFWC_Contacts {
 
         } else {
 
-            error_log( 'OOOOOPS!' );
             add_action( 'woocommerce_thankyou', array( $this, 'wc_order_callback' ), 10, 1 );
 
         }
