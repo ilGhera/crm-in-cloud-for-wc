@@ -54,14 +54,14 @@ This plugin sends data to an external service, like the products bought by the u
 == Changelog ==
 
 = 1.1.0 = 
-Release Date: 17 September 2022
+Release Date: 28 September 2022
 
 * Enhancement: Users synchronization options
 * Enhancement: Create, update and delete users in real time
 * Enhancement: Export users avatars 
 * Enhancement: Products synchronization options
 * Enhancement: Untrashed products synchronized with CRM in Cloud 
-* Enhancement: Checkout fields to collect data for invoicing 
+* Enhancement: Checkout fields to collect billing information 
 * Enhancement: Better user interface 
 * Bug fix: Product image not removed in CRM in Cloud
 
