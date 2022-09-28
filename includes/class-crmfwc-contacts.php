@@ -124,6 +124,7 @@ class CRMFWC_Contacts {
 		add_action( 'crmfwc_delete_remote_single_user_event', array( $this, 'delete_remote_single_user' ), 10, 1 );
 		add_action( 'wp_ajax_export-users', array( $this, 'export_users' ) );
 		add_action( 'crmfwc_export_single_user_event', array( $this, 'export_single_user' ), 10, 2 );
+        add_action( 'woocommerce_checkout_process', array( $this, 'deactivate_profile_update' ) );
         add_action( 'save_post_shop_order', array( $this, 'wc_order_update_callback' ), 10, 3 );
 
         /* Conditional hooks */
@@ -134,7 +135,7 @@ class CRMFWC_Contacts {
             add_action( 'delete_user', array( $this, 'delete_remote_contact' ), 10, 3 );
 
         }
-
+		
 	}
 
 
@@ -890,7 +891,41 @@ class CRMFWC_Contacts {
 
 		$website = null;
 
-		if ( 0 !== $user_id ) {
+		if ( $order ) {
+
+			$surname                 = $order->get_billing_last_name() ? ucwords( $order->get_billing_last_name() ) : '-';
+			$name                    = $order->get_billing_first_name() ? ucwords( $order->get_billing_first_name() ) : null;
+			$user_email              = $order->get_billing_email();
+			$country                 = $order->get_billing_country();
+			$city                    = $order->get_billing_city() ? ucwords( $order->get_billing_city() ) : null;
+			$state                   = $order->get_billing_state();
+			$address                 = $order->get_billing_address_1() ? ucwords( $order->get_billing_address_1() ) : null;
+			$postcode                = $order->get_billing_postcode();
+			$phone                   = $order->get_billing_phone();
+			$company                 = $order->get_billing_company() ? ucwords( $order->get_billing_company() ) : null;
+
+			/*Fiscal data*/
+			$pi_name = $this->get_tax_field_name( 'pi_name', true );
+			if ( $pi_name ) {
+				$vat_number = $order->get_meta( $pi_name );
+			}
+
+			$cf_name = $this->get_tax_field_name( 'cf_name', true );
+			if ( $cf_name ) {
+				$identification_number = $order->get_meta( $cf_name ); 
+			}
+
+			$pec_name = $this->get_tax_field_name( 'pec_name', true );
+			if ( $pec_name ) {
+				$certified_email = $order->get_meta( $pec_name );
+			}
+
+			$pa_code_name = $this->get_tax_field_name( 'pa_code_name', true );
+			if ( $pa_code_name ) {
+				$public_entry_number = $order->get_meta( $pa_code_name ); 
+			}
+
+		} elseif ( 0 !== $user_id ) {
 
 			$user_details = get_userdata( $user_id );
 
@@ -927,7 +962,6 @@ class CRMFWC_Contacts {
 
 			/*Fiscal data*/
 			$pi_name = $this->get_tax_field_name( 'pi_name' );
-
 			if ( $pi_name ) {
 				$vat_number = isset( $user_data[ $pi_name ] ) ? $user_data[ $pi_name ] : '';
 			}
@@ -943,40 +977,6 @@ class CRMFWC_Contacts {
 			}
 
 			$pa_code_name = $this->get_tax_field_name( 'pa_code_name' );
-			if ( $pa_code_name ) {
-				$public_entry_number = isset( $user_data[ $pa_code_name ] ) ? strtoupper( $user_data[ $pa_code_name ] ) : '';
-			}
-
-		} elseif ( $order ) {
-
-			$surname                 = $order->get_billing_last_name() ? ucwords( $order->get_billing_last_name() ) : '-';
-			$name                    = $order->get_billing_first_name() ? ucwords( $order->get_billing_first_name() ) : null;
-			$user_email              = $order->get_billing_email();
-			$country                 = $order->get_billing_country();
-			$city                    = $order->get_billing_city() ? ucwords( $order->get_billing_city() ) : null;
-			$state                   = $order->get_billing_state();
-			$address                 = $order->get_billing_address_1() ? ucwords( $order->get_billing_address_1() ) : null;
-			$postcode                = $order->get_billing_postcode();
-			$phone                   = $order->get_billing_phone();
-			$company                 = $order->get_billing_company() ? ucwords( $order->get_billing_company() ) : null;
-
-			/*Fiscal data*/
-			$pi_name = $this->get_tax_field_name( 'pi_name', true );
-			if ( $pi_name ) {
-				$vat_number = isset( $user_data[ $pi_name ] ) ? $user_data[ $pi_name ] : '';
-			}
-
-			$cf_name = $this->get_tax_field_name( 'cf_name', true );
-			if ( $cf_name ) {
-				$identification_number = isset( $user_data[ $cf_name ] ) ? strtoupper( $user_data[ $cf_name ] ) : '';
-			}
-
-			$pec_name = $this->get_tax_field_name( 'pec_name', true );
-			if ( $pec_name ) {
-				$certified_email = isset( $user_data[ $pec_name ] ) ? $user_data[ $pec_name ] : '';
-			}
-
-			$pa_code_name = $this->get_tax_field_name( 'pa_code_name', true );
 			if ( $pa_code_name ) {
 				$public_entry_number = isset( $user_data[ $pa_code_name ] ) ? strtoupper( $user_data[ $pa_code_name ] ) : '';
 			}
@@ -1053,10 +1053,13 @@ class CRMFWC_Contacts {
 		}
 
 		if ( $certified_email ) {
+            error_log( 'SIII, PRESENTE!' );
 
 			array_push( $args['emails'] , array( 'value' => $certified_email ) );
 		
 		}
+
+        error_log( 'ARGS: ' . print_r( $args, true ) );
 
 		return $args;
 
@@ -1073,8 +1076,10 @@ class CRMFWC_Contacts {
      */
     private function export_contact_image( $user_id, $remote_id ) {
 
-        $image_url = get_avatar_url( $user_id, array( 'default' => '404' ) );
+        /* $image_url = get_avatar_url( $user_id, array( 'default' => '404' ) ); */
+        $image_url = get_avatar_url( $user_id );
         $headers   = @get_headers( $image_url );
+        error_log( 'IMAGE URL: ' . $image_url );
 
         if ( isset( $headers[0] ) && preg_match( "|200|", $headers[0] ) ) {
 
@@ -1086,13 +1091,20 @@ class CRMFWC_Contacts {
             /* Generate a boundary delimiter */
             $boundary = wp_generate_password( 24, false );
 
+            /* Define a specif timeout */
+            $context = stream_context_create(array(
+                'http' => array(
+                    'timeout' => 5, // Timeout in seconds
+                )
+            ));
+
             /* The body payload */
             $payload  = '--' . $boundary;
             $payload .= "\r\n";
             $payload .= 'Content-Disposition: form-data; name="file"; filename="' . $filename . '"' . "\r\n";
             $payload .= 'Content-Transfer-Encoding: binary' . "\r\n";
             $payload .= "\r\n";
-            $payload .= file_get_contents( $image_url, true );
+            $payload .= file_get_contents( $image_url, true, $context );
             $payload .= "\r\n";
             $payload .= '--' . $boundary . '--';
             $payload .= "\r\n\r\n";
@@ -1117,10 +1129,12 @@ class CRMFWC_Contacts {
 	public function export_single_user( $user_id = 0, $order = null, $update = false ) {
 
         $order_id   = is_object( $order ) ? $order->get_id() : null; 
+        error_log( 'ORDER ID: ' . $order_id );
+
         $remote_id  = $user_id ? get_user_meta( $user_id, 'crmfwc-id', true ) : get_post_meta( $order_id, 'crmfwc-user-id', true );
         $company_id = get_user_meta( $user_id, 'crmfwc-company-id', true );
 
-		if ( ! $order_id || ! $remote_id ) {
+		if ( $order_id || $remote_id ) {
 
             $args       = $this->prepare_user_data( $user_id, $order, $update );
             $company_id = isset( $args['companyId'] ) ? $args['companyId'] : $company_id;
@@ -1291,6 +1305,7 @@ class CRMFWC_Contacts {
 
             if ( is_object( $order ) ) {
 
+                error_log( 'WE ARE HERE!' );
                 $this->export_single_user( $order->get_customer_id(), $order );
 
             }
@@ -1298,6 +1313,18 @@ class CRMFWC_Contacts {
         }
 
 	}
+
+
+    /**
+     * Do not update user by this hook while a new order is createrd
+     *
+     * @return void
+     */
+    public function deactivate_profile_update() {
+
+        remove_action( 'profile_update', array( $this, 'update_remote_contact' ), 10 );
+
+    }
 
 
 	/**
@@ -1317,6 +1344,7 @@ class CRMFWC_Contacts {
 
         } else {
 
+            error_log( 'OOOOOPS!' );
             add_action( 'woocommerce_thankyou', array( $this, 'wc_order_callback' ), 10, 1 );
 
         }
