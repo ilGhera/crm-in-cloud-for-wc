@@ -16,12 +16,14 @@ Synchronize your WordPress/ WooCommerce site with CRM in Cloud exporting users a
 
 * Export WordPress users as *Contacts* in CRM in Cloud.
 * Select one or more WordPress user level to export.
-* Create the *Company* in CRM in Cloud if exported with the user (Premium).
-* Export user orders to CRM in Cloud as opportunities (Premium).
-* Export new orders to CRM in Cloud as opportunities in real time (Premium).
-* Export products to CRM in Cloud by categories (Premium).
-* Export product images (Premium).
-* Update products in real time (Premium).
+* Create the *Company* in CRM in Cloud if exported with the user.
+* Export users avatars.
+* Update users in real time.
+* Export user orders to CRM in Cloud as opportunities.
+* Export new orders to CRM in Cloud as opportunities in real time.
+* Export products to CRM in Cloud by categories.
+* Export product images.
+* Update products in real time.
 * Delete all data in CRM in Cloud with a click.
 
 = Try CRM in Cloud for free! =
@@ -71,8 +73,15 @@ This plugin sends data to an external service, like the products bought by the u
 == Changelog ==
 
 = 1.0.0 = 
-Release Date: 06 September 2022
+Release Date: 28 September 2022
 
+* Enhancement: Users synchronization options
+* Enhancement: Create, update and delete users in real time
+* Enhancement: Export users avatars 
+* Enhancement: Products synchronization options
+* Enhancement: Untrashed products synchronized with CRM in Cloud 
+* Enhancement: Checkout fields to collect billing information 
+* Enhancement: Better user interface 
 * Enhancement: Export of uncompleted orders to CRM in Cloud with appropriate opportunity pahase
 * Enhancement: Split opportunities option
 * Enhancement: Opportunity details changed in CRM in Cloud

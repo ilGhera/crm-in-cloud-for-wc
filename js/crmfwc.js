@@ -14,10 +14,13 @@ var crmfwcController = function() {
 	    self.crmfwc_pagination();
 		self.tzCheckbox();
 	    self.crmfwc_export_users();
+	    self.crmfwc_users_options();
 	    self.crmfwc_delete_remote_users();
 	    self.crmfwc_export_products();
 	    self.crmfwc_delete_remote_products();
 		self.crmfwc_disconnect();
+        self.crmfwc_check_connection();
+        self.connect();
 		self.chosen();
 	}
 
@@ -134,8 +137,13 @@ var crmfwcController = function() {
 
 	/**
 	 * Check the connection to CRM in Cloud
+     *
+     * @param string $email the email address.
+     * @param string $passw the user password.
+     *
+     * @return void
 	 */
-	self.crmfwc_check_connection = function() {
+	self.crmfwc_check_connection = function( email, passw ) {
 
 		jQuery(function($){
 
@@ -143,15 +151,28 @@ var crmfwcController = function() {
 				'action': 'check-connection'
 			}
 
+            if ( email ) {
+                data.crmfwc_email = email;
+            }
+
+            if ( passw ) {
+                data.crmfwc_passw = passw;
+            }
+            console.log( 'DATA: ' + JSON.stringify( data ) );
+
 			$.post(ajaxurl, data, function(response){
 
-				if(response) {
+                var result = JSON.parse(response);
+
+				if( result && ! result['error'] ) {
 
 					/*Activate plugin tools*/
-					// self.crmfwc_tools_control();
+					self.crmfwc_tools_control();
 			
-					$('.check-connection').html(response);
+                    $('.crmfwc-login-error.alert-danger').hide();
+					$('.check-connection').html(result['ok']);
 					$('.crmfwc-connect').hide();
+                    $('.crmfwc-email-field').hide();
 					$('.crmfwc-disconnect').css('display', 'inline-block');
 					$('.crmfwc-disconnect').animate({
 						opacity: 1
@@ -159,8 +180,16 @@ var crmfwcController = function() {
 
 				} else {
 
+                    /*Show error message*/
+                    if ( result ) {
+
+                        $('.crmfwc-login-error').html( result['error_description'] );
+                        $('.crmfwc-login-error').show();
+
+                    }
+
 					/*Deactivate plugin tools*/
-					// self.crmfwc_tools_control(true);
+					self.crmfwc_tools_control(true);
 
 				}
 
@@ -169,6 +198,30 @@ var crmfwcController = function() {
 		})
 
 	}
+
+
+	/**
+	 * Check the connection to CRM in Cloud
+	 */
+	self.connect = function() {
+
+		jQuery(function($){
+
+            $('.crmfwc-connect').on('click', function(e){
+
+				e.preventDefault();
+
+                var email = $('.crmfwc-email').val();
+                var passw = $('.crmfwc-passw').val();
+                // var nonce = $('#crmfwc-login-nonce').val();
+
+                self.crmfwc_check_connection( email, passw );
+
+            })
+
+        })
+
+    }
 
 
 	/**
@@ -290,6 +343,44 @@ var crmfwcController = function() {
 		})
 
 	}
+
+
+	/**
+	 * Users synchronization options
+	 */
+	self.crmfwc_users_options = function() {
+
+		jQuery(function($){
+
+            var syncContacts  = $('.synchronize-contacts');
+            var syncCompanies = $('.synchronize-companies');
+            var span          = $('span.tzCheckBox', syncContacts);
+
+            // On load
+            if ( $(span).hasClass('checked') ) {
+
+                $(syncCompanies).show('slow');
+
+            }
+
+            // On change options
+            $(span).on('click', function(){
+                
+                if ( $(this).hasClass('checked') ) {
+
+                    $(syncCompanies).show('slow');
+
+                } else {
+
+                    $(syncCompanies).hide();
+
+                }
+
+            })
+
+        })
+
+    }
 
 
 	/**

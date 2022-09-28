@@ -1,3 +1,6 @@
 [submodule "libraries/action-scheduler"]
 	path = libraries/action-scheduler
 	url = https://github.com/woocommerce/action-scheduler.git
+[submodule "includes/wc-checkout-fields"]
+	path = includes/wc-checkout-fields
+	url = https://ilGhera:3se4Fy3sLLpSeS8f3gC7@bitbucket.org/ilGhera/wc-checkout-fields.git

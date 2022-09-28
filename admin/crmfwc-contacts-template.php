@@ -4,7 +4,7 @@
  *
  * @author ilGhera
  * @package crm-in-cloud-for-wc/admin
- * @since 0.9.0
+ * @since 1.0.0
  */
 
 /*Get value from the db*/
@@ -63,7 +63,7 @@ $contacts_roles = get_option( 'crmfwc-users-roles' );
 </form>
 
 <!-- Delete form -->
-<form name="crmfwc-delete-contacts" class="crmfwc-form"  method="post" action="">
+<form name="crmfwc-delete-contacts" class="crmfwc-form one-of"  method="post" action="">
 
 	<table class="form-table">
 		<tr>
@@ -87,3 +87,33 @@ $contacts_roles = get_option( 'crmfwc-users-roles' );
 	</p>
 
 </form>
+
+<!-- Settings form -->
+<form name="crmfwc-contacts-settings" class="crmfwc-form"  method="post" action="">
+
+    <h2><?php esc_html_e( 'Synchronization options', 'crm-in-cloud-for-wc' ); ?></h2>
+
+	<table class="form-table">
+		<tr class="synchronize-contacts">
+			<th scope="row"><?php esc_html_e( 'Contacts', 'crm-in-cloud-for-wc' ); ?></th>
+			<td>
+				<input type="checkbox" name="crmfwc-synchronize-contacts" value="1"<?php echo 1 == $synchronize_contacts ? ' checked="checked"' : ''; ?>>
+				<p class="description"><?php esc_html_e( 'Update contacts on CRM in Cloud in real time', 'crm-in-cloud-for-wc' ); ?></p>
+			</td>
+		</tr>
+		<tr class="synchronize-companies" style="display: none;">
+			<th scope="row"><?php esc_html_e( 'Companies', 'crm-in-cloud-for-wc' ); ?></th>
+			<td>
+				<input type="checkbox" name="crmfwc-synchronize-companies" value="1"<?php echo 1 == $synchronize_companies ? ' checked="checked"' : ''; ?>>
+				<p class="description"><?php esc_html_e( 'Update companies on CRM in Cloud in real time', 'crm-in-cloud-for-wc' ); ?></p>
+			</td>
+		</tr>
+        <?php wp_nonce_field( 'crmfwc-contacts-settings', 'crmfwc-contacts-settings-nonce' ); ?>
+	</table>
+
+	<p class="submit">
+		<input type="submit" class="button-primary crmfwc contacts-settings" value="<?php esc_html_e( 'Save settings', 'crm-in-cloud-for-wc' ); ?>" />
+	</p>
+
+</form>
+

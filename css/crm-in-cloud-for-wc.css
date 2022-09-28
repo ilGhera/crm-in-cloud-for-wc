@@ -9,6 +9,7 @@
 	display: none;
 }
 
+.crmfwc-form-login,
 .crmfwc-form {
 	margin:3rem 0 0 0;
 }
@@ -16,6 +17,11 @@
 .one-of {
 	padding-bottom: 3rem;
 	border-bottom: 1px solid #ccc;
+}
+
+.check-connection input {
+    display: block;
+    margin-bottom: 1rem !important;
 }
 
 #crmfwc-products-submit {
@@ -326,6 +332,8 @@ h4.crmfwc-connection-status {
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff2dede', endColorstr='#ffe7c3c3', GradientType=0);
   border-color: #dca7a7;
+  margin-top: 2rem;
+  display: none;
 
 }
 

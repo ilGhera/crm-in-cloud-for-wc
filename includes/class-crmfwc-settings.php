@@ -4,7 +4,7 @@
  *
  * @author ilGhera
  * @package crm-in-cloud-for-wc/includes
- * @since 0.9.0
+ * @since 1.0.0
  */
 class CRMFWC_Settings {
 
@@ -21,10 +21,10 @@ class CRMFWC_Settings {
 		if ( $init ) {
 
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
-			add_action( 'wp_ajax_check-connection', array( $this, 'check_connection_callback' ) );
+			add_action( 'wp_ajax_crmfwc-connect', array( $this, 'login' ) );
 			add_action( 'wp_ajax_crmfwc-disconnect', array( $this, 'disconnect_callback' ) );
+			add_action( 'wp_ajax_check-connection', array( $this, 'check_connection_callback' ) );
 			add_action( 'admin_footer', array( $this, 'check_connection' ) );
-			add_action( 'admin_init', array( $this, 'login' ) );
 
 		}
 
@@ -77,19 +77,14 @@ class CRMFWC_Settings {
 
 		if ( isset( $_POST['crmfwc-email'], $_POST['crmfwc-email'], $_POST['crmfwc-login-nonce'] ) && wp_verify_nonce( $_POST['crmfwc-login-nonce'], 'crmfwc-login' ) ) {
 
-			$email = sanitize_email( wp_unslash( $_POST['crmfwc-email'] ) );
-			$passw = sanitize_text_field( wp_unslash( $_POST['crmfwc-passw'] ) );
+			$email    = sanitize_email( wp_unslash( $_POST['crmfwc-email'] ) );
+			$passw    = sanitize_text_field( wp_unslash( $_POST['crmfwc-passw'] ) );
 
-			update_option( 'crmfwc-email', $email );
-			update_option( 'crmfwc-passw', $passw );
-
-			if ( $this->crmfwc_call->get_access_token( $email, $passw ) ) {
-
-				return true;
-
-			}
+            $this->check_connection_callback( false, $email, $passw );
 
 		}
+
+        exit;
 
 	}
 
@@ -144,12 +139,38 @@ class CRMFWC_Settings {
 	/**
 	 * Display the status of the connection to CRM in Cloud
 	 *
-	 * @param bool $return if true the method returns only if the connection is set.
+	 * @param bool   $return if true the method returns only if the connection is set.
+     * @param string $email the email address.
+     * @param string $passw the user password.
+     *
 	 * @return mixed
 	 */
-	public function check_connection_callback( $return = false ) {
+	public function check_connection_callback( $return = false, $email = null, $passw = null ) {
 
-		if ( $this->crmfwc_call->get_access_token() ) {
+        $email      = isset( $_POST['crmfwc_email'] ) ? sanitize_email( wp_unslash( $_POST['crmfwc_email'] ) ) : null;
+        $passw      = isset( $_POST['crmfwc_passw'] ) ? sanitize_text_field( wp_unslash( $_POST['crmfwc_passw'] ) ) : null;
+        $connection = $this->crmfwc_call->get_access_token( $email, $passw ); 
+
+		if ( isset( $connection->error ) || ! $connection ) {
+
+			if ( $return || ! $connection ) {
+
+				return false;
+
+			} else {
+
+                echo json_encode( $connection );
+
+			}
+
+		} else {
+
+            if ( $email && $passw ) {
+
+                update_option( 'crmfwc-email', $email );
+                update_option( 'crmfwc-passw', $passw );
+
+            }
 
 			if ( $return ) {
 
@@ -157,13 +178,13 @@ class CRMFWC_Settings {
 
 			} else {
 
-				echo '<input type="submit" class="button-primary red crmfwc-disconnect" name="crmfwc-connect" value="' . esc_html__( 'Disconnect from CRM in Cloud', 'crm-in-cloud-for-wc' ) . '">';
+                $output = array(
+                    'ok' => "<h4 class='wcefr-connection-status'><span class='label label-success'>" . __( 'Connected', 'wc-exporter-for-reviso' ) . "</span></h4>",
+                );
+
+                echo json_encode( $output );
 
 			}
-
-		} elseif ( $return ) {
-
-			return false;
 
 		}
 
@@ -172,3 +193,4 @@ class CRMFWC_Settings {
 
 }
 new CRMFWC_Settings( true );
+
