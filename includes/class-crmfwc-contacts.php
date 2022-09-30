@@ -217,8 +217,10 @@ class CRMFWC_Contacts {
 			$args['id'] = $company_id;
 
 		}
+        error_log( 'COMPANY ARGS: ' . error_log( $args, true ) );
 
 		$response = $this->crmfwc_call->call( 'post', 'Company/CreateOrUpdate', $args );
+        error_log( 'COMPANY RESPONSE: ' . error_log( $response, true ) );
 
 		if ( is_int( $response ) ) {
 
