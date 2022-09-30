@@ -97,22 +97,24 @@ $contacts_roles = get_option( 'crmfwc-users-roles' );
 		<tr class="synchronize-contacts">
 			<th scope="row"><?php esc_html_e( 'Contacts', 'crm-in-cloud-for-wc' ); ?></th>
 			<td>
-				<input type="checkbox" name="crmfwc-synchronize-contacts" value="1"<?php echo 1 == $synchronize_contacts ? ' checked="checked"' : ''; ?>>
+				<input type="checkbox" name="crmfwc-synchronize-contacts" disabled>
 				<p class="description"><?php esc_html_e( 'Update contacts on CRM in Cloud in real time', 'crm-in-cloud-for-wc' ); ?></p>
+            <?php crmfwc_go_premium(); ?>
 			</td>
 		</tr>
 		<tr class="synchronize-companies" style="display: none;">
 			<th scope="row"><?php esc_html_e( 'Companies', 'crm-in-cloud-for-wc' ); ?></th>
 			<td>
-				<input type="checkbox" name="crmfwc-synchronize-companies" value="1"<?php echo 1 == $synchronize_companies ? ' checked="checked"' : ''; ?>>
+				<input type="checkbox" name="crmfwc-synchronize-companies" disabled>
 				<p class="description"><?php esc_html_e( 'Update companies on CRM in Cloud in real time', 'crm-in-cloud-for-wc' ); ?></p>
+            <?php crmfwc_go_premium(); ?>
 			</td>
 		</tr>
         <?php wp_nonce_field( 'crmfwc-contacts-settings', 'crmfwc-contacts-settings-nonce' ); ?>
 	</table>
 
 	<p class="submit">
-		<input type="submit" class="button-primary crmfwc contacts-settings" value="<?php esc_html_e( 'Save settings', 'crm-in-cloud-for-wc' ); ?>" />
+        <input type="submit" class="button-primary crmfwc contacts-settings premium" value="<?php esc_html_e( 'Save settings', 'crm-in-cloud-for-wc' ); ?>" disabled>
 	</p>
 
 </form>

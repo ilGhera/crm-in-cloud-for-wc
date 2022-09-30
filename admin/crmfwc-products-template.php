@@ -8,10 +8,7 @@
  */
 
 /*Get value from the db*/
-$products_cats              = get_option( 'crmfwc-products-cats' );
-$synchronize_products       = get_option( 'crmfwc-synchronize-products' );
-$synchronize_products_terms = get_option( 'crmfwc-synchronize-products-terms' );
-
+$products_cats = get_option( 'crmfwc-products-cats' );
 ?>
 
 <!-- Export form -->
@@ -73,22 +70,24 @@ $synchronize_products_terms = get_option( 'crmfwc-synchronize-products-terms' );
 		<tr class="synchronize-products">
 			<th scope="row"><?php esc_html_e( 'Products', 'crm-in-cloud-for-wc' ); ?></th>
 			<td>
-				<input type="checkbox" name="crmfwc-synchronize-products" value="1"<?php echo 1 == $synchronize_products ? ' checked="checked"' : ''; ?>>
+				<input type="checkbox" name="crmfwc-synchronize-products" disabled>
 				<p class="description"><?php esc_html_e( 'Update products on CRM in Cloud in real time', 'crm-in-cloud-for-wc' ); ?></p>
+            <?php crmfwc_go_premium(); ?>
 			</td>
 		</tr>
 		<tr class="synchronize-products-terms">
 			<th scope="row"><?php esc_html_e( 'Products categories', 'crm-in-cloud-for-wc' ); ?></th>
 			<td>
-				<input type="checkbox" name="crmfwc-synchronize-products-terms" value="1"<?php echo 1 == $synchronize_products_terms ? ' checked="checked"' : ''; ?>>
+				<input type="checkbox" name="crmfwc-synchronize-products-terms" disabled>
 				<p class="description"><?php esc_html_e( 'Update products categories on CRM in Cloud in real time', 'crm-in-cloud-for-wc' ); ?></p>
+            <?php crmfwc_go_premium(); ?>
 			</td>
 		</tr>
         <?php wp_nonce_field( 'crmfwc-products-settings', 'crmfwc-products-settings-nonce' ); ?>
 	</table>
 
 	<p class="submit">
-		<input type="submit" class="button-primary crmfwc products-settings" value="<?php esc_html_e( 'Save settings', 'crm-in-cloud-for-wc' ); ?>" />
+		<input type="submit" class="button-primary crmfwc products-settings premium" value="<?php esc_html_e( 'Save settings', 'crm-in-cloud-for-wc' ); ?>" disabled>
 	</p>
 
 </form>

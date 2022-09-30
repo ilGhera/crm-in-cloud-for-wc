@@ -64,22 +64,6 @@ class CRMFWC_Contacts {
 	private $company_opportunities;
 
 
-    /**
-     * Synchronize contacts in real time
-     *
-     * @var bool
-     */
-    private $synchronize_contacts;
-
-
-    /**
-     * Synchronize company in real time
-     *
-     * @var bool
-     */
-    private $synchronize_companies;
-
-
 	/**
 	 * Class constructor
 	 */
@@ -112,13 +96,10 @@ class CRMFWC_Contacts {
 		$this->wc_export_orders      = get_option( 'crmfwc-wc-export-orders' );
         $this->split_opportunities   = get_option( 'crmfwc-wc-split-opportunities' );
         $this->company_opportunities = get_option( 'crmfwc-wc-company-opportunities' );
-        $this->synchronize_contacts  = get_option( 'crmfwc-synchronize-contacts' );
-        $this->synchronize_companies = get_option( 'crmfwc-synchronize-companies' );
         
         /* Hooks */
 		add_filter( 'action_scheduler_queue_runner_time_limit', array( $this, 'eg_increase_time_limit' ) );
 		add_filter( 'action_scheduler_queue_runner_batch_size', array( $this, 'eg_increase_action_scheduler_batch_size' ) );
-        add_action( 'admin_init', array( $this, 'contacts_settings' ), 10 );
 		add_action( 'wp_ajax_delete-remote-users', array( $this, 'delete_remote_users' ) );
 		add_action( 'crmfwc_delete_remote_single_user_event', array( $this, 'delete_remote_single_user' ), 10, 1 );
 		add_action( 'wp_ajax_export-users', array( $this, 'export_users' ) );
@@ -126,15 +107,6 @@ class CRMFWC_Contacts {
         add_action( 'woocommerce_checkout_process', array( $this, 'deactivate_profile_update' ) );
         add_action( 'save_post_shop_order', array( $this, 'wc_order_update_callback' ), 10, 3 );
 
-        /* Conditional hooks */
-        if ( $this->synchronize_contacts ) {
-
-            add_action( 'user_register', array( $this, 'update_remote_contact' ), 10 );
-            add_action( 'profile_update', array( $this, 'update_remote_contact' ), 10 );
-            add_action( 'delete_user', array( $this, 'delete_remote_contact' ), 10, 3 );
-
-        }
-		
 	}
 
 
@@ -826,28 +798,6 @@ class CRMFWC_Contacts {
 
 
     /**
-     * User synchronization options 
-     *
-     * @return void 
-     */
-    public function contacts_settings() {
-
-
-		if ( isset( $_POST['crmfwc-contacts-settings-nonce'] ) && wp_verify_nonce( wp_unslash( $_POST['crmfwc-contacts-settings-nonce'] ), 'crmfwc-contacts-settings' ) ) {
-
-            $synchronize_contacts = isset( $_POST['crmfwc-synchronize-contacts'] ) ? sanitize_text_field( wp_unslash( $_POST['crmfwc-synchronize-contacts'] ) ) : 0;
-            $synchronize_companies = isset( $_POST['crmfwc-synchronize-companies'] ) ? sanitize_text_field( wp_unslash( $_POST['crmfwc-synchronize-companies'] ) ) : 0;
-
-            /*Save to the db*/
-            update_option( 'crmfwc-synchronize-contacts', $synchronize_contacts );
-            update_option( 'crmfwc-synchronize-companies', $synchronize_companies );
-
-        }
-
-    }
-
-
-    /**
      * Update remote contact in real time
      *
      * @param int $user_id the WP user id.
@@ -1012,7 +962,7 @@ class CRMFWC_Contacts {
 			$args['companyName'] = $company;
 
 			/*Create the company in CRM in Cloud only if set in the options*/
-			if ( $this->export_company || ( $update && $this->synchronize_companies ) ) {
+			if ( $this->export_company ) {
 
 				/*Export the company to CRM in Cloud*/
 				$company_id = $this->export_single_company( $user_id, $args, $company );
@@ -1073,6 +1023,8 @@ class CRMFWC_Contacts {
 
         /* $image_url = get_avatar_url( $user_id, array( 'default' => '404' ) ); */
         $image_url = get_avatar_url( $user_id );
+        error_log( 'IMAGE URL: ' . $image_url );
+
         $headers   = @get_headers( $image_url );
 
         if ( isset( $headers[0] ) && preg_match( "|200|", $headers[0] ) ) {
@@ -1126,11 +1078,15 @@ class CRMFWC_Contacts {
         $remote_id  = $user_id ? get_user_meta( $user_id, 'crmfwc-id', true ) : get_post_meta( $order_id, 'crmfwc-user-id', true );
         $company_id = get_user_meta( $user_id, 'crmfwc-company-id', true );
 
-		if ( $order_id || $remote_id ) {
+        error_log( 'ORDER ID: ' . $order_id );
+        error_log( 'REMOTE ID: ' . $remote_id );
+
+		/* if ( $order_id || $remote_id ) { */
 
             $args       = $this->prepare_user_data( $user_id, $order, $update );
             $company_id = isset( $args['companyId'] ) ? $args['companyId'] : $company_id;
 			$remote_id  = $this->crmfwc_call->call( 'post', 'Contact/CreateOrUpdate', $args );
+            error_log( 'REMOTE ID 2: ' . print_r( $remote_id, true ) );
 
 			if ( is_int( $remote_id ) ) {
 
@@ -1147,7 +1103,7 @@ class CRMFWC_Contacts {
 
             }
 
-		}
+		/* } */
 
         /*Export orders ad opportunities only if set in the options*/
         if ( ( $this->export_orders && ! $update ) || $order_id ) {
@@ -1193,7 +1149,6 @@ class CRMFWC_Contacts {
 			update_option( 'crmfwc-users-roles', $roles );
 			update_option( 'crmfwc-export-company', $export_company );
 			update_option( 'crmfwc-export-orders', $export_orders );
-            update_option( 'crmfwc-synchronize-contacts', $synchronize_contacts );
 
 			$args     = array( 'role__in' => $roles );
 			$users    = get_users( $args );

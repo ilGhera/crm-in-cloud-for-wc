@@ -39,7 +39,7 @@
 	</table>
 	
 	<p class="submit">
-		<input type="submit" class="button-primary crmfwc" value="<?php esc_html_e( 'Save settings', 'crm-in-cloud-for-wc' ); ?>" disabled>
+		<input type="submit" class="button-primary crmfwc premium" value="<?php esc_html_e( 'Save settings', 'crm-in-cloud-for-wc' ); ?>" disabled>
 	</p>
 
 </form>

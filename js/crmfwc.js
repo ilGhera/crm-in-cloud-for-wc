@@ -115,8 +115,25 @@ var crmfwcController = function() {
 				$('.crmfwc-form').addClass('disconnected');
 				$('.crmfwc-form.connection').removeClass('disconnected');
 
-				$('.crmfwc-form input').attr('disabled','disabled');
-				$('.crmfwc-form select').attr('disabled','disabled');
+				$('.crmfwc-form input').each( function(){
+
+                    if ( ! $(this).hasClass('premium') ) {
+
+                        $(this).attr('disabled','disabled');
+
+                    }
+
+                })
+
+				$('.crmfwc-form select').each( function(){
+
+                    if ( ! $(this).hasClass('premium') ) {
+
+                        $(this).attr('disabled','disabled');
+
+                    }
+
+                })
 
 				$('.crmfwc-suppliers-groups, .crmfwc-customers-groups').addClass('crmfwc-select');
 		        self.chosen(true);
@@ -124,11 +141,28 @@ var crmfwcController = function() {
 			} else {
 
 				$('.crmfwc-form').removeClass('disconnected');
-				$('.crmfwc-form input').removeAttr('disabled');
-				$('.crmfwc-form select').removeAttr('disabled');
+
+				$('.crmfwc-form input').each( function(){
+
+                    if ( ! $(this).hasClass('premium') ) {
+
+                        $(this).removeAttr('disabled','disabled');
+
+                    }
+
+                })
+
+				$('.crmfwc-form select').each( function(){
+
+                    if ( ! $(this).hasClass('premium') ) {
+
+                        $(this).removeAttr('disabled','disabled');
+
+                    }
+
+                })
 
 			}
-
 
 		})
 
