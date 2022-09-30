@@ -3,12 +3,15 @@
  * Contacts options
  *
  * @author ilGhera
- * @package crm-in-cloud-for-wc/admin
- * @since 1.0.0
+ * @package crm-in-cloud-for-wc-premium/admin
+ * @since 1.1.0
  */
 
 /*Get value from the db*/
-$contacts_roles = get_option( 'crmfwc-users-roles' );
+$contacts_roles        = get_option( 'crmfwc-users-roles' );
+$export_company        = get_option( 'crmfwc-export-company' ) ? get_option( 'crmfwc-export-company' ) : 0;
+$export_orders         = get_option( 'crmfwc-export-orders' ) ? get_option( 'crmfwc-export-orders' ) : 0;
+$delete_company        = get_option( 'crmfwc-delete-company' ) ? get_option( 'crmfwc-delete-company' ) : 0;
 ?>
 
 <!-- Export form -->
@@ -41,17 +44,15 @@ $contacts_roles = get_option( 'crmfwc-users-roles' );
 		<tr class="export-company">
 			<th scope="row"><?php esc_html_e( 'Export company', 'crm-in-cloud-for-wc' ); ?></th>
 			<td>
-				<input type="checkbox" name="crmfwc-export-company" disabled>
+				<input type="checkbox" name="crmfwc-export-company" value="1"<?php echo 1 == $export_company ? ' checked="checked"' : ''; ?>>
 				<p class="description"><?php esc_html_e( 'Export the company if present in the user profile', 'crm-in-cloud-for-wc' ); ?></p>
-				<?php crmfwc_go_premium(); ?>
 			</td>
 		</tr>
 		<tr class="export-orders">
 			<th scope="row"><?php esc_html_e( 'Export orders', 'crm-in-cloud-for-wc' ); ?></th>
 			<td>
-				<input type="checkbox" name="crmfwc-export-orders" disabled>
+				<input type="checkbox" name="crmfwc-export-orders" value="1"<?php echo 1 == $export_orders ? ' checked="checked"' : ''; ?>>
 				<p class="description"><?php esc_html_e( 'Export user orders as opportunities in CRM in Cloud', 'crm-in-cloud-for-wc' ); ?></p>
-				<?php crmfwc_go_premium(); ?>
 			</td>
 		</tr>
 	</table>
@@ -75,9 +76,8 @@ $contacts_roles = get_option( 'crmfwc-users-roles' );
 		<tr class="delete-company">
 			<th scope="row"><?php esc_html_e( 'Delete company', 'crm-in-cloud-for-wc' ); ?></th>
 			<td>
-				<input type="checkbox" name="crmfwc-delete-company">
+				<input type="checkbox" name="crmfwc-delete-company" value="1"<?php echo 1 == $delete_company ? ' checked="checked"' : ''; ?>>
 				<p class="description"><?php esc_html_e( 'Delete the company linked to the contact in CRM in Cloud', 'crm-in-cloud-for-wc' ); ?></p>
-				<?php crmfwc_go_premium(); ?>
 			</td>
 		</tr>
 	</table>
