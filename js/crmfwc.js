@@ -350,11 +350,15 @@ var crmfwcController = function() {
 		        	scrollTop: $('#crmfwc-admin-menu').offset().top -30
 		        }, 'slow');
 
+				var export_company = $('tr.export-company .tzCheckBox').hasClass('checked') ? 1 : 0;
+				var export_orders  = $('tr.export-orders .tzCheckBox').hasClass('checked') ? 1 : 0;
 				var roles          = $('.crmfwc-contacts-role').val();
 				var data           = {
 					'action': 'export-users',
 					'crmfwc-export-users-nonce': crmfwcSettings.exportUsersNonce,
 					'roles': roles,
+					'export-company': export_company,
+					'export-orders': export_orders
 				}
 
 				$.post(ajaxurl, data, function(response){
@@ -430,7 +434,8 @@ var crmfwcController = function() {
 
 				self.delete_messages();
 
-				var answer = confirm( 'Vuoi cancellare tutti i contatti da CRM in Cloud?' ); // temp.
+				var delete_company = $('tr.delete-company .tzCheckBox').hasClass('checked') ? 1 : 0;
+				var answer         = confirm( 'Vuoi cancellare tutti i contatti da CRM in Cloud?' ); // temp.
 
 				if ( answer ) {
 
@@ -443,6 +448,7 @@ var crmfwcController = function() {
 					var data = {
 						'action': 'delete-remote-users',
 						'crmfwc-delete-users-nonce': crmfwcSettings.deleteUsersNonce,
+						'delete-company': delete_company
 					}
 
 
