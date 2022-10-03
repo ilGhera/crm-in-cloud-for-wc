@@ -886,16 +886,32 @@ class CRMFWC_Contacts {
 				get_user_meta( $user_id )
 			);
 
-			$surname = ( isset( $user_data['last_name'] ) && $user_data['last_name'] ) ? ucwords( $user_data['last_name'] ) : '-';
-			$name    = null;
+            /* Get billing last name */
+			$surname = ( isset( $user_data['billing_last_name'] ) && $user_data['billing_last_name'] ) ? ucwords( $user_data['billing_last_name'] ) : '-';
 
-			/*Use WP display name with no first and last user name*/
-			if ( isset( $user_data['first_name'] ) && $user_data['first_name'] ) {
+            /* Use WP user last name if necessary */
+            if ( '-' === $surname && isset( $user_data['last_name'] ) && $user_data['last_name'] ) {
 
+                $surname = ucwords( $user_data['last_name'] );
+
+            }
+
+            /* Get the user first name */
+			$name = null;
+
+			if ( isset( $user_data['billing_first_name'] ) && $user_data['billing_first_name'] ) {
+
+                /* First choise */
+                $name = ucwords( $user_data['billing_first_name'] );
+
+            } elseif ( isset( $user_data['first_name'] ) && $user_data['first_name'] ) {
+
+                /* Second choise */
 				$name = ucwords( $user_data['first_name'] );
 
 			} elseif ( '-' === $surname ) {
 
+                /*Use WP display name with no first and last user name*/
 				$name = $user_details->display_name ? ucwords( $user_details->display_name ) : $user_details->user_login;
 
 			}
@@ -1078,34 +1094,27 @@ class CRMFWC_Contacts {
 
         $order_id   = is_object( $order ) ? $order->get_id() : null; 
         $remote_id  = $user_id ? get_user_meta( $user_id, 'crmfwc-id', true ) : get_post_meta( $order_id, 'crmfwc-user-id', true );
+        $args       = $this->prepare_user_data( $user_id, $order, $update );
         $company_id = get_user_meta( $user_id, 'crmfwc-company-id', true );
+        $company_id = isset( $args['companyId'] ) ? $args['companyId'] : $company_id;
 
-        error_log( 'ORDER ID: ' . $order_id );
-        error_log( 'REMOTE ID: ' . $remote_id );
+        /* Export user as contact in CRM in Cloud */
+        $remote_id  = $this->crmfwc_call->call( 'post', 'Contact/CreateOrUpdate', $args );
 
-		/* if ( $order_id || $remote_id ) { */
+        if ( is_int( $remote_id ) ) {
 
-            $args       = $this->prepare_user_data( $user_id, $order, $update );
-            $company_id = isset( $args['companyId'] ) ? $args['companyId'] : $company_id;
-			$remote_id  = $this->crmfwc_call->call( 'post', 'Contact/CreateOrUpdate', $args );
-            error_log( 'REMOTE ID 2: ' . print_r( $remote_id, true ) );
+            /*Update user_meta only if wp user exists*/
+            if ( 0 !== $user_id ) {
 
-			if ( is_int( $remote_id ) ) {
+                update_user_meta( $user_id, 'crmfwc-id', $remote_id );
 
-				/*Update user_meta only if wp user exists*/
-				if ( 0 !== $user_id ) {
+            } elseif ( $order_id ) {
 
-					update_user_meta( $user_id, 'crmfwc-id', $remote_id );
-
-                } elseif ( $order_id ) {
-
-					update_post_meta( $order_id, 'crmfwc-user-id', $remote_id );
-
-                }
+                update_post_meta( $order_id, 'crmfwc-user-id', $remote_id );
 
             }
 
-		/* } */
+        }
 
         /*Export orders ad opportunities only if set in the options*/
         if ( ( $this->export_orders && ! $update ) || $order_id ) {
