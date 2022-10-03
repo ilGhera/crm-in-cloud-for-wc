@@ -1124,30 +1124,28 @@ class CRMFWC_Contacts {
 
         $order_id   = is_object( $order ) ? $order->get_id() : null; 
         $remote_id  = $user_id ? get_user_meta( $user_id, 'crmfwc-id', true ) : get_post_meta( $order_id, 'crmfwc-user-id', true );
+        $args       = $this->prepare_user_data( $user_id, $order, $update );
         $company_id = get_user_meta( $user_id, 'crmfwc-company-id', true );
+        $company_id = isset( $args['companyId'] ) ? $args['companyId'] : $company_id;
 
-		if ( $order_id || $remote_id ) {
+        /* Export user as contact in CRM in Cloud */
+        $remote_id  = $this->crmfwc_call->call( 'post', 'Contact/CreateOrUpdate', $args );
 
-            $args       = $this->prepare_user_data( $user_id, $order, $update );
-            $company_id = isset( $args['companyId'] ) ? $args['companyId'] : $company_id;
-			$remote_id  = $this->crmfwc_call->call( 'post', 'Contact/CreateOrUpdate', $args );
+        if ( is_int( $remote_id ) ) {
 
-			if ( is_int( $remote_id ) ) {
+            /*Update user_meta only if wp user exists*/
+            if ( 0 !== $user_id ) {
 
-				/*Update user_meta only if wp user exists*/
-				if ( 0 !== $user_id ) {
+                update_user_meta( $user_id, 'crmfwc-id', $remote_id );
 
-					update_user_meta( $user_id, 'crmfwc-id', $remote_id );
+            } elseif ( $order_id ) {
 
-                } elseif ( $order_id ) {
-
-					update_post_meta( $order_id, 'crmfwc-user-id', $remote_id );
-
-                }
+                update_post_meta( $order_id, 'crmfwc-user-id', $remote_id );
 
             }
 
-		}
+        }
+
 
         /*Export orders ad opportunities only if set in the options*/
         if ( ( $this->export_orders && ! $update ) || $order_id ) {
