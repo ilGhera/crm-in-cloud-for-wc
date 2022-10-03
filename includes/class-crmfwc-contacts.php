@@ -934,16 +934,32 @@ class CRMFWC_Contacts {
 				get_user_meta( $user_id )
 			);
 
-			$surname = ( isset( $user_data['last_name'] ) && $user_data['last_name'] ) ? ucwords( $user_data['last_name'] ) : '-';
-			$name    = null;
+            /* Get billing last name */
+			$surname = ( isset( $user_data['billing_last_name'] ) && $user_data['billing_last_name'] ) ? ucwords( $user_data['billing_last_name'] ) : '-';
 
-			/*Use WP display name with no first and last user name*/
-			if ( isset( $user_data['first_name'] ) && $user_data['first_name'] ) {
+            /* Use WP user last name if necessary */
+            if ( '-' === $surname && isset( $user_data['last_name'] ) && $user_data['last_name'] ) {
 
+                $surname = ucwords( $user_data['last_name'] );
+
+            }
+
+            /* Get the user first name */
+			$name = null;
+
+			if ( isset( $user_data['billing_first_name'] ) && $user_data['billing_first_name'] ) {
+
+                /* First choise */
+                $name = ucwords( $user_data['billing_first_name'] );
+
+            } elseif ( isset( $user_data['first_name'] ) && $user_data['first_name'] ) {
+
+                /* Second choise */
 				$name = ucwords( $user_data['first_name'] );
 
 			} elseif ( '-' === $surname ) {
 
+                /*Use WP display name with no first and last user name*/
 				$name = $user_details->display_name ? ucwords( $user_details->display_name ) : $user_details->user_login;
 
 			}
