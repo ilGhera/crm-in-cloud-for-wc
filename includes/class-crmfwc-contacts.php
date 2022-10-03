@@ -891,16 +891,25 @@ class CRMFWC_Contacts {
 
 		if ( $order ) {
 
-			$surname                 = $order->get_billing_last_name() ? ucwords( $order->get_billing_last_name() ) : '-';
-			$name                    = $order->get_billing_first_name() ? ucwords( $order->get_billing_first_name() ) : null;
-			$user_email              = $order->get_billing_email();
-			$country                 = $order->get_billing_country();
-			$city                    = $order->get_billing_city() ? ucwords( $order->get_billing_city() ) : null;
-			$state                   = $order->get_billing_state();
-			$address                 = $order->get_billing_address_1() ? ucwords( $order->get_billing_address_1() ) : null;
-			$postcode                = $order->get_billing_postcode();
-			$phone                   = $order->get_billing_phone();
-			$company                 = $order->get_billing_company() ? ucwords( $order->get_billing_company() ) : null;
+			$surname       = $order->get_billing_last_name() ? ucwords( $order->get_billing_last_name() ) : '-';
+			$name          = $order->get_billing_first_name() ? ucwords( $order->get_billing_first_name() ) : null;
+			$billing_email = $order->get_billing_email();
+			$country       = $order->get_billing_country();
+			$city          = $order->get_billing_city() ? ucwords( $order->get_billing_city() ) : null;
+			$state         = $order->get_billing_state();
+			$address       = $order->get_billing_address_1() ? ucwords( $order->get_billing_address_1() ) : null;
+			$postcode      = $order->get_billing_postcode();
+			$phone         = $order->get_billing_phone();
+			$company       = $order->get_billing_company() ? ucwords( $order->get_billing_company() ) : null;
+
+            $user_email = null;
+
+            if ( $user_id ) {
+
+                $user_details = get_userdata( $user_id );
+                $user_email = $user_details->user_email;
+
+            }
 
 			/*Fiscal data*/
 			$pi_name = $this->get_tax_field_name( 'pi_name', true );
@@ -964,15 +973,16 @@ class CRMFWC_Contacts {
 
 			}
 
-			$user_email              = $user_details->user_email;
-			$country                 = isset( $user_data['billing_country'] ) ? $user_data['billing_country'] : null;
-			$city                    = isset( $user_data['billing_city'] ) ? ucwords( $user_data['billing_city'] ) : null;
-			$state                   = isset( $user_data['billing_state'] ) ? ucwords( $user_data['billing_state'] ) : null;
-			$address                 = isset( $user_data['billing_address_1'] ) ? ucwords( $user_data['billing_address_1'] ) : null;
-			$postcode                = isset( $user_data['billing_postcode'] ) ? $user_data['billing_postcode'] : null;
-			$phone                   = isset( $user_data['billing_phone'] ) ? $user_data['billing_phone'] : null;
-			$company                 = isset( $user_data['billing_company'] ) ? ucwords( $user_data['billing_company'] ) : null;
-			$website                 = $user_details->user_url;
+			$user_email    = $user_details->user_email;
+			$billing_email = isset( $user_data['billing_email'] ) ? $user_data['billing_email'] : null;
+			$country       = isset( $user_data['billing_country'] ) ? $user_data['billing_country'] : null;
+			$city          = isset( $user_data['billing_city'] ) ? ucwords( $user_data['billing_city'] ) : null;
+			$state         = isset( $user_data['billing_state'] ) ? ucwords( $user_data['billing_state'] ) : null;
+			$address       = isset( $user_data['billing_address_1'] ) ? ucwords( $user_data['billing_address_1'] ) : null;
+			$postcode      = isset( $user_data['billing_postcode'] ) ? $user_data['billing_postcode'] : null;
+			$phone         = isset( $user_data['billing_phone'] ) ? $user_data['billing_phone'] : null;
+			$company       = isset( $user_data['billing_company'] ) ? ucwords( $user_data['billing_company'] ) : null;
+			$website       = $user_details->user_url;
 
 			/*Fiscal data*/
 			$pi_name = $this->get_tax_field_name( 'pi_name' );
@@ -1004,11 +1014,7 @@ class CRMFWC_Contacts {
 		$args = array(
 			'name'        => $name,
 			'surname'     => $surname,
-			'emails'      => array(
-				array(
-					'value' => $user_email,
-				),
-			),
+			'emails'      => array(),
 			'state'       => $country,
 			'city'        => $city,
 			'address'     => $address,
@@ -1065,6 +1071,19 @@ class CRMFWC_Contacts {
 			$args['webSite'] = $website;
 
 		}
+
+        /* Emails */
+		if ( $user_email ) {
+
+			array_push( $args['emails'] , array( 'value' => $user_email ) );
+		
+		}
+
+		if ( $billing_email ) {
+
+			array_push( $args['emails'] , array( 'value' => $billing_email ) );
+		
+        }
 
 		if ( $certified_email ) {
 
