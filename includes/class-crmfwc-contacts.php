@@ -1226,7 +1226,6 @@ class CRMFWC_Contacts {
 			update_option( 'crmfwc-users-roles', $roles );
 			update_option( 'crmfwc-export-company', $export_company );
 			update_option( 'crmfwc-export-orders', $export_orders );
-            update_option( 'crmfwc-synchronize-contacts', $synchronize_contacts );
 
 			$args     = array( 'role__in' => $roles );
 			$users    = get_users( $args );
