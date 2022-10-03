@@ -8,22 +8,6 @@
  */
 class CRMFWC_Products {
 
-    /**
-     * Synchronize products in real time
-     *
-     * @var bool
-     */
-    private $synchronize_products;
-
-    
-    /**
-     * Synchronize products taxonomy terms in real time
-     *
-     * @var bool
-     */
-    private $synchronize_products_terms;
-
-
 	/**
 	 * Class constructor
 	 */
@@ -34,53 +18,11 @@ class CRMFWC_Products {
 
         if ( $init ) {
 
-            /* Get options */
-            $this->synchronize_products       = get_option( 'crmfwc-synchronize-products' );
-            $this->synchronize_products_terms = get_option( 'crmfwc-synchronize-products-terms' );
-
             /* Hooks */
-            add_action( 'admin_init', array( $this, 'products_settings' ), 10 );
             add_action( 'wp_ajax_export-products', array( $this, 'export_products' ) );
             add_action( 'crmfwc_export_single_product_event', array( $this, 'export_single_product' ), 10, 1 );
             add_action( 'wp_ajax_delete-remote-products', array( $this, 'delete_remote_products' ) );
             add_action( 'crmfwc_delete_remote_single_product_event', array( $this, 'delete_remote_single_product' ), 10, 1 );
-
-            /* Conditionals hooks */
-            if ( $this->synchronize_products ) {
-
-                add_action( 'woocommerce_update_product', array( $this, 'export_single_product' ), 10, 1 );
-                add_action( 'trashed_post', array( $this, 'export_single_product' ), 10, 1 );
-                add_action( 'untrashed_post', array( $this, 'export_single_product' ), 10, 1 );
-
-            }
-
-            if ( $this->synchronize_products_terms ) {
-
-                add_action( 'saved_term', array( $this, 'export_single_product_cat' ), 10, 1 );
-
-            }
-
-        }
-
-    }
-
-
-    /**
-     * User synchronization options 
-     *
-     * @return void 
-     */
-    public function products_settings() {
-
-
-		if ( isset( $_POST['crmfwc-products-settings-nonce'] ) && wp_verify_nonce( wp_unslash( $_POST['crmfwc-products-settings-nonce'] ), 'crmfwc-products-settings' ) ) {
-
-            $synchronize_products = isset( $_POST['crmfwc-synchronize-products'] ) ? sanitize_text_field( wp_unslash( $_POST['crmfwc-synchronize-products'] ) ) : 0;
-            $synchronize_products_terms = isset( $_POST['crmfwc-synchronize-products-terms'] ) ? sanitize_text_field( wp_unslash( $_POST['crmfwc-synchronize-products-terms'] ) ) : 0;
-
-            /*Save to the db*/
-            update_option( 'crmfwc-synchronize-products', $synchronize_products );
-            update_option( 'crmfwc-synchronize-products-terms', $synchronize_products_terms );
 
         }
 

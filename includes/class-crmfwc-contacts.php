@@ -104,8 +104,6 @@ class CRMFWC_Contacts {
 		add_action( 'crmfwc_delete_remote_single_user_event', array( $this, 'delete_remote_single_user' ), 10, 1 );
 		add_action( 'wp_ajax_export-users', array( $this, 'export_users' ) );
 		add_action( 'crmfwc_export_single_user_event', array( $this, 'export_single_user' ), 10, 2 );
-        add_action( 'woocommerce_checkout_process', array( $this, 'deactivate_profile_update' ) );
-        add_action( 'save_post_shop_order', array( $this, 'wc_order_update_callback' ), 10, 3 );
 
 	}
 
@@ -217,7 +215,7 @@ class CRMFWC_Contacts {
 			$args['id'] = $company_id;
 
 		}
-        error_log( 'COMPANY ARGS: ' . error_log( $args, true ) );
+        error_log( 'COMPANY ARGS: ' . print_r( $args, true ) );
 
 		$response = $this->crmfwc_call->call( 'post', 'Company/CreateOrUpdate', $args );
         error_log( 'COMPANY RESPONSE: ' . error_log( $response, true ) );
@@ -622,6 +620,7 @@ class CRMFWC_Contacts {
 
         $endpoint = 'Opportunity/CreateOrUpdate/';
 		$data     = $this->get_user_opportunities( $user_id, $remote_id, $cross_type, $order_id );
+        error_log( 'DATA: ' . print_r( $data, true ) );
 
 		if ( is_array( $data ) ) {
 
@@ -662,6 +661,7 @@ class CRMFWC_Contacts {
                             }
 
 							$response = $this->crmfwc_call->call( 'post', $endpoint, $val );
+                            error_log( 'RESPONSE OPPORTUNITY: ' . print_r( $response, true ) );
 
                             if ( is_int( $response ) ) {
 
@@ -1110,6 +1110,8 @@ class CRMFWC_Contacts {
         /*Export orders ad opportunities only if set in the options*/
         if ( ( $this->export_orders && ! $update ) || $order_id ) {
 
+            error_log( 'ESPORTO ORDINI' );
+
             /*Export user opportunities*/
             $this->export_opportunities( $user_id, $remote_id, 1, $order_id ); // temp.
 
@@ -1234,67 +1236,6 @@ class CRMFWC_Contacts {
 			return $response[0]->id;
 
 		}
-
-	}
-
-
-	/**
-	 * Export user and his opportunities when a WC order is completed
-	 *
-	 * @param  int    $order_id the WC order id.
-     *
-	 * @return void
-	 */
-	public function wc_order_callback( $order_id ) {
-
-        /*Export new WC orders only if set in the options*/
-        if ( $this->wc_export_orders && ! wp_is_post_autosave( $order_id ) ) {
-
-            $order = wc_get_order( $order_id );
-
-            if ( is_object( $order ) ) {
-
-                $this->export_single_user( $order->get_customer_id(), $order );
-
-            }
-
-        }
-
-	}
-
-
-    /**
-     * Do not update user by this hook while a new order is createrd
-     *
-     * @return void
-     */
-    public function deactivate_profile_update() {
-
-        remove_action( 'profile_update', array( $this, 'update_remote_contact' ), 10 );
-
-    }
-
-
-	/**
-	 * Fired when a WC order is updated
-	 *
-	 * @param  int    $order_id the WC order id.
-	 * @param  object $post     the post.
-	 * @param  bool   $update   whether this is an existing post being updated.
-     *
-	 * @return void
-	 */
-	public function wc_order_update_callback( $order_id, $post, $update ) {
-
-        if ( $update ) {
-
-            $this->wc_order_callback( $order_id );
-
-        } else {
-
-            add_action( 'woocommerce_thankyou', array( $this, 'wc_order_callback' ), 10, 1 );
-
-        }
 
 	}
 
