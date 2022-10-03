@@ -629,51 +629,48 @@ class CRMFWC_Contacts {
 				$meta_key            = 1 === $cross_type ? 'crmfwc-contact-opportunities' : 'crmfwc-company-opportunities';
 				$saved_opportunities = get_post_meta( $key, $meta_key, true );
 
-				if ( ! $saved_opportunities || $order_id === $key ) {
+                if ( is_array( $value ) && ! empty( $value ) ) {
 
-					if ( is_array( $value ) && ! empty( $value ) ) {
+                    if ( ! $saved_opportunities ) {
 
                         update_post_meta( $key, $meta_key, 1 );
 
-						foreach ( $value as $k => $val ) {
+                    }
 
-                            if ( $order_id === $key ) {
+                    foreach ( $value as $k => $val ) {
 
-                                $opportunity_id  = get_post_meta( $key, 'crmfwc-opportunity-' . $cross_type . '-' . $k, true );
+                        /* Get remote opportunity ID if exists */
+                        $opportunity_id  = get_post_meta( $key, 'crmfwc-opportunity-' . $cross_type . '-' . $k, true );
 
-                                if ( $opportunity_id ) {
+                        if ( $opportunity_id ) {
 
-                                    if ( 'trash' === get_post_status( $order_id ) ) {
+                            if ( 'trash' === get_post_status( $order_id ) ) {
 
-                                        $response = $this->crmfwc_call->call( 'delete', 'Opportunity/' . $opportunity_id );
+                                $response = $this->crmfwc_call->call( 'delete', 'Opportunity/' . $opportunity_id );
 
-                                        delete_post_meta( $key, 'crmfwc-opportunity-' . $cross_type . '-' . $k );
+                                delete_post_meta( $key, 'crmfwc-opportunity-' . $cross_type . '-' . $k );
 
-                                        continue;
-
-                                    }
-
-                                    /* Update an existing opportunity */
-                                    $val['id'] = $opportunity_id;
-
-                                }
+                                continue;
 
                             }
 
-							$response = $this->crmfwc_call->call( 'post', $endpoint, $val );
-                            error_log( 'RESPONSE OPPORTUNITY: ' . print_r( $response, true ) );
+                            /* Update an existing opportunity */
+                            $val['id'] = $opportunity_id;
 
-                            if ( is_int( $response ) ) {
+                        }
 
-                                update_post_meta( $key, 'crmfwc-opportunity-' . $cross_type . '-' . $k, $response );
+                        $response = $this->crmfwc_call->call( 'post', $endpoint, $val );
+                        error_log( 'RESPONSE OPPORTUNITY: ' . print_r( $response, true ) );
 
-                            } 
+                        if ( is_int( $response ) ) {
 
-						}
+                            update_post_meta( $key, 'crmfwc-opportunity-' . $cross_type . '-' . $k, $response );
 
-					}
+                        } 
 
-				}
+                    }
+
+                }
 
 			}
 
