@@ -18,13 +18,13 @@ Synchronize your WordPress/ WooCommerce site with CRM in Cloud exporting users a
 * Select one or more WordPress user level to export.
 * Create the *Company* in CRM in Cloud if exported with the user.
 * Export users avatars.
-* Update users in real time.
 * Export user orders to CRM in Cloud as opportunities.
-* Export new orders to CRM in Cloud as opportunities in real time.
 * Export products to CRM in Cloud by categories.
 * Export product images.
-* Update products in real time.
 * Delete all data in CRM in Cloud with a click.
+* (Premium) Update users in real time.
+* (Premium) Export new orders to CRM in Cloud as opportunities in real time.
+* (Premium) Update products in real time.
 
 = Try CRM in Cloud for free! =
 [https://www.teamsystem.com/store/gestione-relazione-clienti/crm-in-cloud](https://www.teamsystem.com/store/gestione-relazione-clienti/crm-in-cloud)
