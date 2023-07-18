@@ -214,6 +214,7 @@ var crmfwcController = function() {
                 var email = $('.crmfwc-email').val();
                 var passw = $('.crmfwc-passw').val();
                 // var nonce = $('#crmfwc-login-nonce').val();
+                console.log( 'PASSW: ' + passw );
 
                 self.crmfwc_check_connection( email, passw );
 

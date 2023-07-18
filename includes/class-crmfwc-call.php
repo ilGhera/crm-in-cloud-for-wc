@@ -127,6 +127,8 @@ class CRMFWC_Call {
 	 */
 	public function call( $method, $endpoint = '', $args = null, $login = false, $upload = false, $boundary = null ) {
 
+        error_log( 'ARGS: ' . print_r( $args, true ) );
+
 		$body = ( $args && ! $upload ) ? json_encode( $args ) : $args;
 
 		$response = wp_remote_request(

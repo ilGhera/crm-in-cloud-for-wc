@@ -21,7 +21,7 @@ class CRMFWC_Settings {
 		if ( $init ) {
 
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
-			add_action( 'wp_ajax_crmfwc-connect', array( $this, 'login' ) );
+			/* add_action( 'wp_ajax_crmfwc-connect', array( $this, 'login' ) ); */
 			add_action( 'wp_ajax_crmfwc-disconnect', array( $this, 'disconnect_callback' ) );
 			add_action( 'wp_ajax_check-connection', array( $this, 'check_connection_callback' ) );
 			add_action( 'admin_footer', array( $this, 'check_connection' ) );
@@ -75,10 +75,14 @@ class CRMFWC_Settings {
 	 */
 	public function login() {
 
-		if ( isset( $_POST['crmfwc-email'], $_POST['crmfwc-email'], $_POST['crmfwc-login-nonce'] ) && wp_verify_nonce( $_POST['crmfwc-login-nonce'], 'crmfwc-login' ) ) {
+        error_log( 'POST LOGIN: ' . print_r( $_POST, true ) );
+
+		if ( isset( $_POST['crmfwc_email'], $_POST['crmfwc_passw'], $_POST['crmfwc-login-nonce'] ) && wp_verify_nonce( $_POST['crmfwc-login-nonce'], 'crmfwc-login' ) ) {
 
 			$email    = sanitize_email( wp_unslash( $_POST['crmfwc-email'] ) );
 			$passw    = sanitize_text_field( wp_unslash( $_POST['crmfwc-passw'] ) );
+
+            error_log( 'LOGIN PASSW: ' . $passw );
 
             $this->check_connection_callback( false, $email, $passw );
 
@@ -147,9 +151,13 @@ class CRMFWC_Settings {
 	 */
 	public function check_connection_callback( $return = false, $email = null, $passw = null ) {
 
+        error_log( 'POST: ' . print_r( $_POST, true ) );
+
         $email      = isset( $_POST['crmfwc_email'] ) ? sanitize_email( wp_unslash( $_POST['crmfwc_email'] ) ) : null;
         $passw      = isset( $_POST['crmfwc_passw'] ) ? sanitize_text_field( wp_unslash( $_POST['crmfwc_passw'] ) ) : null;
         $connection = $this->crmfwc_call->get_access_token( $email, $passw ); 
+
+        error_log( 'CHECK CONN. PASSW: ' . $passw );
 
 		if ( isset( $connection->error ) || ! $connection ) {
 
