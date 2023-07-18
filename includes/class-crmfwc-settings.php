@@ -159,6 +159,13 @@ class CRMFWC_Settings {
 
         error_log( 'CHECK CONN. PASSW: ' . $passw );
 
+        if ( $email && $passw ) {
+
+            update_option( 'crmfwc-email', $email );
+            update_option( 'crmfwc-passw', $passw );
+
+        }
+
 		if ( isset( $connection->error ) || ! $connection ) {
 
 			if ( $return || ! $connection ) {
@@ -172,13 +179,6 @@ class CRMFWC_Settings {
 			}
 
 		} else {
-
-            if ( $email && $passw ) {
-
-                update_option( 'crmfwc-email', $email );
-                update_option( 'crmfwc-passw', $passw );
-
-            }
 
 			if ( $return ) {
 
