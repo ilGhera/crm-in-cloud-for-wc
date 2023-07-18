@@ -67,7 +67,7 @@ class CRMFWC_Call {
 
 				return $response->access_token;
 
-            } elseif ( $response->error ) {
+            } elseif ( isset( $response->error ) ) {
 
                 return $response;
 
