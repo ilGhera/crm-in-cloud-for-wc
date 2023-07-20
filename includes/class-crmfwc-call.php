@@ -50,30 +50,41 @@ class CRMFWC_Call {
 	 */
 	public function get_access_token( $email = null, $passw = null ) {
 
-		$email  = $email ? $email : $this->email;
-		$passw  = $passw ? $passw : $this->passw;
+        $access_token = get_transient( 'crmfwc-access-token' );
 
-		if ( $email && $passw ) {
+        if ( $access_token ) {
 
-			$data  = array(
-				'grant_type' => 'password',
-				'username'   => $email,
-				'password'   => $passw,
-			);
+            return $access_token;
 
-			$response = $this->call( 'post', 'Auth/Login', $data, true );
+        } else {
 
-			if ( isset( $response->access_token ) ) {
+            $email  = $email ? $email : $this->email;
+            $passw  = $passw ? $passw : $this->passw;
 
-				return $response->access_token;
+            if ( $email && $passw ) {
 
-            } elseif ( isset( $response->error ) ) {
+                $data  = array(
+                    'grant_type' => 'password',
+                    'username'   => $email,
+                    'password'   => $passw,
+                );
 
-                return $response;
+                $response = $this->call( 'post', 'Auth/Login', $data, true );
+
+                if ( isset( $response->access_token ) ) {
+
+                    set_transient( 'crmfwc-access-token', $response->access_token, DAY_IN_SECONDS );
+                    return $response->access_token;
+
+                } elseif ( isset( $response->error ) ) {
+
+                    return $response;
+
+                }
 
             }
 
-		}
+        }
 
 	}
 
@@ -127,7 +138,7 @@ class CRMFWC_Call {
 	 */
 	public function call( $method, $endpoint = '', $args = null, $login = false, $upload = false, $boundary = null ) {
 
-        error_log( 'ARGS: ' . print_r( $args, true ) );
+        /* error_log( 'ARGS: ' . print_r( $args, true ) ); */
 
 		$body = ( $args && ! $upload ) ? json_encode( $args ) : $args;
 
