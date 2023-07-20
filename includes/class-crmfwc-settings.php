@@ -114,7 +114,7 @@ class CRMFWC_Settings {
 	}
 
 
-	/**
+   	/**
 	 * Display the status of the connection to CRM in Cloud
 	 *
 	 * @param bool   $return if true the method returns only if the connection is set.
@@ -125,20 +125,24 @@ class CRMFWC_Settings {
 	 */
 	public function check_connection_callback( $return = false, $email = null, $passw = null ) {
 
-        error_log( 'POST: ' . print_r( $_POST, true ) );
+        $email = get_option( 'crmfwc_email' );
+        $passw = get_option( 'crmfwc_passw' );
 
-        $email      = isset( $_POST['crmfwc_email'] ) ? sanitize_email( wp_unslash( $_POST['crmfwc_email'] ) ) : null;
-        $passw      = isset( $_POST['crmfwc_passw'] ) ? sanitize_text_field( wp_unslash( $_POST['crmfwc_passw'] ) ) : null;
-        $connection = $this->crmfwc_call->get_access_token( $email, $passw ); 
+		if ( isset( $_POST['crmfwc_email'], $_POST['crmfwc_passw'], $_POST['crmfwc-login-nonce'] ) && wp_verify_nonce( $_POST['crmfwc-login-nonce'], 'crmfwc-login' ) ) {
 
-        error_log( 'CHECK CONN. PASSW: ' . $passw );
+            error_log( 'POST: ' . print_r( $_POST, true ) );
 
-        if ( $email && $passw ) {
+            $email = sanitize_email( wp_unslash( $_POST['crmfwc_email'] ) );
+            $passw = sanitize_text_field( wp_unslash( $_POST['crmfwc_passw'] ) );
 
+            /* Update data in the db */
             update_option( 'crmfwc-email', $email );
             update_option( 'crmfwc-passw', $passw );
 
         }
+
+        /* Access to CRM in Cloud */
+        $connection = $this->crmfwc_call->get_access_token( $email, $passw ); 
 
 		if ( isset( $connection->error ) || ! $connection ) {
 
