@@ -115,6 +115,7 @@ class CRMFWC_Products {
 
         $output  = null;
         $product = $this->crmfwc_call->call( 'get', 'Catalog/' . $remote_id );
+        error_log( 'CATALOG RESPONSE: ' . print_r( $product, true ) );
  
         if ( is_object( $product ) && isset( $product->id ) ) {
 
@@ -579,7 +580,9 @@ class CRMFWC_Products {
             }
 
             /* Add product to CRM in Cloud */
-            $response = $this->crmfwc_call->call( 'post', 'Catalog',  $args );
+            $response = $this->crmfwc_call->call( 'post', 'Catalog/CreateOrUpdate',  $args );
+            error_log( 'PRODUCT ARGS: ' . print_r( $args, true ) );
+            error_log( 'ADD PRODUCT: ' . print_r( $response, true ) );
 
             if ( ! is_int( $response ) ) {
 
@@ -620,8 +623,11 @@ class CRMFWC_Products {
 	 */
 	public function export_products() {
 
+        error_log( 'EXPORT PRODUCTS 1' );
+
 		if ( isset( $_POST['crmfwc-export-products-nonce'] ) && wp_verify_nonce( wp_unslash( $_POST['crmfwc-export-products-nonce'] ), 'crmfwc-export-products' ) ) {
 
+            error_log( 'EXPORT PRODUCTS 2' );
             $response = array();
 
 			/*Check options*/
@@ -723,9 +729,12 @@ class CRMFWC_Products {
 	 */
 	public function delete_remote_products() {
 
+        error_log( 'DELETE PRODUCTS 1' );
+
 		if ( isset( $_POST['crmfwc-delete-products-nonce'] ) && wp_verify_nonce( wp_unslash( $_POST['crmfwc-delete-products-nonce'] ), 'crmfwc-delete-products' ) ) {
 
 			$products = $this->get_remote_products();
+            error_log( 'REMOTE PRODUCTS: ' . print_r( $products, true ) );
 
 			 if ( is_array( $products ) && ! empty( $products ) ) { 
 
