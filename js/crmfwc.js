@@ -145,54 +145,60 @@ var crmfwcController = function() {
 	self.crmfwc_check_connection = function( email, passw ) {
 
 		jQuery(function($){
+     
+			var data;
 
-			var data = {
-				'action': 'check-connection'
-			}
+            if ( $('body').hasClass('woocommerce_page_crm-in-cloud-for-wc') ) {
 
-            if ( email ) {
-                data.crmfwc_email = email;
-            }
+                data = {
+                    'action': 'check-connection'
+                }
 
-            if ( passw ) {
-                data.crmfwc_passw = passw;
-            }
-            console.log( 'DATA: ' + JSON.stringify( data ) );
+                if ( email ) {
+                    data.crmfwc_email = email;
+                }
 
-			$.post(ajaxurl, data, function(response){
+                if ( passw ) {
+                    data.crmfwc_passw = passw;
+                }
+                console.log( 'DATA: ' + JSON.stringify( data ) );
 
-                var result = JSON.parse(response);
+                $.post(ajaxurl, data, function(response){
 
-				if( result && ! result['error'] ) {
+                    var result = JSON.parse(response);
 
-					/*Activate plugin tools*/
-					self.crmfwc_tools_control();
-			
-                    $('.crmfwc-login-error.alert-danger').hide();
-					$('.check-connection').html(result['ok']);
-					$('.crmfwc-connect').hide();
-                    $('.crmfwc-email-field').hide();
-					$('.crmfwc-disconnect').css('display', 'inline-block');
-					$('.crmfwc-disconnect').animate({
-						opacity: 1
-					}, 500);
+                    if( result && ! result['error'] ) {
 
-				} else {
+                        /*Activate plugin tools*/
+                        self.crmfwc_tools_control();
+                
+                        $('.crmfwc-login-error.alert-danger').hide();
+                        $('.check-connection').html(result['ok']);
+                        $('.crmfwc-connect').hide();
+                        $('.crmfwc-email-field').hide();
+                        $('.crmfwc-disconnect').css('display', 'inline-block');
+                        $('.crmfwc-disconnect').animate({
+                            opacity: 1
+                        }, 500);
 
-                    /*Show error message*/
-                    if ( result ) {
+                    } else {
 
-                        $('.crmfwc-login-error').html( result['error_description'] );
-                        $('.crmfwc-login-error').show();
+                        /*Show error message*/
+                        if ( result ) {
+
+                            $('.crmfwc-login-error').html( result['error_description'] );
+                            $('.crmfwc-login-error').show();
+
+                        }
+
+                        /*Deactivate plugin tools*/
+                        self.crmfwc_tools_control(true);
 
                     }
 
-					/*Deactivate plugin tools*/
-					self.crmfwc_tools_control(true);
+                })
 
-				}
-
-			})
+            }
 
 		})
 
