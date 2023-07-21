@@ -109,8 +109,6 @@ class CRMFWC_Settings {
 
 		if ( isset( $_POST['crmfwc_email'], $_POST['crmfwc_passw'], $_POST['crmfwc-login-nonce'] ) && wp_verify_nonce( $_POST['crmfwc-login-nonce'], 'crmfwc-login' ) ) {
 
-            error_log( 'POST: ' . print_r( $_POST, true ) );
-
             $email = sanitize_email( wp_unslash( $_POST['crmfwc_email'] ) );
             $passw = sanitize_text_field( wp_unslash( $_POST['crmfwc_passw'] ) );
 
