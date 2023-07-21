@@ -23,7 +23,6 @@ class CRMFWC_Settings {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
 			add_action( 'wp_ajax_crmfwc-disconnect', array( $this, 'disconnect_callback' ) );
 			add_action( 'wp_ajax_check-connection', array( $this, 'check_connection_callback' ) );
-			add_action( 'admin_footer', array( $this, 'check_connection' ) );
 
 		}
 
@@ -76,26 +75,6 @@ class CRMFWC_Settings {
 
 		return $response;
 
-	}
-
-
-	/**
-	 * Check the connection to CRM in Cloud
-	 *
-	 * @return void
-	 */
-	public function check_connection() {
-
-		if ( $this->is_crmfwc_admin() ) {
-			?>	
-			<script>
-				jQuery(document).ready(function($){
-					var Controller = new crmfwcController;
-					Controller.crmfwc_check_connection();
-				})
-			</script>
-			<?php
-		}
 	}
 
 
