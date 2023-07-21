@@ -51,12 +51,9 @@ class CRMFWC_Call {
 	public function get_access_token( $email = null, $passw = null ) {
 
         $access_token = get_transient( 'crmfwc-access-token');
-        $time_limit   = get_option( '_transient_timeout_crmfwc-access-token' );
-        /* error_log( 'TIME LIMIT: ' . wp_date( 'd-m-Y H:i:s', $time_limit ) ); */
 
         if ( $access_token ) {
 
-            /* error_log( 'TRANSIENT: ' . $access_token ); */
             return $access_token;
 
         } else {
@@ -72,10 +69,7 @@ class CRMFWC_Call {
                     'password'   => $passw,
                 );
 
-                error_log( 'ARRAY TOKEN: ' . print_r( $data, true ) );
-
                 $response = $this->call( 'post', 'Auth/Login', $data, true );
-                error_log( 'RESPONSE TOKEN: ' . print_r( $response, true ) );
 
                 if ( isset( $response->access_token ) ) {
 
@@ -145,28 +139,17 @@ class CRMFWC_Call {
 	 */
 	public function call( $method, $endpoint = '', $args = null, $login = false, $upload = false, $boundary = null ) {
 
-        /* error_log( 'ARGS: ' . print_r( $args, true ) ); */
-
 		$body = ( $args && ! $upload ) ? json_encode( $args ) : $args;
-
-        $headers = $this->headers( $login, $upload, $boundary );
 
 		$response = wp_remote_request(
 			$this->base_url . $endpoint,
 			array(
 				'method'  => $method,
-				'headers' => $headers,
+				'headers' => $this->headers( $login, $upload, $boundary ),
 				'timeout' => 20,
 				'body'    => $body,
 			)
 		);
-
-        if ( 'Catalog' === $endpoint ) {
-
-            error_log( 'HEADERS: ' . print_r( $headers, true ) );
-            error_log( 'RESPONSE: ' . print_r( $response['response'], true ) );
-
-        }
 
 		if ( ! is_wp_error( $response ) && isset( $response['body'] ) ) {
 
@@ -190,3 +173,4 @@ class CRMFWC_Call {
 	}
 
 }
+
