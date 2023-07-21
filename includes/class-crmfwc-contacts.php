@@ -90,16 +90,6 @@ class CRMFWC_Contacts {
 		$this->crmfwc_call = new CRMFWC_Call();
         $this->products    = new CRMFWC_Products();
 
-        /*Check access*/
-        $token = $this->crmfwc_call->get_access_token();
-
-        /*Exit if not connected*/
-        if ( ! $token || is_object( $token ) && isset( $token->error ) ) {
-
-            return;
-
-        }
-
 		/*Get the complete phase to use with orders as opportunities*/
 		$this->completed_phase       = $this->get_completed_opportunity_phase();
 		$this->lost_phase            = $this->get_lost_opportunity_phase();
