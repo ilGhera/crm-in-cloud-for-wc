@@ -4,7 +4,7 @@
  *
  * @author ilGhera
  * @package crm-in-cloud-for-wc/includes
- * @since 1.1.0
+ * @since 1.2.0
  */
 class CRMFWC_Contacts {
 

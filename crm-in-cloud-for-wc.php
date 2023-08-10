@@ -4,11 +4,11 @@
  * Plugin URI: https://www.ilghera.com/product/crm-in-cloud-for-woocommerce
  * Description: Synchronize your WordPress/ WooCommerce site with CRM in Cloud exporting users and orders in real time
  * Author: ilGhera
- * Version: 1.1.1
+ * Version: 1.2.0
  * Author URI: https://ilghera.com
  * Requires at least: 4.0
- * Tested up to: 6.0
- * WC tested up to: 6
+ * Tested up to: 6.3
+ * WC tested up to: 8
  * Text Domain: crm-in-cloud-for-wc
  * Domain Path: /languages
  */
@@ -73,6 +73,7 @@ function load_crmfwc_premium() {
 
 		/*Files required*/
 		require_once( CRMFWC_ADMIN . 'class-crmfwc-admin.php' );
+		require_once( CRMFWC_ADMIN . 'ilghera-notice/class-ilghera-notice.php' );
 		require_once( CRMFWC_INCLUDES . 'crmfwc-functions.php' );
 		require_once( CRMFWC_INCLUDES . 'class-crmfwc-call.php' );
 		require_once( CRMFWC_INCLUDES . 'class-crmfwc-settings.php' );
