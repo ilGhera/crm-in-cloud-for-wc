@@ -4,15 +4,16 @@
  *
  * @author ilGhera
  * @package crm-in-cloud-for-wc-premium/includes
- * @since 0.9.0
+ * @since 1.2.0
  */
 
 /**
  * Update checker
  */
 require( CRMFWC_DIR . 'plugin-update-checker/plugin-update-checker.php' );
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
-$crmfwc_update_checker = Puc_v4_Factory::buildUpdateChecker(
+$crmfwc_update_checker = PucFactory::buildUpdateChecker(
 	'https://www.ilghera.com/wp-update-server-2/?action=get_metadata&slug=crm-in-cloud-for-wc-premium',
 	CRMFWC_FILE,
 	'crm-in-cloud-for-wc-premium'
