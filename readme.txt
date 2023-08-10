@@ -61,6 +61,7 @@ Release Date: 10 August 2023
 * Enhancement: WordPress coding standards 
 * Update: Plugin Update Checker
 * Update: Action Scheduler 
+* Update: Translations 
 * Bug fix: Problem accessing with API credentials 
 
 
