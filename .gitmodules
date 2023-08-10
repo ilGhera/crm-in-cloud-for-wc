@@ -6,7 +6,7 @@
 	url = https://github.com/YahnisElsts/plugin-update-checker.git
 [submodule "includes/wc-checkout-fields"]
 	path = includes/wc-checkout-fields
-	url = https://ilGhera@bitbucket.org/ilGhera/wc-checkout-fields.git
+	url = git@bitbucket.org:ilGhera/wc-checkout-fields.git
 [submodule "admin/ilghera-notice"]
 	path = admin/ilghera-notice
 	url = git@bitbucket.org:ilGhera/ilghera-notice.git
