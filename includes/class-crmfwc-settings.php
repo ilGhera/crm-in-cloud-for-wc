@@ -4,7 +4,7 @@
  *
  * @author ilGhera
  * @package crm-in-cloud-for-wc-premium/includes
- * @since 1.2.0
+ * @since 1.2.1
  */
 class CRMFWC_Settings {
 
@@ -21,7 +21,6 @@ class CRMFWC_Settings {
 		if ( $init ) {
 
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
-			/* add_action( 'wp_ajax_crmfwc-connect', array( $this, 'login' ) ); */
 			add_action( 'wp_ajax_crmfwc-disconnect', array( $this, 'disconnect_callback' ) );
 			add_action( 'wp_ajax_check-connection', array( $this, 'check_connection_callback' ) );
 
@@ -68,32 +67,9 @@ class CRMFWC_Settings {
 
 
 	/**
-	 * Login to CRM in Cloud
-	 *
-	 * @return bool return true if email and passw work and a token is returned
-	 */
-	public function login() {
-
-        error_log( 'POST LOGIN: ' . print_r( $_POST, true ) );
-
-		if ( isset( $_POST['crmfwc-email'], $_POST['crmfwc-passw'], $_POST['crmfwc-login-nonce'] ) && wp_verify_nonce( $_POST['crmfwc-login-nonce'], 'crmfwc-login' ) ) {
-
-			$email    = sanitize_email( wp_unslash( $_POST['crmfwc-email'] ) );
-			$passw    = sanitize_text_field( wp_unslash( $_POST['crmfwc-passw'] ) );
-
-            error_log( 'LOGIN PASSW: ' . $passw );
-
-            $this->check_connection_callback( false, $email, $passw );
-
-		}
-
-        exit;
-
-	}
-
-
-	/**
 	 * Get the current CRM in Cloud user info
+     *
+     * @return the call response
 	 */
 	public function user_information() {
 
@@ -134,13 +110,8 @@ class CRMFWC_Settings {
         $email = get_option( 'crmfwc-email' );
         $passw = get_option( 'crmfwc-passw' );
 
-        error_log( 'EMAIL: ' . $email );
-        error_log( 'PASSW: ' . $passw );
-        error_log( 'POST: ' . print_r( $_POST, true ) );
-
 		if ( isset( $_POST['crmfwc-email'], $_POST['crmfwc-passw'], $_POST['crmfwc-login-nonce'] ) && wp_verify_nonce( $_POST['crmfwc-login-nonce'], 'crmfwc-login' ) ) {
 
-            error_log( 'TEST' );
             $email = sanitize_email( wp_unslash( $_POST['crmfwc-email'] ) );
             $passw = sanitize_text_field( wp_unslash( $_POST['crmfwc-passw'] ) );
 
@@ -152,7 +123,6 @@ class CRMFWC_Settings {
 
         /* Access to CRM in Cloud */
         $connection = $this->crmfwc_call->get_access_token( $email, $passw ); 
-        error_log( 'CONNECTION: ' . print_r( $connection, true ) );
 
 		if ( isset( $connection->error ) || ! $connection ) {
 
