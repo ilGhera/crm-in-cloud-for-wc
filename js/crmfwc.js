@@ -140,10 +140,11 @@ var crmfwcController = function() {
      *
      * @param string $email the email address.
      * @param string $passw the user password.
+     * @param string $nonce the nonce.
      *
      * @return void
 	 */
-	self.crmfwc_check_connection = function( email, passw ) {
+	self.crmfwc_check_connection = function( email, passw, nonce = null ) {
 
 		jQuery(function($){
      
@@ -152,17 +153,11 @@ var crmfwcController = function() {
             if ( $('body').hasClass('woocommerce_page_crm-in-cloud-for-wc') ) {
 
                 data = {
-                    'action': 'check-connection'
+                    'action': 'check-connection',
+                    'crmfwc-email': email,
+                    'crmfwc-passw': passw,
+                    'crmfwc-login-nonce': nonce
                 }
-
-                if ( email ) {
-                    data.crmfwc_email = email;
-                }
-
-                if ( passw ) {
-                    data.crmfwc_passw = passw;
-                }
-                console.log( 'DATA: ' + JSON.stringify( data ) );
 
                 $.post(ajaxurl, data, function(response){
 
@@ -219,10 +214,9 @@ var crmfwcController = function() {
 
                 var email = $('.crmfwc-email').val();
                 var passw = $('.crmfwc-passw').val();
-                // var nonce = $('#crmfwc-login-nonce').val();
-                console.log( 'PASSW: ' + passw );
+                var nonce = $('#crmfwc-login-nonce').val();
 
-                self.crmfwc_check_connection( email, passw );
+                self.crmfwc_check_connection( email, passw, nonce );
 
             })
 
@@ -526,7 +520,6 @@ var crmfwcController = function() {
 
 					$.post(ajaxurl, data, function(response){
 
-                        // console.log( response );
 						var result = JSON.parse(response);
 
 						for (var i = 0; i < result.length; i++) {

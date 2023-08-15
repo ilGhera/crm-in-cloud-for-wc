@@ -22,8 +22,8 @@ $passw = get_option( 'crmfwc-passw' );
 				<td>
                     <div class="bootstrap-iso">
                         <div class="check-connection">
-                            <input type="email" class="regular-text crmfwc-email" name="crmfwc_email" placeholder="<?php esc_html_e( 'Email', 'crm-in-cloud-for-wc' ); ?>" value="<?php echo esc_attr( $email ); ?>" required>
-                            <input type="password" class="regular-text crmfwc-passw" name="crmfwc_passw" placeholder="<?php esc_html_e( 'Password', 'crm-in-cloud-for-wc' ); ?>" value="<?php echo esc_attr( $passw ); ?>" required>
+                            <input type="email" class="regular-text crmfwc-email" name="crmfwc-email" placeholder="<?php esc_html_e( 'Email', 'crm-in-cloud-for-wc' ); ?>" value="<?php echo esc_attr( $email ); ?>" required>
+                            <input type="password" class="regular-text crmfwc-passw" name="crmfwc-passw" placeholder="<?php esc_html_e( 'Password', 'crm-in-cloud-for-wc' ); ?>" value="<?php echo esc_attr( $passw ); ?>" required>
                         </div>
                         <p class="description"><?php esc_html_e( 'Connect with your CRM in Cloud credentials', 'crm-in-cloud-for-wc' ); ?></p>	
                         <input type="submit" class="button-primary crmfwc-connect" name="crmfwc-connect" value="<?php esc_html_e( 'Connect to CRM in Cloud', 'crm-in-cloud-for-wc' ); ?>">

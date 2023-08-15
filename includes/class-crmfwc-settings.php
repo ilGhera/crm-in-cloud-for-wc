@@ -76,7 +76,7 @@ class CRMFWC_Settings {
 
         error_log( 'POST LOGIN: ' . print_r( $_POST, true ) );
 
-		if ( isset( $_POST['crmfwc_email'], $_POST['crmfwc_passw'], $_POST['crmfwc-login-nonce'] ) && wp_verify_nonce( $_POST['crmfwc-login-nonce'], 'crmfwc-login' ) ) {
+		if ( isset( $_POST['crmfwc-email'], $_POST['crmfwc-passw'], $_POST['crmfwc-login-nonce'] ) && wp_verify_nonce( $_POST['crmfwc-login-nonce'], 'crmfwc-login' ) ) {
 
 			$email    = sanitize_email( wp_unslash( $_POST['crmfwc-email'] ) );
 			$passw    = sanitize_text_field( wp_unslash( $_POST['crmfwc-passw'] ) );
@@ -113,6 +113,7 @@ class CRMFWC_Settings {
 
 		delete_option( 'crmfwc-email' );
 		delete_option( 'crmfwc-passw' );
+        delete_transient( 'crmfwc-access-token');
 
 		exit;
 
@@ -130,18 +131,18 @@ class CRMFWC_Settings {
 	 */
 	public function check_connection_callback( $return = false, $email = null, $passw = null ) {
 
-        $email = get_option( 'crmfwc_email' );
-        $passw = get_option( 'crmfwc_passw' );
+        $email = get_option( 'crmfwc-email' );
+        $passw = get_option( 'crmfwc-passw' );
 
         error_log( 'EMAIL: ' . $email );
         error_log( 'PASSW: ' . $passw );
         error_log( 'POST: ' . print_r( $_POST, true ) );
 
-		if ( isset( $_POST['crmfwc_email'], $_POST['crmfwc_passw'], $_POST['crmfwc-login-nonce'] ) && wp_verify_nonce( $_POST['crmfwc-login-nonce'], 'crmfwc-login' ) ) {
+		if ( isset( $_POST['crmfwc-email'], $_POST['crmfwc-passw'], $_POST['crmfwc-login-nonce'] ) && wp_verify_nonce( $_POST['crmfwc-login-nonce'], 'crmfwc-login' ) ) {
 
             error_log( 'TEST' );
-            $email = sanitize_email( wp_unslash( $_POST['crmfwc_email'] ) );
-            $passw = sanitize_text_field( wp_unslash( $_POST['crmfwc_passw'] ) );
+            $email = sanitize_email( wp_unslash( $_POST['crmfwc-email'] ) );
+            $passw = sanitize_text_field( wp_unslash( $_POST['crmfwc-passw'] ) );
 
             /* Update data in the db */
             update_option( 'crmfwc-email', $email );
