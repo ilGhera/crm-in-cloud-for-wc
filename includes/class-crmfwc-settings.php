@@ -107,8 +107,13 @@ class CRMFWC_Settings {
         $email = get_option( 'crmfwc_email' );
         $passw = get_option( 'crmfwc_passw' );
 
+        error_log( 'EMAIL: ' . $email );
+        error_log( 'PASSW: ' . $passw );
+        error_log( 'POST: ' . print_r( $_POST, true ) );
+
 		if ( isset( $_POST['crmfwc_email'], $_POST['crmfwc_passw'], $_POST['crmfwc-login-nonce'] ) && wp_verify_nonce( $_POST['crmfwc-login-nonce'], 'crmfwc-login' ) ) {
 
+            error_log( 'TEST' );
             $email = sanitize_email( wp_unslash( $_POST['crmfwc_email'] ) );
             $passw = sanitize_text_field( wp_unslash( $_POST['crmfwc_passw'] ) );
 
@@ -120,6 +125,7 @@ class CRMFWC_Settings {
 
         /* Access to CRM in Cloud */
         $connection = $this->crmfwc_call->get_access_token( $email, $passw ); 
+        error_log( 'CONNECTION: ' . print_r( $connection, true ) );
 
 		if ( isset( $connection->error ) || ! $connection ) {
 
