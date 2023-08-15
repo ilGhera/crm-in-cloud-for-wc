@@ -21,6 +21,7 @@ class CRMFWC_Settings {
 		if ( $init ) {
 
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
+			/* add_action( 'wp_ajax_crmfwc-connect', array( $this, 'login' ) ); */
 			add_action( 'wp_ajax_crmfwc-disconnect', array( $this, 'disconnect_callback' ) );
 			add_action( 'wp_ajax_check-connection', array( $this, 'check_connection_callback' ) );
 
@@ -62,6 +63,31 @@ class CRMFWC_Settings {
 			return true;
 
 		}
+
+	}
+
+
+	/**
+	 * Login to CRM in Cloud
+	 *
+	 * @return bool return true if email and passw work and a token is returned
+	 */
+	public function login() {
+
+        error_log( 'POST LOGIN: ' . print_r( $_POST, true ) );
+
+		if ( isset( $_POST['crmfwc_email'], $_POST['crmfwc_passw'], $_POST['crmfwc-login-nonce'] ) && wp_verify_nonce( $_POST['crmfwc-login-nonce'], 'crmfwc-login' ) ) {
+
+			$email    = sanitize_email( wp_unslash( $_POST['crmfwc-email'] ) );
+			$passw    = sanitize_text_field( wp_unslash( $_POST['crmfwc-passw'] ) );
+
+            error_log( 'LOGIN PASSW: ' . $passw );
+
+            $this->check_connection_callback( false, $email, $passw );
+
+		}
+
+        exit;
 
 	}
 
