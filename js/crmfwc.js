@@ -20,6 +20,7 @@ var crmfwcController = function() {
 	    self.crmfwc_delete_remote_products();
 		self.crmfwc_disconnect();
         self.crmfwc_check_connection();
+        self.connect();
 		self.chosen();
 	}
 
@@ -203,6 +204,31 @@ var crmfwcController = function() {
 		})
 
 	}
+
+
+	/**
+	 * Check the connection to CRM in Cloud
+	 */
+	self.connect = function() {
+
+		jQuery(function($){
+
+            $('.crmfwc-connect').on('click', function(e){
+
+				e.preventDefault();
+
+                var email = $('.crmfwc-email').val();
+                var passw = $('.crmfwc-passw').val();
+                // var nonce = $('#crmfwc-login-nonce').val();
+                console.log( 'PASSW: ' + passw );
+
+                self.crmfwc_check_connection( email, passw );
+
+            })
+
+        })
+
+    }
 
 
 	/**
