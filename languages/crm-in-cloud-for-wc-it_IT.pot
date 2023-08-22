@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CRM in Cloud for WooCommerce - Premium 0.9.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/crm-in-cloud-for-wc\n"
-"POT-Creation-Date: 2023-08-10 15:29+0200\n"
+"POT-Creation-Date: 2023-08-22 12:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,6 +18,9 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e;esc_html_e;esc_html__\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: plugin-update-checker\n"
+"X-Poedit-SearchPathExcluded-1: vendor\n"
+"X-Poedit-SearchPathExcluded-2: libraries\n"
 
 #: admin/class-crmfwc-admin.php:86
 msgid "It seems like you don't have permission to see this page"
@@ -28,258 +31,226 @@ msgid "ATTENTION! It seems like Woocommerce is not installed."
 msgstr ""
 
 #: admin/class-crmfwc-admin.php:107
-msgid "CRM in Cloud for WooCommerce - Premium"
+msgid "CRM in Cloud for WooCommerce"
 msgstr ""
 
-#: admin/class-crmfwc-admin.php:122
-msgid "Premium Key"
-msgstr ""
-
-#: admin/class-crmfwc-admin.php:123
-msgid "Add your Premium Key"
-msgstr ""
-
-#: admin/class-crmfwc-admin.php:124
-msgid "Add your Premium Key and keep updated your copy of CRM in Cloud for WooCommerce."
-msgstr ""
-
-#: admin/class-crmfwc-admin.php:126
-msgid "Save"
-msgstr ""
-
-#: admin/class-crmfwc-admin.php:132
+#: admin/class-crmfwc-admin.php:112
 msgid "Settings"
 msgstr ""
 
-#: admin/class-crmfwc-admin.php:133
+#: admin/class-crmfwc-admin.php:113
 msgid "Checkout"
 msgstr ""
 
-#: admin/class-crmfwc-admin.php:134 admin/crmfwc-contacts-template.php:102
+#: admin/class-crmfwc-admin.php:114 admin/crmfwc-contacts-template.php:98
 msgid "Contacts"
 msgstr ""
 
-#: admin/class-crmfwc-admin.php:135 admin/crmfwc-products-template.php:74
+#: admin/class-crmfwc-admin.php:115 admin/crmfwc-products-template.php:71
 msgid "Products"
 msgstr ""
 
-#: admin/class-crmfwc-admin.php:136
+#: admin/class-crmfwc-admin.php:116
 msgid "WooCommerce"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:26
+#: admin/crmfwc-contacts-template.php:22
 msgid "User roles"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:44
+#: admin/crmfwc-contacts-template.php:40
 msgid "Select the user role(s) to export to CRM in Cloud"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:49
+#: admin/crmfwc-contacts-template.php:45
 msgid "Export company"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:52
+#: admin/crmfwc-contacts-template.php:48
 msgid "Export the company if present in the user profile"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:56 admin/crmfwc-wc-template.php:33
+#: admin/crmfwc-contacts-template.php:52 admin/crmfwc-wc-template.php:16
 msgid "Export orders"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:59
+#: admin/crmfwc-contacts-template.php:55
 msgid "Export user orders as opportunities in CRM in Cloud"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:65 admin/crmfwc-products-template.php:44
+#: admin/crmfwc-contacts-template.php:61 admin/crmfwc-products-template.php:41
 msgid "Export to CRM in Cloud"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:75
+#: admin/crmfwc-contacts-template.php:71
 msgid "Delete contacts"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:77
+#: admin/crmfwc-contacts-template.php:73
 msgid "Delete all contacts on CRM in Cloud"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:81
+#: admin/crmfwc-contacts-template.php:77
 msgid "Delete company"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:84
+#: admin/crmfwc-contacts-template.php:80
 msgid "Delete the company linked to the contact in CRM in Cloud"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:90 admin/crmfwc-products-template.php:62
+#: admin/crmfwc-contacts-template.php:86 admin/crmfwc-products-template.php:59
 msgid "Delete from CRM in Cloud"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:98 admin/crmfwc-products-template.php:70
+#: admin/crmfwc-contacts-template.php:94 admin/crmfwc-products-template.php:67
 msgid "Synchronization options"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:105
+#: admin/crmfwc-contacts-template.php:101
 msgid "Update contacts on CRM in Cloud in real time"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:109
+#: admin/crmfwc-contacts-template.php:106
 msgid "Companies"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:112
+#: admin/crmfwc-contacts-template.php:109
 msgid "Update companies on CRM in Cloud in real time"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:119 admin/crmfwc-products-template.php:91
-#: admin/crmfwc-wc-template.php:58
+#: admin/crmfwc-contacts-template.php:117 admin/crmfwc-products-template.php:90
+#: admin/crmfwc-wc-template.php:42
 msgid "Save settings"
 msgstr ""
 
-#: admin/crmfwc-products-template.php:22 admin/crmfwc-products-template.php:81
+#: admin/crmfwc-products-template.php:19 admin/crmfwc-products-template.php:79
 msgid "Products categories"
 msgstr ""
 
-#: admin/crmfwc-products-template.php:37
+#: admin/crmfwc-products-template.php:34
 msgid "Select the product categories to export to CRM in Cloud"
 msgstr ""
 
-#: admin/crmfwc-products-template.php:54
+#: admin/crmfwc-products-template.php:51
 msgid "Delete products"
 msgstr ""
 
-#: admin/crmfwc-products-template.php:56
+#: admin/crmfwc-products-template.php:53
 msgid "Delete all products on CRM in Cloud"
 msgstr ""
 
-#: admin/crmfwc-products-template.php:77
+#: admin/crmfwc-products-template.php:74
 msgid "Update products on CRM in Cloud in real time"
 msgstr ""
 
-#: admin/crmfwc-products-template.php:84
+#: admin/crmfwc-products-template.php:82
 msgid "Update products categories on CRM in Cloud in real time"
 msgstr ""
 
-#: admin/crmfwc-settings-template.php:21
+#: admin/crmfwc-settings-template.php:22
 msgid "Connect"
 msgstr ""
 
-#: admin/crmfwc-settings-template.php:25
+#: admin/crmfwc-settings-template.php:26
 msgid "Email"
 msgstr ""
 
-#: admin/crmfwc-settings-template.php:26
+#: admin/crmfwc-settings-template.php:27
 msgid "Password"
 msgstr ""
 
-#: admin/crmfwc-settings-template.php:28
+#: admin/crmfwc-settings-template.php:29
 msgid "Connect with your CRM in Cloud credentials"
 msgstr ""
 
-#: admin/crmfwc-settings-template.php:29
+#: admin/crmfwc-settings-template.php:30
 msgid "Connect to CRM in Cloud"
 msgstr ""
 
-#: admin/crmfwc-settings-template.php:30
+#: admin/crmfwc-settings-template.php:31
 msgid "Disconnect from CRM in Cloud"
 msgstr ""
 
-#: admin/crmfwc-wc-template.php:36
+#: admin/crmfwc-wc-template.php:19
 msgid "Export new orders as opportunities in CRM in Cloud"
 msgstr ""
 
-#: admin/crmfwc-wc-template.php:40
+#: admin/crmfwc-wc-template.php:24
 msgid "Split opportunities"
 msgstr ""
 
-#: admin/crmfwc-wc-template.php:43
+#: admin/crmfwc-wc-template.php:27
 msgid "Create an opportunity for every single order item"
 msgstr ""
 
-#: admin/crmfwc-wc-template.php:47
+#: admin/crmfwc-wc-template.php:32
 msgid "Export company opportunities"
 msgstr ""
 
-#: admin/crmfwc-wc-template.php:50
+#: admin/crmfwc-wc-template.php:35
 msgid "Export opportunities for the company as well if it exists"
 msgstr ""
 
-#: admin/ilghera-notice/class-ilghera-notice.php:66
-msgid "Renew now"
-msgstr ""
-
-#: admin/ilghera-notice/class-ilghera-notice.php:66
-msgid "Get a license"
-msgstr ""
-
-#: admin/ilghera-notice/class-ilghera-notice.php:107
-msgid "Your license is <u>expired</u> and you're unable to receive updates."
-msgstr ""
-
-#: admin/ilghera-notice/class-ilghera-notice.php:123
-msgid "It seems like your license is <u>not valid</u> and you're unable to receive updates."
-msgstr ""
-
-#: admin/ilghera-notice/class-ilghera-notice.php:139
-msgid "You have not set up a license key and you cannot receive updates."
-msgstr ""
-
-#: crm-in-cloud-for-wc.php:25
+#: crm-in-cloud-for-wc.php:27
 msgid "WARNING! CRM in Cloud for WC requires WooCommerce to be activated."
 msgstr ""
 
-#: includes/class-crmfwc-contacts.php:309
-#: includes/class-crmfwc-contacts.php:354
+#: includes/class-crmfwc-contacts.php:282
+#: includes/class-crmfwc-contacts.php:327
 msgid "Pending payment"
 msgstr ""
 
-#: includes/class-crmfwc-contacts.php:480
+#: includes/class-crmfwc-contacts.php:453
 msgid "Order: "
 msgstr ""
 
-#: includes/class-crmfwc-contacts.php:1223
+#: includes/class-crmfwc-contacts.php:1179
 #, php-format
 msgid "%1$d contact(s) export process has begun"
 msgstr ""
 
-#: includes/class-crmfwc-contacts.php:1230
+#: includes/class-crmfwc-contacts.php:1186
 msgid "No contacts to export"
 msgstr ""
 
-#: includes/class-crmfwc-contacts.php:1469
+#: includes/class-crmfwc-contacts.php:1364
 #, php-format
 msgid "%1$d users(s) delete process has begun"
 msgstr ""
 
-#: includes/class-crmfwc-contacts.php:1478
+#: includes/class-crmfwc-contacts.php:1373
 msgid "ERROR! There are not users to delete"
 msgstr ""
 
-#: includes/class-crmfwc-products.php:383
+#: includes/class-crmfwc-products.php:326
 #, php-format
 msgid "Taxable %d%%"
 msgstr ""
 
-#: includes/class-crmfwc-products.php:675
+#: includes/class-crmfwc-products.php:618
 #, php-format
 msgid "%1$d product(s) export process has begun"
 msgstr ""
 
-#: includes/class-crmfwc-products.php:682
+#: includes/class-crmfwc-products.php:625
 msgid "No products to export"
 msgstr ""
 
-#: includes/class-crmfwc-products.php:755
+#: includes/class-crmfwc-products.php:698
 #, php-format
 msgid "%1$d products(s) delete process has begun"
 msgstr ""
 
-#: includes/class-crmfwc-products.php:764
+#: includes/class-crmfwc-products.php:707
 msgid "ERROR! There are not products to delete"
 msgstr ""
 
-#: includes/class-crmfwc-settings.php:145
+#: includes/class-crmfwc-settings.php:149
 msgid "Connected"
+msgstr ""
+
+#: includes/crmfwc-functions.php:16
+msgid "This is a premium functionality, click here for more information"
 msgstr ""
 
 #: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:66
@@ -428,651 +399,4 @@ msgstr ""
 
 #: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:203
 msgid "Show the tax code field only to Italian customers"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_ActionFactory.php:232
-msgid "Invalid action - must be a recurring action."
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_AdminView.php:60
-#: libraries/action-scheduler/classes/ActionScheduler_AdminView.php:75
-#: libraries/action-scheduler/classes/ActionScheduler_AdminView.php:76
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:89
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:19
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:30
-msgid "Scheduled Actions"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_AdminView.php:225
-msgid "About"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_AdminView.php:227
-#, php-format
-msgid "About Action Scheduler %s"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_AdminView.php:229
-msgid "Action Scheduler is a scalable, traceable job queue for background processing large sets of actions. Action Scheduler works by triggering an action hook to run at some time in the future. Scheduled actions can also be scheduled to run on a recurring schedule."
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_AdminView.php:237
-msgid "Columns"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_AdminView.php:239
-msgid "Scheduled Action Columns"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_AdminView.php:241
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:96
-msgid "Hook"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_AdminView.php:241
-msgid "Name of the action hook that will be triggered."
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_AdminView.php:242
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:97
-msgid "Status"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_AdminView.php:242
-msgid "Action statuses are Pending, Complete, Canceled, Failed"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_AdminView.php:243
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:98
-msgid "Arguments"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_AdminView.php:243
-msgid "Optional data array passed to the action hook."
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_AdminView.php:244
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:99
-msgid "Group"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_AdminView.php:244
-msgid "Optional action group."
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_AdminView.php:245
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:100
-msgid "Recurrence"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_AdminView.php:245
-msgid "The action's schedule frequency."
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_AdminView.php:246
-msgid "Scheduled"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_AdminView.php:246
-msgid "The date/time the action is/was scheduled to run."
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_AdminView.php:247
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:102
-msgid "Log"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_AdminView.php:247
-msgid "Activity log for the action."
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_DataController.php:137
-msgid "Attempting to reduce used memory..."
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_InvalidActionException.php:21
-#, php-format
-msgid "Action [%1$s] has an invalid schedule: %2$s"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_InvalidActionException.php:40
-#, php-format
-msgid "Action [%1$s] has invalid arguments. It cannot be JSON decoded to an array. $args = %2$s"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:92
-msgid "Delete"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:101
-msgid "Scheduled Date"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:122
-msgid "Claim ID"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:129
-msgid "Run"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:130
-msgid "Process the action now as if it were run as part of a queue"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:133
-msgid "Cancel"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:134
-msgid "Cancel the action now to avoid it being run in future"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:224
-msgid "Now!"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:260
-#, php-format
-msgid "Every %s"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:266
-msgid "Non-repeating"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:364
-msgid "It appears one or more database tables were missing. Attempting to re-create the missing table(s)."
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:397
-#, php-format
-msgid "A new queue has begun processing. <a href=\"%s\">View actions in-progress &raquo;</a>"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:400
-#, php-format
-msgid "The next queue will begin processing in approximately %d seconds."
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:421
-#, php-format
-msgid "Successfully executed action: %s"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:425
-#, php-format
-msgid "Successfully canceled action: %s"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:429
-#, php-format
-msgid "Successfully processed change for action: %s"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:435
-#, php-format
-msgid "Could not process change for action: \"%1$s\" (ID: %2$d). Error: %3$s"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:471
-msgid "async"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:485
-#, php-format
-msgid " (%s ago)"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:488
-#, php-format
-msgid " (%s)"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:513
-#, php-format
-msgid "Action Scheduler was unable to delete action %1$d. Reason: %2$s"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_ListTable.php:661
-msgid "Search hook, args and claim ID"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_QueueCleaner.php:60
-#, php-format
-msgid "It was not possible to determine a valid cut-off time: %s."
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_QueueRunner.php:224
-msgid "Every minute"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_WPCommentCleaner.php:103
-#, php-format
-msgid "This data will be deleted in %s."
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_WPCommentCleaner.php:108
-#, php-format
-msgid "Action Scheduler has migrated data to custom tables; however, orphaned log entries exist in the WordPress Comments table. %1$s <a href=\"%2$s\">Learn more &raquo;</a>"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:111
-msgid "Action Scheduler"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:111
-msgid "This section shows details of Action Scheduler."
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:114
-msgid "Version:"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:118
-msgid "Data store:"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:122
-msgid "Action Status"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:124
-msgid "Count"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:125
-msgid "Oldest Scheduled Date"
-msgstr ""
-
-#: libraries/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:126
-msgid "Newest Scheduled Date"
-msgstr ""
-
-#: libraries/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_Clean_Command.php:105
-#, php-format
-msgid "There was an error deleting an action: %s"
-msgstr ""
-
-#: libraries/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:33
-#: libraries/action-scheduler/classes/WP_CLI/ProgressBar.php:47
-#, php-format
-msgid "The %s class can only be run within WP CLI."
-msgstr ""
-
-#: libraries/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:59
-msgid "There are too many concurrent batches, but the run is forced to continue."
-msgstr ""
-
-#: libraries/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:61
-msgid "There are too many concurrent batches."
-msgstr ""
-
-#: libraries/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:113
-msgid "The claim has been lost. Aborting current batch."
-msgstr ""
-
-#: libraries/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:138
-#, php-format
-msgid "Started processing action %s"
-msgstr ""
-
-#: libraries/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:155
-#, php-format
-msgid "Completed processing action %1$s with hook: %2$s"
-msgstr ""
-
-#: libraries/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:170
-#, php-format
-msgid "Error processing action %1$s: %2$s"
-msgstr ""
-
-#: libraries/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_Scheduler_command.php:30
-#, php-format
-msgid "Registered schema for %s"
-msgstr ""
-
-#: libraries/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_Scheduler_command.php:188
-#, php-format
-msgid "There was an error running the action scheduler: %s"
-msgstr ""
-
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler.php:226
-#, php-format
-msgid "%s() was called before the Action Scheduler data store was initialized"
-msgstr ""
-
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Abstract_ListTable.php:523
-msgid "Filter"
-msgstr ""
-
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Abstract_ListTable.php:650
-#, php-format
-msgid "Search results for \"%s\""
-msgstr ""
-
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Abstract_ListTable.php:765
-msgid "Search"
-msgstr ""
-
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Abstract_QueueRunner.php:155
-msgid "This action appears to be consistently failing. A new instance will not be scheduled."
-msgstr ""
-
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:72
-msgid "action created"
-msgstr ""
-
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:76
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBLogger.php:142
-msgid "action canceled"
-msgstr ""
-
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:82
-#, php-format
-msgid "action started via %s"
-msgstr ""
-
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:84
-msgid "action started"
-msgstr ""
-
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:92
-#, php-format
-msgid "action complete via %s"
-msgstr ""
-
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:94
-msgid "action complete"
-msgstr ""
-
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:102
-#, php-format
-msgid "action failed via %1$s: %2$s"
-msgstr ""
-
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:105
-#, php-format
-msgid "action failed: %s"
-msgstr ""
-
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:112
-#, php-format
-msgid "action marked as failed after %s seconds. Unknown error occurred. Check server, PHP and database error logs to diagnose cause."
-msgstr ""
-
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:118
-#, php-format
-msgid "unexpected shutdown: PHP Fatal error %1$s in %2$s on line %3$s"
-msgstr ""
-
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:123
-msgid "action reset"
-msgstr ""
-
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:129
-#, php-format
-msgid "action ignored via %s"
-msgstr ""
-
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:131
-msgid "action ignored"
-msgstr ""
-
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:146
-#, php-format
-msgid "There was a failure fetching this action: %s"
-msgstr ""
-
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:148
-msgid "There was a failure fetching this action"
-msgstr ""
-
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:156
-#, php-format
-msgid "There was a failure scheduling the next instance of this action: %s"
-msgstr ""
-
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Store.php:329
-#, php-format
-msgid "ActionScheduler_Action::$args too long. To ensure the args column can be indexed, action args should not be more than %d characters when encoded as JSON."
-msgstr ""
-
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Store.php:405
-msgid "Complete"
-msgstr ""
-
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Store.php:406
-msgid "Pending"
-msgstr ""
-
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Store.php:407
-msgid "In-progress"
-msgstr ""
-
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Store.php:408
-msgid "Failed"
-msgstr ""
-
-#: libraries/action-scheduler/classes/abstracts/ActionScheduler_Store.php:409
-msgid "Canceled"
-msgstr ""
-
-#: libraries/action-scheduler/classes/actions/ActionScheduler_Action.php:50
-#, php-format
-msgid "Scheduled action for %1$s will not be executed as no callbacks are registered."
-msgstr ""
-
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:118
-msgid "Database error."
-msgstr ""
-
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:126
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:49
-#: libraries/action-scheduler/classes/migration/ActionScheduler_DBStoreMigrator.php:44
-#, php-format
-msgid "Error saving action: %s"
-msgstr ""
-
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:396
-msgid "Invalid value for select or count parameter. Cannot query actions."
-msgstr ""
-
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:454
-msgid "JSON partial matching not supported in your environment. Please check your MySQL/MariaDB version."
-msgstr ""
-
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:471
-#, php-format
-msgid "The value type for the JSON partial matching is not supported. Must be either integer, boolean, double or string. %s type provided."
-msgstr ""
-
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:492
-msgid "Unknown partial args matching value."
-msgstr ""
-
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:653
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:745
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:776
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:1085
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:1143
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:515
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:534
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:564
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:987
-#, php-format
-msgid "Unidentified action %s"
-msgstr ""
-
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:945
-#, php-format
-msgid "Unable to claim actions. Database error: %s."
-msgstr ""
-
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:1042
-#, php-format
-msgid "Unable to release actions from claim id %d."
-msgstr ""
-
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:1112
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:967
-#, php-format
-msgid "Unable to update the status of action %1$d to %2$s."
-msgstr ""
-
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:1173
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:904
-msgid "Invalid action ID. No status found."
-msgstr ""
-
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:1175
-msgid "Unknown status found for action."
-msgstr ""
-
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:101
-msgid "Unable to save action."
-msgstr ""
-
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:318
-msgid "Invalid schedule. Cannot save action."
-msgstr ""
-
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:696
-msgid "Unable to claim actions. Database error."
-msgstr ""
-
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:717
-#, php-format
-msgid "The group \"%s\" does not exist."
-msgstr ""
-
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:824
-#, php-format
-msgid "Unable to unlock claim %s. Database error."
-msgstr ""
-
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:852
-#, php-format
-msgid "Unable to unlock claim on action %s. Database error."
-msgstr ""
-
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:878
-#, php-format
-msgid "Unable to mark failure on action %s. Database error."
-msgstr ""
-
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:1068
-#, php-format
-msgid "%s Support for strings longer than this will be removed in a future version."
-msgstr ""
-
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:20
-msgid "Scheduled actions are hooks triggered on a cetain date and time."
-msgstr ""
-
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:31
-msgid "Scheduled Action"
-msgstr ""
-
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:33
-msgid "Add"
-msgstr ""
-
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:34
-msgid "Add New Scheduled Action"
-msgstr ""
-
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:35
-msgid "Edit"
-msgstr ""
-
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:36
-msgid "Edit Scheduled Action"
-msgstr ""
-
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:37
-msgid "New Scheduled Action"
-msgstr ""
-
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:38
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:39
-msgid "View Action"
-msgstr ""
-
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:40
-msgid "Search Scheduled Actions"
-msgstr ""
-
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:41
-msgid "No actions found"
-msgstr ""
-
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:42
-msgid "No actions found in trash"
-msgstr ""
-
-#: libraries/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_TaxonomyRegistrar.php:14
-msgid "Action Group"
-msgstr ""
-
-#: libraries/action-scheduler/classes/migration/ActionMigrator.php:95
-#, php-format
-msgid "Unable to remove source migrated action %s"
-msgstr ""
-
-#: libraries/action-scheduler/classes/migration/Config.php:52
-msgid "Source store must be configured before running a migration"
-msgstr ""
-
-#: libraries/action-scheduler/classes/migration/Config.php:74
-msgid "Source logger must be configured before running a migration"
-msgstr ""
-
-#: libraries/action-scheduler/classes/migration/Config.php:96
-msgid "Destination store must be configured before running a migration"
-msgstr ""
-
-#: libraries/action-scheduler/classes/migration/Config.php:118
-msgid "Destination logger must be configured before running a migration"
-msgstr ""
-
-#: libraries/action-scheduler/classes/migration/Controller.php:162
-msgid "Action Scheduler migration in progress. The list of scheduled actions may be incomplete."
-msgstr ""
-
-#: libraries/action-scheduler/classes/migration/Runner.php:107
-#, php-format
-msgid "Migrated action with ID %1$d in %2$s to ID %3$d in %4$s"
-msgstr ""
-
-#: libraries/action-scheduler/functions.php:134
-#, php-format
-msgid "An integer was expected but \"%1$s\" (%2$s) was received."
-msgstr ""
-
-#: libraries/action-scheduler/functions.php:287
-#, php-format
-msgid "Caught exception while cancelling action: %s"
-msgstr ""
-
-#: plugin-update-checker/Puc/v5p1/Plugin/Ui.php:56
-msgid "View details"
-msgstr ""
-
-#: plugin-update-checker/Puc/v5p1/Plugin/Ui.php:79
-#, php-format
-msgid "More information about %s"
-msgstr ""
-
-#: plugin-update-checker/Puc/v5p1/Plugin/Ui.php:130
-msgid "Check for updates"
-msgstr ""
-
-#: plugin-update-checker/Puc/v5p1/Plugin/Ui.php:227
-#, php-format
-msgid "Unknown update checker status \"%s\""
-msgstr ""
-
-#: plugin-update-checker/Puc/v5p1/Vcs/PluginUpdateChecker.php:98
-msgid "There is no changelog available."
 msgstr ""
