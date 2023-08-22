@@ -206,10 +206,8 @@ class CRMFWC_Contacts {
 			$args['id'] = $company_id;
 
 		}
-        error_log( 'COMPANY ARGS: ' . print_r( $args, true ) );
 
 		$response = $this->crmfwc_call->call( 'post', 'Company/CreateOrUpdate', $args );
-        error_log( 'COMPANY RESPONSE: ' . error_log( $response, true ) );
 
 		if ( is_int( $response ) ) {
 
@@ -611,7 +609,6 @@ class CRMFWC_Contacts {
 
         $endpoint = 'Opportunity/CreateOrUpdate/';
 		$data     = $this->get_user_opportunities( $user_id, $remote_id, $cross_type, $order_id );
-        error_log( 'DATA: ' . print_r( $data, true ) );
 
 		if ( is_array( $data ) ) {
 
@@ -1019,8 +1016,6 @@ class CRMFWC_Contacts {
 
         /* $image_url = get_avatar_url( $user_id, array( 'default' => '404' ) ); */
         $image_url = get_avatar_url( $user_id );
-        error_log( 'IMAGE URL: ' . $image_url );
-
         $headers   = @get_headers( $image_url );
 
         if ( isset( $headers[0] ) && preg_match( "|200|", $headers[0] ) ) {
