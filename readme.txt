@@ -86,22 +86,22 @@ Release Date: 22 August 2023
 = 1.0.0 = 
 Release Date: 28 September 2022
 
-    * Enhancement: Users synchronization options
-    * Enhancement: Create, update and delete users in real time
+    * Enhancement: (Premium) Users synchronization options
+    * Enhancement: (Premium) Create, update and delete users in real time
     * Enhancement: Export users avatars 
-    * Enhancement: Products synchronization options
-    * Enhancement: Untrashed products synchronized with CRM in Cloud 
+    * Enhancement: (Premium) Products synchronization options
+    * Enhancement: (Premium) Untrashed products synchronized with CRM in Cloud 
     * Enhancement: Checkout fields to collect billing information 
     * Enhancement: Better user interface 
-    * Enhancement: Export of uncompleted orders to CRM in Cloud with appropriate opportunity pahase
-    * Enhancement: Split opportunities option
-    * Enhancement: Opportunity details changed in CRM in Cloud
-    * Enhancement: Update/ delete opportunities in real time
+    * Enhancement: (Premium) Export of uncompleted orders to CRM in Cloud with appropriate opportunity pahase
+    * Enhancement: (Premium) Split opportunities option
+    * Enhancement: (Premium) Opportunity details changed in CRM in Cloud
+    * Enhancement: (Premium) Update/ delete opportunities in real time
     * Enhancement: Export WooCommerce products to CRM in Cloud
     * Enhancement: Export WooCommerce products images to CRM in Cloud
     * Enhancement: Export WooCommercee products categories to CRM in Cloud
-    * Enhancement: Include products in CRM in Cloud opportunities
-    * Enhancement: Update/ delete products in real time
+    * Enhancement: (Premium) Include products in CRM in Cloud opportunities
+    * Enhancement: (Premium) Update/ delete products in real time
     * Bug fix: User not exported as contact to CRM in Cloud if not registered to the site 
 
 
