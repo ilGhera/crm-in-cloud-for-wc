@@ -4,6 +4,7 @@
  *
  * @author ilGhera
  * @package crm-in-cloud-for-wc/includes
+ *
  * @since 1.0.0
  */
 class CRMFWC_Call {
@@ -50,30 +51,42 @@ class CRMFWC_Call {
 	 */
 	public function get_access_token( $email = null, $passw = null ) {
 
-		$email  = $email ? $email : $this->email;
-		$passw  = $passw ? $passw : $this->passw;
+        $access_token = get_transient( 'crmfwc-access-token');
 
-		if ( $email && $passw ) {
+        if ( $access_token ) {
 
-			$data  = array(
-				'grant_type' => 'password',
-				'username'   => $email,
-				'password'   => $passw,
-			);
+            return $access_token;
 
-			$response = $this->call( 'post', 'Auth/Login', $data, true );
+        } else {
 
-			if ( isset( $response->access_token ) ) {
+            $email  = $email ? $email : $this->email;
+            $passw  = $passw ? $passw : $this->passw;
 
-				return $response->access_token;
+            if ( $email && $passw ) {
 
-            } elseif ( $response->error ) {
+                $data  = array(
+                    'grant_type' => 'password',
+                    'username'   => $email,
+                    'password'   => $passw,
+                );
 
-                return $response;
+                $response = $this->call( 'post', 'Auth/Login', $data, true );
+
+                if ( isset( $response->access_token ) ) {
+
+                    set_transient( 'crmfwc-access-token', $response->access_token, 1200 );
+
+                    return $response->access_token;
+
+                } elseif ( isset( $response->error ) ) {
+
+                    return $response;
+
+                }
 
             }
 
-		}
+        }
 
 	}
 
@@ -161,3 +174,4 @@ class CRMFWC_Call {
 	}
 
 }
+

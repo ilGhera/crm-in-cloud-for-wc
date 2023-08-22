@@ -4,6 +4,7 @@
  *
  * @author ilGhera
  * @package crm-in-cloud-for-wc/includes
+ *
  * @since 1.0.0
  */
 
@@ -31,3 +32,4 @@ function crmfwc_go_premium() {
 	echo wp_kses( $output, $allowed );
 
 }
+

@@ -3,7 +3,7 @@ Contributors: ghera74
 Tags: CRM in Cloud, CRM, WooCommerce, customers, TeamSystem, Danea, Easyfatt, Reviso, Fatture in Cloud
 Version: 1.0.0
 Requires at least: 4.0
-Tested up to: 6.0
+Tested up to: 6.3
 License: GPLv2
 
 Synchronize your WordPress/ WooCommerce site with CRM in Cloud exporting users and orders in real time

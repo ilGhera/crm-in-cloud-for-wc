@@ -4,6 +4,7 @@
  *
  * @author ilGhera
  * @package crm-in-cloud-for-wc/includes
+ *
  * @since 1.0.0
  */
 class CRMFWC_Products {
@@ -521,7 +522,7 @@ class CRMFWC_Products {
             }
 
             /* Add product to CRM in Cloud */
-            $response = $this->crmfwc_call->call( 'post', 'Catalog',  $args );
+            $response = $this->crmfwc_call->call( 'post', 'Catalog/CreateOrUpdate',  $args );
 
             if ( ! is_int( $response ) ) {
 

@@ -7,8 +7,8 @@
  * Version: 1.0.0
  * Author URI: https://ilghera.com
  * Requires at least: 4.0
- * Tested up to: 6.0
- * WC tested up to: 6
+ * Tested up to: 6.3
+ * WC tested up to: 8
  * Text Domain: crm-in-cloud-for-wc
  * Domain Path: /languages
  */
@@ -64,6 +64,7 @@ function load_crmfwc() {
 
 		/*Files required*/
 		require_once( CRMFWC_ADMIN . 'class-crmfwc-admin.php' );
+		require_once( CRMFWC_ADMIN . 'ilghera-notice/class-ilghera-notice.php' );
 		require_once( CRMFWC_INCLUDES . 'crmfwc-functions.php' );
 		require_once( CRMFWC_INCLUDES . 'class-crmfwc-call.php' );
 		require_once( CRMFWC_INCLUDES . 'class-crmfwc-settings.php' );
@@ -76,3 +77,4 @@ function load_crmfwc() {
 
 }
 add_action( 'plugins_loaded', 'load_crmfwc', -1 );
+

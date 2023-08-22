@@ -3,6 +3,7 @@
  * 
  * @author ilGhera
  * @package crm-in-cloud-for-wc/js
+ *
  * @since 1.0.0
  */
 
@@ -174,60 +175,61 @@ var crmfwcController = function() {
      *
      * @param string $email the email address.
      * @param string $passw the user password.
+     * @param string $nonce the nonce.
      *
      * @return void
 	 */
-	self.crmfwc_check_connection = function( email, passw ) {
+	self.crmfwc_check_connection = function( email, passw, nonce = null ) {
 
 		jQuery(function($){
+     
+			var data;
 
-			var data = {
-				'action': 'check-connection'
-			}
+            if ( $('body').hasClass('woocommerce_page_crm-in-cloud-for-wc') ) {
 
-            if ( email ) {
-                data.crmfwc_email = email;
-            }
+                data = {
+                    'action': 'check-connection',
+                    'crmfwc-email': email,
+                    'crmfwc-passw': passw,
+                    'crmfwc-login-nonce': nonce
+                }
 
-            if ( passw ) {
-                data.crmfwc_passw = passw;
-            }
-            console.log( 'DATA: ' + JSON.stringify( data ) );
+                $.post(ajaxurl, data, function(response){
 
-			$.post(ajaxurl, data, function(response){
+                    var result = JSON.parse(response);
 
-                var result = JSON.parse(response);
+                    if( result && ! result['error'] ) {
 
-				if( result && ! result['error'] ) {
+                        /*Activate plugin tools*/
+                        self.crmfwc_tools_control();
+                
+                        $('.crmfwc-login-error.alert-danger').hide();
+                        $('.check-connection').html(result['ok']);
+                        $('.crmfwc-connect').hide();
+                        $('.crmfwc-email-field').hide();
+                        $('.crmfwc-disconnect').css('display', 'inline-block');
+                        $('.crmfwc-disconnect').animate({
+                            opacity: 1
+                        }, 500);
 
-					/*Activate plugin tools*/
-					self.crmfwc_tools_control();
-			
-                    $('.crmfwc-login-error.alert-danger').hide();
-					$('.check-connection').html(result['ok']);
-					$('.crmfwc-connect').hide();
-                    $('.crmfwc-email-field').hide();
-					$('.crmfwc-disconnect').css('display', 'inline-block');
-					$('.crmfwc-disconnect').animate({
-						opacity: 1
-					}, 500);
+                    } else {
 
-				} else {
+                        /*Show error message*/
+                        if ( result ) {
 
-                    /*Show error message*/
-                    if ( result ) {
+                            $('.crmfwc-login-error').html( result['error_description'] );
+                            $('.crmfwc-login-error').show();
 
-                        $('.crmfwc-login-error').html( result['error_description'] );
-                        $('.crmfwc-login-error').show();
+                        }
+
+                        /*Deactivate plugin tools*/
+                        self.crmfwc_tools_control(true);
 
                     }
 
-					/*Deactivate plugin tools*/
-					self.crmfwc_tools_control(true);
+                })
 
-				}
-
-			})
+            }
 
 		})
 
@@ -247,9 +249,9 @@ var crmfwcController = function() {
 
                 var email = $('.crmfwc-email').val();
                 var passw = $('.crmfwc-passw').val();
-                // var nonce = $('#crmfwc-login-nonce').val();
+                var nonce = $('#crmfwc-login-nonce').val();
 
-                self.crmfwc_check_connection( email, passw );
+                self.crmfwc_check_connection( email, passw, nonce );
 
             })
 
@@ -553,7 +555,6 @@ var crmfwcController = function() {
 
 					$.post(ajaxurl, data, function(response){
 
-                        // console.log( response );
 						var result = JSON.parse(response);
 
 						for (var i = 0; i < result.length; i++) {
