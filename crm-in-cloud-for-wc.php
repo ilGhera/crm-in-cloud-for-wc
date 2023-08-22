@@ -66,7 +66,6 @@ function load_crmfwc() {
 
 		/*Files required*/
 		require_once CRMFWC_ADMIN . 'class-crmfwc-admin.php';
-		require_once CRMFWC_ADMIN . 'ilghera-notice/class-ilghera-notice.php';
 		require_once CRMFWC_INCLUDES . 'crmfwc-functions.php';
 		require_once CRMFWC_INCLUDES . 'class-crmfwc-call.php';
 		require_once CRMFWC_INCLUDES . 'class-crmfwc-settings.php';
