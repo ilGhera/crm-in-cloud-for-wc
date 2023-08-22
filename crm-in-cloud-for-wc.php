@@ -72,7 +72,7 @@ function load_crmfwc() {
 		require_once CRMFWC_INCLUDES . 'class-crmfwc-products.php';
 		require_once CRMFWC_INCLUDES . 'class-crmfwc-contacts.php';
 		require_once CRMFWC_INCLUDES . 'wc-checkout-fields/class-crmfwc-checkout-fields.php';
-		require_once CRMFWC_DIR . 'libraries/action-scheduler/action-scheduler.php';
+		require_once CRMFWC_DIR . 'vendor/action-scheduler/action-scheduler.php';
 
 	}
 
