@@ -1,7 +1,7 @@
 === CRM in Cloud for WooCommerce ===
 Contributors: ghera74
 Tags: CRM in Cloud, CRM, WooCommerce, customers, TeamSystem, Danea, Easyfatt, Reviso, Fatture in Cloud
-Version: 1.0.0
+Version: 1.1.0
 Requires at least: 4.0
 Tested up to: 6.3
 License: GPLv2
@@ -72,35 +72,46 @@ This plugin sends data to an external service, like the products bought by the u
 
 == Changelog ==
 
+
+= 1.1.0 = 
+Release Date: 22 August 2023
+
+    * Enhancement: Better performances using transients 
+    * Enhancement: WordPress coding standards 
+    * Enhancement: WordPress 6.3 support 
+    * Update: Action Scheduler 
+    * Update: Translations 
+
+
 = 1.0.0 = 
 Release Date: 28 September 2022
 
-* Enhancement: Users synchronization options
-* Enhancement: Create, update and delete users in real time
-* Enhancement: Export users avatars 
-* Enhancement: Products synchronization options
-* Enhancement: Untrashed products synchronized with CRM in Cloud 
-* Enhancement: Checkout fields to collect billing information 
-* Enhancement: Better user interface 
-* Enhancement: Export of uncompleted orders to CRM in Cloud with appropriate opportunity pahase
-* Enhancement: Split opportunities option
-* Enhancement: Opportunity details changed in CRM in Cloud
-* Enhancement: Update/ delete opportunities in real time
-* Enhancement: Export WooCommerce products to CRM in Cloud
-* Enhancement: Export WooCommerce products images to CRM in Cloud
-* Enhancement: Export WooCommercee products categories to CRM in Cloud
-* Enhancement: Include products in CRM in Cloud opportunities
-* Enhancement: Update/ delete products in real time
-* Bug fix: User not exported as contact to CRM in Cloud if not registered to the site 
+    * Enhancement: Users synchronization options
+    * Enhancement: Create, update and delete users in real time
+    * Enhancement: Export users avatars 
+    * Enhancement: Products synchronization options
+    * Enhancement: Untrashed products synchronized with CRM in Cloud 
+    * Enhancement: Checkout fields to collect billing information 
+    * Enhancement: Better user interface 
+    * Enhancement: Export of uncompleted orders to CRM in Cloud with appropriate opportunity pahase
+    * Enhancement: Split opportunities option
+    * Enhancement: Opportunity details changed in CRM in Cloud
+    * Enhancement: Update/ delete opportunities in real time
+    * Enhancement: Export WooCommerce products to CRM in Cloud
+    * Enhancement: Export WooCommerce products images to CRM in Cloud
+    * Enhancement: Export WooCommercee products categories to CRM in Cloud
+    * Enhancement: Include products in CRM in Cloud opportunities
+    * Enhancement: Update/ delete products in real time
+    * Bug fix: User not exported as contact to CRM in Cloud if not registered to the site 
 
 
 = 0.9.1 = 
 Release Date: 06 July 2022
 
-* Bug fix: WC orders not exported
+    * Bug fix: WC orders not exported
 
 
 = 0.9.0 = 
 Release Date: 08 April 2020
 
-* First release
+    * First release
