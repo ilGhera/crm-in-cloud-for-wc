@@ -1,5 +1,5 @@
 [submodule "libraries/action-scheduler"]
-	path = libraries/action-scheduler
+	path = vendor/action-scheduler
 	url = https://github.com/woocommerce/action-scheduler.git
 [submodule "plugin-update-checker"]
 	path = plugin-update-checker
