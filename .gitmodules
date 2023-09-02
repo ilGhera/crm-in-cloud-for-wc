@@ -1,6 +1,3 @@
-[submodule "libraries/action-scheduler"]
-	path = vendor/action-scheduler
-	url = https://github.com/woocommerce/action-scheduler.git
 [submodule "plugin-update-checker"]
 	path = plugin-update-checker
 	url = https://github.com/YahnisElsts/plugin-update-checker.git
@@ -9,4 +6,7 @@
 	url = git@bitbucket.org:ilGhera/wc-checkout-fields.git
 [submodule "admin/ilghera-notice"]
 	path = admin/ilghera-notice
-	url = git@bitbucket.org:ilGhera/ilghera-notice.git
+	url = git@bitbucket.org:ilGhera/ilghera-notice.git 
+[submodule "vendor/action-scheduler"]
+	path = vendor/action-scheduler
+	url = https://github.com/woocommerce/action-scheduler.git
