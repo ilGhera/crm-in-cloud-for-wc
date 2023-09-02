@@ -117,8 +117,15 @@ class CRMFWC_Call {
 
 		if ( ! $login ) {
 
-			$output['Authorization'] = 'Bearer ' . $this->get_access_token();
-		}
+            $access_token = $this->get_access_token();
+
+            if ( is_string( $access_token ) ) {
+
+                $output['Authorization'] = 'Bearer ' . $access_token;
+
+            }
+
+        }
 
 		return $output;
 
