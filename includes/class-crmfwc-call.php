@@ -152,7 +152,7 @@ class CRMFWC_Call {
 		$response = wp_remote_request(
 			$this->base_url . $endpoint,
 			array(
-				'method'  => $method,
+				'method'  => strtoupper( $method ),
 				'headers' => $this->headers( $login, $upload, $boundary ),
 				'timeout' => 20,
 				'body'    => $body,
