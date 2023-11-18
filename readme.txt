@@ -1,7 +1,7 @@
 === CRM in Cloud for WooCommerce ===
 Contributors: ghera74
 Tags: CRM in Cloud, CRM, WooCommerce, customers, TeamSystem, Danea, Easyfatt, Reviso, Fatture in Cloud
-Version: 1.1.0
+Version: 1.1.1
 Requires at least: 4.0
 Tested up to: 6.4
 License: GPLv2
