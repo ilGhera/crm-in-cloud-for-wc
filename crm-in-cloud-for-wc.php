@@ -7,7 +7,7 @@
  * Version: 1.1.0
  * Author URI: https://ilghera.com
  * Requires at least: 4.0
- * Tested up to: 6.3
+ * Tested up to: 6.4
  * WC tested up to: 8
  * Text Domain: crm-in-cloud-for-wc
  * Domain Path: /languages

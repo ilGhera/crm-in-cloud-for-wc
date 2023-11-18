@@ -3,7 +3,7 @@ Contributors: ghera74
 Tags: CRM in Cloud, CRM, WooCommerce, customers, TeamSystem, Danea, Easyfatt, Reviso, Fatture in Cloud
 Version: 1.1.0
 Requires at least: 4.0
-Tested up to: 6.3
+Tested up to: 6.4
 License: GPLv2
 
 Synchronize your WordPress/ WooCommerce site with CRM in Cloud exporting users and orders in real time
@@ -71,6 +71,12 @@ This plugin sends data to an external service, like the products bought by the u
 
 
 == Changelog ==
+
+= 1.1.1 = 
+Release Date: 18 November 2023
+
+* Bug fix: Remote call method in lowercase
+* Update: Plugin Update Checker
 
 
 = 1.1.0 = 
