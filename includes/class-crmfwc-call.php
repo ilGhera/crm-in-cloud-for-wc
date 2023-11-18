@@ -5,7 +5,7 @@
  * @author ilGhera
  * @package crm-in-cloud-for-wc-premium/includes
  *
- * @since 1.2.2
+ * @since 1.2.3
  */
 class CRMFWC_Call {
 
