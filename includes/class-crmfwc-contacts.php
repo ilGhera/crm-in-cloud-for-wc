@@ -4,15 +4,21 @@
  *
  * @author ilGhera
  * @package crm-in-cloud-for-wc/includes
+ *
  * @since 1.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * CRMFWC_Contacts class
+ *
+ * @since 1.2.0
+ */
 class CRMFWC_Contacts {
 
 	/**
-	 * Instance of the class CRMFWC_Call 
+	 * Instance of the class CRMFWC_Call
 	 *
 	 * @var object
 	 */
@@ -60,57 +66,56 @@ class CRMFWC_Contacts {
 	 */
 	private $company_opportunities;
 
-    /**
-     * Synchronize contacts in real time
-     *
-     * @var bool
-     */
-    private $synchronize_contacts;
+	/**
+	 * Synchronize contacts in real time
+	 *
+	 * @var bool
+	 */
+	private $synchronize_contacts;
 
-    /**
-     * Synchronize company in real time
-     *
-     * @var bool
-     */
-    private $synchronize_companies;
+	/**
+	 * Synchronize company in real time
+	 *
+	 * @var bool
+	 */
+	private $synchronize_companies;
 
-    /**
-     * The product class instance 
-     *
-     * @var object 
-     */
-    private $products;
+	/**
+	 * The product class instance
+	 *
+	 * @var object
+	 */
+	private $products;
 
-    /**
-     * The completed phase
-     *
-     * @var string
-     */
-    private $completed_phase;
+	/**
+	 * The completed phase
+	 *
+	 * @var string
+	 */
+	private $completed_phase;
 
-    /**
-     * The lost phase
-     *
-     * @var string
-     */
-    private $lost_phase;
+	/**
+	 * The lost phase
+	 *
+	 * @var string
+	 */
+	private $lost_phase;
 
-    /**
-     * The pending payment phase
-     *
-     * @var string
-     */
-    private $pending_payment_phase;
+	/**
+	 * The pending payment phase
+	 *
+	 * @var string
+	 */
+	private $pending_payment_phase;
 
 	/**
 	 * Class constructor
 	 */
 	public function __construct() {
 
-
 		/*Classes instance*/
 		$this->crmfwc_call = new CRMFWC_Call();
-        $this->products    = new CRMFWC_Products();
+		$this->products    = new CRMFWC_Products();
 
 		/*Get the complete phase to use with orders as opportunities*/
 		$this->completed_phase       = $this->get_completed_opportunity_phase();
@@ -122,31 +127,31 @@ class CRMFWC_Contacts {
 		$this->export_company        = get_option( 'crmfwc-export-company' );
 		$this->delete_company        = get_option( 'crmfwc-delete-company' );
 		$this->wc_export_orders      = get_option( 'crmfwc-wc-export-orders' );
-        $this->split_opportunities   = get_option( 'crmfwc-wc-split-opportunities' );
-        $this->company_opportunities = get_option( 'crmfwc-wc-company-opportunities' );
-        $this->synchronize_contacts  = get_option( 'crmfwc-synchronize-contacts' );
-        $this->synchronize_companies = get_option( 'crmfwc-synchronize-companies' );
-        
-        /* Hooks */
+		$this->split_opportunities   = get_option( 'crmfwc-wc-split-opportunities' );
+		$this->company_opportunities = get_option( 'crmfwc-wc-company-opportunities' );
+		$this->synchronize_contacts  = get_option( 'crmfwc-synchronize-contacts' );
+		$this->synchronize_companies = get_option( 'crmfwc-synchronize-companies' );
+
+		/* Hooks */
 		add_filter( 'action_scheduler_queue_runner_time_limit', array( $this, 'eg_increase_time_limit' ) );
 		add_filter( 'action_scheduler_queue_runner_batch_size', array( $this, 'eg_increase_action_scheduler_batch_size' ) );
-        add_action( 'admin_init', array( $this, 'contacts_settings' ), 10 );
+		add_action( 'admin_init', array( $this, 'contacts_settings' ), 10 );
 		add_action( 'wp_ajax_delete-remote-users', array( $this, 'delete_remote_users' ) );
 		add_action( 'crmfwc_delete_remote_single_user_event', array( $this, 'delete_remote_single_user' ), 10, 1 );
 		add_action( 'wp_ajax_export-users', array( $this, 'export_users' ) );
 		add_action( 'crmfwc_export_single_user_event', array( $this, 'export_single_user' ), 10, 2 );
-        add_action( 'woocommerce_checkout_process', array( $this, 'deactivate_profile_update' ) );
-        add_action( 'save_post_shop_order', array( $this, 'wc_order_update_callback' ), 10, 3 );
+		add_action( 'woocommerce_checkout_process', array( $this, 'deactivate_profile_update' ) );
+		add_action( 'save_post_shop_order', array( $this, 'wc_order_update_callback' ), 10, 3 );
 
-        /* Conditional hooks */
-        if ( $this->synchronize_contacts ) {
+		/* Conditional hooks */
+		if ( $this->synchronize_contacts ) {
 
-            add_action( 'user_register', array( $this, 'update_remote_contact' ), 10 );
-            add_action( 'profile_update', array( $this, 'update_remote_contact' ), 10 );
-            add_action( 'delete_user', array( $this, 'delete_remote_contact' ), 10, 3 );
+			add_action( 'user_register', array( $this, 'update_remote_contact' ), 10 );
+			add_action( 'profile_update', array( $this, 'update_remote_contact' ), 10 );
+			add_action( 'delete_user', array( $this, 'delete_remote_contact' ), 10, 3 );
 
-        }
-		
+		}
+
 	}
 
 
@@ -154,7 +159,7 @@ class CRMFWC_Contacts {
 	 * Increase the time limit for porocessing the actions
 	 *
 	 * @param  int $time_limit the time limit in seconds.
-     *
+	 *
 	 * @return int the updated time
 	 */
 	public function eg_increase_time_limit( $time_limit ) {
@@ -168,7 +173,7 @@ class CRMFWC_Contacts {
 	 * Increase the number of actions executed in a single process
 	 *
 	 * @param  int $batch_size the number of actions.
-     *
+	 *
 	 * @return int the number updated
 	 */
 	public function eg_increase_action_scheduler_batch_size( $batch_size ) {
@@ -181,7 +186,7 @@ class CRMFWC_Contacts {
 	 * Sanitize every single array element
 	 *
 	 * @param  array $array the array to sanitize.
-     *
+	 *
 	 * @return array        the sanitized array.
 	 */
 	public static function sanitize_array( $array ) {
@@ -195,7 +200,6 @@ class CRMFWC_Contacts {
 				$output[ $key ] = sanitize_text_field( wp_unslash( $value ) );
 
 			}
-
 		}
 
 		return $output;
@@ -206,7 +210,7 @@ class CRMFWC_Contacts {
 	 * Check if a company exists in CRM in Cloud
 	 *
 	 * @param  int $id the company id in CRM in Cloud.
-     *
+	 *
 	 * @return bool
 	 */
 	private function company_exists( $id = null ) {
@@ -222,7 +226,6 @@ class CRMFWC_Contacts {
 				$output = true;
 
 			}
-
 		}
 
 		return $output;
@@ -236,7 +239,7 @@ class CRMFWC_Contacts {
 	 * @param  int    $user_id the WP user id.
 	 * @param  array  $args    the  company data.
 	 * @param  string $company_name the company name.
-     *
+	 *
 	 * @return int    the CRM in Cloud company id
 	 */
 	private function export_single_company( $user_id, $args, $company_name = null ) {
@@ -275,7 +278,7 @@ class CRMFWC_Contacts {
 	 * Get customers and suppliers from CRM in Cloud
 	 *
 	 * @param int $id the specific CRM in Cloud customer to get.
-     *
+	 *
 	 * @return array
 	 */
 	public function get_remote_users( $id = null ) {
@@ -302,13 +305,9 @@ class CRMFWC_Contacts {
 							continue;
 
 						}
-
 					}
-
 				}
-
 			}
-
 		} else {
 
 			$output = $this->crmfwc_call->call( 'get', 'Contact/Get/' . $id );
@@ -320,30 +319,30 @@ class CRMFWC_Contacts {
 	}
 
 
-    /**
-     * Add the pending payment opportunity phase to CRM in Cloud
-     *
-     * @return string the new phase description
-     */
-    private function add_pending_payment_opportunity_phase() {
+	/**
+	 * Add the pending payment opportunity phase to CRM in Cloud
+	 *
+	 * @return string the new phase description
+	 */
+	private function add_pending_payment_opportunity_phase() {
 
-        $args = array(
-            'description' => __( 'Pending payment', 'crm-in-cloud-for-wc' ),
-            'status'      => 1,
-            'weight'      => 80,
-        );
-        
-        $phase = $this->crmfwc_call->call( 'post', 'OpportunityPhase/CreateOrUpdate', $args );
+		$args = array(
+			'description' => __( 'Pending payment', 'crm-in-cloud-for-wc' ),
+			'status'      => 1,
+			'weight'      => 80,
+		);
 
-        if ( is_int( $phase ) && 1 < $phase ) {
+		$phase = $this->crmfwc_call->call( 'post', 'OpportunityPhase/CreateOrUpdate', $args );
 
-            update_option( 'crmfwc-pending-payment-phase', $args['description'] );
+		if ( is_int( $phase ) && 1 < $phase ) {
 
-            return $args['description'];
+			update_option( 'crmfwc-pending-payment-phase', $args['description'] );
 
-        }
+			return $args['description'];
 
-    }
+		}
+
+	}
 
 
 	/**
@@ -353,7 +352,7 @@ class CRMFWC_Contacts {
 	 */
 	private function get_pending_payment_opportunity_phase() {
 
-        $phase_description = get_option( 'crmfwc-pending-payment-phase' );
+		$phase_description = get_option( 'crmfwc-pending-payment-phase' );
 
 		if ( $phase_description ) {
 
@@ -365,7 +364,7 @@ class CRMFWC_Contacts {
 
 			if ( $phases ) {
 
-                $done = false;
+				$done = false;
 
 				foreach ( $phases as $key => $value ) {
 
@@ -375,29 +374,25 @@ class CRMFWC_Contacts {
 
 						if ( 80 === $phase->weight && __( 'Pending payment', 'crm-in-cloud-for-wc' ) === $phase->description ) {
 
-                            $done = true;
+							$done = true;
 
 							update_option( 'crmfwc-pending-payment-phase', $phase->description );
 
 							return $phase->description;
 
 						}
-
 					}
-
 				}
 
-                if ( ! $done ) {
+				if ( ! $done ) {
 
-                    $this->add_pending_payment_opportunity_phase();
+					$this->add_pending_payment_opportunity_phase();
 
-                }
-
+				}
 			}
+		}
 
-        }
-
-    }
+	}
 
 
 	/**
@@ -432,13 +427,9 @@ class CRMFWC_Contacts {
 							return $phase->description;
 
 						}
-
 					}
-
 				}
-
 			}
-
 		}
 
 	}
@@ -476,13 +467,9 @@ class CRMFWC_Contacts {
 							return $phase->description;
 
 						}
-
 					}
-
 				}
-
 			}
-
 		}
 
 	}
@@ -492,106 +479,103 @@ class CRMFWC_Contacts {
 	 * @param  object $order      the WC order.
 	 * @param  int    $remote_id  the CRM in Cloud user id.
 	 * @param  bool   $cross_type export opportunities to company (0) or contact (1).
-     *
+	 *
 	 * @return array the opportunities data
 	 */
 	public function get_single_order_opportunities( $order, $remote_id = null, $cross_type = 0 ) {
 
-        $output            = array();
-        $phase_information = array();
-        $title             = __( 'Order: ', 'crm-in-cloud-for-wc' ) . ' #' . $order->get_id();
-        $create_date       = $order->get_date_created() ? $order->get_date_created()->format( 'Y-m-d G:i:s' ) : '';
+		$output            = array();
+		$phase_information = array();
+		$title             = __( 'Order: ', 'crm-in-cloud-for-wc' ) . ' #' . $order->get_id();
+		$create_date       = $order->get_date_created() ? $order->get_date_created()->format( 'Y-m-d G:i:s' ) : '';
 
+		/* Opportunity args */
+		$args = array(
+			'closeDate'   => $order->get_date_completed() ? $order->get_date_completed()->format( 'Y-m-d G:i:s' ) : $create_date,
+			'createdDate' => $create_date,
+			'crossId'     => $remote_id,
+			'crossType'   => $cross_type,
+			'title'       => $title,
+		);
 
-        /* Opportunity args */
-        $args = array(
-            'closeDate'   => $order->get_date_completed() ? $order->get_date_completed()->format( 'Y-m-d G:i:s' ) : $create_date,
-            'createdDate' => $create_date,
-            'crossId'     => $remote_id,
-            'crossType'   => $cross_type,
-            'title'       => $title,
-        );
+		/* Phase information */
+		switch ( $order->get_status() ) {
+			case 'failed':
+			case 'cancelled':
+			case 'refunded':
+				$phase_information = array(
+					'phase'       => $this->lost_phase,
+					'probability' => 0,
+					'status'      => 4,
+				);
+				break;
+			case 'completed':
+				$phase_information = array(
+					'phase'       => $this->completed_phase,
+					'probability' => 100,
+					'status'      => 3,
+				);
+				break;
+			default:
+				$phase_information = array(
+					'phase'       => $this->pending_payment_phase,
+					'probability' => 80,
+					'status'      => 1,
+				);
+		}
 
-        /* Phase information */
-        switch ( $order->get_status() ) {
-            case 'failed':
-            case 'cancelled':
-            case 'refunded':  
-                $phase_information = array(
-                    'phase'       => $this->lost_phase,
-                    'probability' => 0,
-                    'status'      => 4,
-                );
-                break;
-            case 'completed':
-                $phase_information = array(
-                    'phase'       => $this->completed_phase,
-                    'probability' => 100,
-                    'status'      => 3,
-                );
-                break;
-            default:
-                $phase_information = array(
-                    'phase'       => $this->pending_payment_phase,
-                    'probability' => 80,
-                    'status'      => 1,
-                );
-        }
+		if ( $this->split_opportunities ) {
 
-        if ( $this->split_opportunities ) {
+			foreach ( $order->get_items() as $item_id => $item ) {
 
-            foreach ( $order->get_items() as $item_id => $item ) {
+				$quantity          = 1 < $item->get_quantity() ? ' (' . $item->get_quantity() . ')' : '';
+				$remote_product_id = $this->products->get_remote_product_id( $item->get_product_id(), true );
 
-                $quantity          = 1 < $item->get_quantity() ? ' (' . $item->get_quantity() . ')' : '';
-                $remote_product_id = $this->products->get_remote_product_id( $item->get_product_id(), true );
+				/* Add specific information about the order item */
+				$more = array(
+					'amount'      => wc_format_decimal( $order->get_item_total( $item, false, false ), 2 ),
+					'budget'      => wc_format_decimal( $order->get_item_total( $item, false, false ), 2 ) * $item->get_quantity(),
+					'description' => $item['name'] . $quantity,
+					'products'    => array(
+						$this->products->prepare_opportunity_product_data( $remote_product_id, $item->get_quantity() ),
+					),
+				);
 
+				/* Complete the opportunity data */
+				$data = array_merge( $args, $more, $phase_information );
 
-                /* Add specific information about the order item */
-                $more = array(
-                    'amount'      => wc_format_decimal( $order->get_item_total( $item, false, false ), 2 ),
-                    'budget'      => wc_format_decimal( $order->get_item_total( $item, false, false ), 2 ) * $item->get_quantity(),
-                    'description' => $item['name'] . $quantity,
-                    'products'    => array(
-                        $this->products->prepare_opportunity_product_data( $remote_product_id, $item->get_quantity() ),
-                    ),
-                );
+				$output[ $item_id ] = $data;
 
-                /* Complete the opportunity data */
-                $data = array_merge( $args, $more, $phase_information );
+			}
+		} else {
 
-                $output[ $item_id ] = $data;
+			$description = null;
+			$products    = array();
 
-            }
+			/* Get the items products names */
+			foreach ( $order->get_items() as $item_id => $item ) {
 
-        } else {
+				$remote_product_id = $this->products->get_remote_product_id( $item->get_product_id(), true );
+				$products[]        = $this->products->prepare_opportunity_product_data( $remote_product_id, $item->get_quantity() );
+				$separator         = $description ? ' | ' : null;
+				$quantity          = 1 < $item->get_quantity() ? ' (' . $item->get_quantity() . ')' : '';
+				$description      .= isset( $item['name'] ) ? $separator . $item['name'] . $quantity : $title;
 
-            $description = null;
-            $products    = array();
+			}
 
-            /* Get the items products names */
-            foreach ( $order->get_items() as $item_id => $item ) {
+			$more = array(
+				'amount'      => wc_format_decimal( $order->get_total(), 2 ),
+				'budget'      => wc_format_decimal( $order->get_total(), 2 ),
+				'description' => $description,
+				'products'    => $products,
+			);
 
-                $remote_product_id = $this->products->get_remote_product_id( $item->get_product_id(), true );
-                $products[]        = $this->products->prepare_opportunity_product_data( $remote_product_id, $item->get_quantity() );
-                $separator         = $description ? ' | ' : null;
-                $quantity          = 1 < $item->get_quantity() ? ' (' . $item->get_quantity() . ')' : '';
-                $description      .= isset( $item['name'] ) ? $separator . $item['name'] . $quantity : $title;
+			/* Complete the opportunity data */
+			$data = array_merge( $args, $more, $phase_information );
 
-            }
+			$output[] = $data;
 
-            $more = array(
-                'amount'      => wc_format_decimal( $order->get_total(), 2 ),
-                'budget'      => wc_format_decimal( $order->get_total(), 2 ),
-                'description' => $description,
-                'products'    => $products,
-            );
-
-            /* Complete the opportunity data */
-            $data = array_merge( $args, $more, $phase_information );
-
-            $output[] = $data;
-
-        }
+		}
 
 		return $output;
 
@@ -604,28 +588,28 @@ class CRMFWC_Contacts {
 	 * @param  int  $user_id    the WP user id.
 	 * @param  int  $remote_id  the CRM in Cloud user id.
 	 * @param  bool $cross_type export opportunities to company (0) or contact (1).
-	 * @param  int  $order_id   the WC order ID. 
-     *
+	 * @param  int  $order_id   the WC order ID.
+	 *
 	 * @return array the opportunities data
 	 */
 	private function get_user_opportunities( $user_id, $remote_id, $cross_type = 0, $order_id = null ) {
 
 		$output = array();
-        $data   = array(
-            'numberposts' => -1,
-            'meta_key'    => '_customer_user',
-            'meta_value'  => $user_id,
-            'post_type'   => wc_get_order_types(),
-            'post_status' => array_keys( wc_get_order_statuses() ),
-        );
+		$data   = array(
+			'numberposts' => -1,
+			'meta_key'    => '_customer_user',
+			'meta_value'  => $user_id,
+			'post_type'   => wc_get_order_types(),
+			'post_status' => array_keys( wc_get_order_statuses() ),
+		);
 
-        /* Get only the specific order */
-        if ( $order_id ) {
+		/* Get only the specific order */
+		if ( $order_id ) {
 
-            $data['p'] = $order_id;
-            $data['post_status'][] = 'trash';
+			$data['p']             = $order_id;
+			$data['post_status'][] = 'trash';
 
-        }
+		}
 
 		$posts = get_posts( $data );
 
@@ -638,7 +622,6 @@ class CRMFWC_Contacts {
 				$output[ $post->ID ] = $args;
 
 			}
-
 		}
 
 		return $output;
@@ -652,13 +635,13 @@ class CRMFWC_Contacts {
 	 * @param int  $user_id   the WP user id.
 	 * @param int  $remote_id the CRM in Cloud user id.
 	 * @param bool $cross_type export opportunities to company (0) or contact (1).
-     * @param int
-     *
+	 * @param int  $order_id the order ID.
+	 *
 	 * @return void
 	 */
 	private function export_opportunities( $user_id, $remote_id, $cross_type = 0, $order_id = null ) {
 
-        $endpoint = 'Opportunity/CreateOrUpdate/';
+		$endpoint = 'Opportunity/CreateOrUpdate/';
 		$data     = $this->get_user_opportunities( $user_id, $remote_id, $cross_type, $order_id );
 
 		if ( is_array( $data ) ) {
@@ -672,49 +655,43 @@ class CRMFWC_Contacts {
 
 					if ( is_array( $value ) && ! empty( $value ) ) {
 
-                        update_post_meta( $key, $meta_key, 1 );
+						update_post_meta( $key, $meta_key, 1 );
 
 						foreach ( $value as $k => $val ) {
 
-                            if ( $order_id === $key ) {
+							if ( $order_id === $key ) {
 
-                                $opportunity_id  = get_post_meta( $key, 'crmfwc-opportunity-' . $cross_type . '-' . $k, true );
+								$opportunity_id = get_post_meta( $key, 'crmfwc-opportunity-' . $cross_type . '-' . $k, true );
 
-                                if ( $opportunity_id ) {
+								if ( $opportunity_id ) {
 
-                                    if ( 'trash' === get_post_status( $order_id ) ) {
+									if ( 'trash' === get_post_status( $order_id ) ) {
 
-                                        $response = $this->crmfwc_call->call( 'delete', 'Opportunity/' . $opportunity_id );
+										$response = $this->crmfwc_call->call( 'delete', 'Opportunity/' . $opportunity_id );
 
-                                        delete_post_meta( $key, 'crmfwc-opportunity-' . $cross_type . '-' . $k );
+										delete_post_meta( $key, 'crmfwc-opportunity-' . $cross_type . '-' . $k );
 
-                                        continue;
+										continue;
 
-                                    }
+									}
 
-                                    /* Update an existing opportunity */
-                                    $val['id'] = $opportunity_id;
+									/* Update an existing opportunity */
+									$val['id'] = $opportunity_id;
 
-                                }
-
-                            }
+								}
+							}
 
 							$response = $this->crmfwc_call->call( 'post', $endpoint, $val );
 
-                            if ( is_int( $response ) ) {
+							if ( is_int( $response ) ) {
 
-                                update_post_meta( $key, 'crmfwc-opportunity-' . $cross_type . '-' . $k, $response );
+								update_post_meta( $key, 'crmfwc-opportunity-' . $cross_type . '-' . $k, $response );
 
-                            } 
-
+							}
 						}
-
 					}
-
 				}
-
 			}
-
 		}
 
 	}
@@ -724,7 +701,7 @@ class CRMFWC_Contacts {
 	 * Check if a contact exists in CRM in Cloud
 	 *
 	 * @param  int $id the id user in CRM in Cloud.
-     *
+	 *
 	 * @return bool
 	 */
 	private function user_exists( $id = null ) {
@@ -740,7 +717,6 @@ class CRMFWC_Contacts {
 				$output = true;
 
 			}
-
 		}
 
 		return $output;
@@ -753,7 +729,7 @@ class CRMFWC_Contacts {
 	 *
 	 * @param  string $field the field to retrieve.
 	 * @param  bool   $order_meta prepend an undescore if true.
-     *
+	 *
 	 * @return string the meta_key that will be used to get data from the db
 	 */
 	public function get_tax_field_name( $field, $order_meta = false ) {
@@ -763,7 +739,7 @@ class CRMFWC_Contacts {
 		$pec_name     = null;
 		$pa_code_name = null;
 
-        /*Generated by the plugin*/
+		/*Generated by the plugin*/
 		if ( get_option( 'crmfwc_company_invoice' ) || get_option( 'crmfwc_private_invoice' ) ) {
 
 			$cf_name      = 'billing_crmfwc_cf';
@@ -771,7 +747,7 @@ class CRMFWC_Contacts {
 			$pec_name     = 'billing_crmfwc_pec';
 			$pa_code_name = 'billing_crmfwc_pa_code';
 
-        } elseif ( function_exists( 'wcexd_options' ) && ( get_option( 'wcexd_company_invoice' ) || get_option( 'wcexd_private_invoice' ) ) ) {
+		} elseif ( function_exists( 'wcexd_options' ) && ( get_option( 'wcexd_company_invoice' ) || get_option( 'wcexd_private_invoice' ) ) ) {
 
 			/*WC Exporter for Danea*/
 			$cf_name      = 'billing_wcexd_cf';
@@ -790,100 +766,89 @@ class CRMFWC_Contacts {
 		} else {
 
 			/*Plugin supportati*/
-
-			/*WooCommerce Aggiungere CF e P.IVA*/
 			if ( class_exists( 'WC_BrazilianCheckoutFields' ) ) {
+				/*WooCommerce Aggiungere CF e P.IVA*/
 				$cf_name = 'billing_cpf';
 				$pi_name = 'billing_cnpj';
-			}
-
-			/*WooCommerce P.IVA e Codice Fiscale per Italia*/
-			elseif ( class_exists( 'WooCommerce_Piva_Cf_Invoice_Ita' ) || class_exists( 'WC_Piva_Cf_Invoice_Ita' ) ) {
+			} elseif ( class_exists( 'WooCommerce_Piva_Cf_Invoice_Ita' ) || class_exists( 'WC_Piva_Cf_Invoice_Ita' ) ) {
+				/*WooCommerce P.IVA e Codice Fiscale per Italia*/
 				$cf_name      = 'billing_cf';
 				$pi_name      = 'billing_piva';
 				$pec_name     = 'billing_pec';
 				$pa_code_name = 'billing_pa_code';
-			}
-
-			/*YITH WooCommerce Checkout Manager*/
-			elseif ( function_exists( 'ywccp_init' ) ) {
+			} elseif ( function_exists( 'ywccp_init' ) ) {
+				/*YITH WooCommerce Checkout Manager*/
 				$cf_name = 'billing_Codice_Fiscale';
 				$pi_name = 'billing_Partita_IVA';
-			}
-
-			/*WOO Codice Fiscale*/
-			elseif ( function_exists( 'woocf_on_checkout' ) ) {
+			} elseif ( function_exists( 'woocf_on_checkout' ) ) {
+				/*WOO Codice Fiscale*/
 				$cf_name = 'billing_CF';
 				$pi_name = 'billing_iva';
 			}
-
 		}
 
 		switch ( $field ) {
 			case 'cf_name':
 				return $order_meta ? '_' . $cf_name : $cf_name;
-				break;
 			case 'pi_name':
 				return $order_meta ? '_' . $pi_name : $pi_name;
-				break;
 			case 'pec_name':
 				return $order_meta ? '_' . $pec_name : $pec_name;
-				break;
 			case 'pa_code_name':
 				return $order_meta ? '_' . $pa_code_name : $pa_code_name;
-				break;
 		}
 
 	}
 
 
-    /**
-     * User synchronization options 
-     *
-     * @return void 
-     */
-    public function contacts_settings() {
+	/**
+	 * User synchronization options
+	 *
+	 * @return void
+	 */
+	public function contacts_settings() {
+
+		if ( isset( $_POST['crmfwc-contacts-settings-nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['crmfwc-contacts-settings-nonce'] ) ), 'crmfwc-contacts-settings' ) ) {
+
+			$synchronize_contacts = isset( $_POST['crmfwc-synchronize-contacts'] ) ? sanitize_text_field( wp_unslash( $_POST['crmfwc-synchronize-contacts'] ) ) : 0;
+
+			/*Save to the db*/
+			update_option( 'crmfwc-synchronize-contacts', $synchronize_contacts );
+
+		}
+
+	}
 
 
-		if ( isset( $_POST['crmfwc-contacts-settings-nonce'] ) && wp_verify_nonce( wp_unslash( $_POST['crmfwc-contacts-settings-nonce'] ), 'crmfwc-contacts-settings' ) ) {
+	/**
+	 * Update remote contact in real time
+	 *
+	 * @param int $user_id the WP user id.
+	 *
+	 * @return void
+	 */
+	public function update_remote_contact( $user_id ) {
 
-            $synchronize_contacts = isset( $_POST['crmfwc-synchronize-contacts'] ) ? sanitize_text_field( wp_unslash( $_POST['crmfwc-synchronize-contacts'] ) ) : 0;
+		$response = $this->export_single_user( $user_id, null, true );
 
-            /*Save to the db*/
-            update_option( 'crmfwc-synchronize-contacts', $synchronize_contacts );
-
-        }
-
-    }
-
-
-    /**
-     * Update remote contact in real time
-     *
-     * @param int $user_id the WP user id.
-     *
-     * @return void
-     */
-    public function update_remote_contact( $user_id ) {
-
-        $response = $this->export_single_user( $user_id, null, true );
-
-    }
+	}
 
 
-    /**
-     * Delete remote contact in real time
-     *
-     * @param int $user_id the WP user id.
-     *
-     * @return void
-     */
-    public function delete_remote_contact( $user_id, $reassign, $user ) {
+	/**
+	 * Delete remote contact in real time
+	 *
+	 * @param int $user_id  the WP user id.
+	 * @param int $reassign ID of the user to reassign posts and links to.
+	 * @param int $user     WP_User object of the user to delete.
+	 *
+	 * @return void
+	 */
+	public function delete_remote_contact( $user_id, $reassign, $user ) {
 
-        $crmfwc_id = get_user_meta( $user_id, 'crmfwc-id', true );
-        $response  = $this->delete_remote_single_user( $crmfwc_id, null, true );
+		$crmfwc_id = get_user_meta( $user_id, 'crmfwc-id', true );
+		$response  = $this->delete_remote_single_user( $crmfwc_id, null, true );
 
-    }
+	}
 
 
 	/**
@@ -891,30 +856,30 @@ class CRMFWC_Contacts {
 	 *
 	 * @param  int    $user_id  the WP user id.
 	 * @param  object $order the WC order to get the customer details.
-     * @param  bool   $update user update with true.
-     *
+	 * @param  bool   $update user update with true.
+	 *
 	 * @return array
 	 */
 	public function prepare_user_data( $user_id = 0, $order = null, $update = false ) {
 
 		$website               = null;
-        $vat_number            = null;
-        $identification_number = null;
-        $certified_email       = null;
-        $public_entry_number   = null;
+		$vat_number            = null;
+		$identification_number = null;
+		$certified_email       = null;
+		$public_entry_number   = null;
 
 		if ( $order ) {
 
-			$surname                 = $order->get_billing_last_name() ? ucwords( $order->get_billing_last_name() ) : '-';
-			$name                    = $order->get_billing_first_name() ? ucwords( $order->get_billing_first_name() ) : null;
-			$user_email              = $order->get_billing_email();
-			$country                 = $order->get_billing_country();
-			$city                    = $order->get_billing_city() ? ucwords( $order->get_billing_city() ) : null;
-			$state                   = $order->get_billing_state();
-			$address                 = $order->get_billing_address_1() ? ucwords( $order->get_billing_address_1() ) : null;
-			$postcode                = $order->get_billing_postcode();
-			$phone                   = $order->get_billing_phone();
-			$company                 = $order->get_billing_company() ? ucwords( $order->get_billing_company() ) : null;
+			$surname    = $order->get_billing_last_name() ? ucwords( $order->get_billing_last_name() ) : '-';
+			$name       = $order->get_billing_first_name() ? ucwords( $order->get_billing_first_name() ) : null;
+			$user_email = $order->get_billing_email();
+			$country    = $order->get_billing_country();
+			$city       = $order->get_billing_city() ? ucwords( $order->get_billing_city() ) : null;
+			$state      = $order->get_billing_state();
+			$address    = $order->get_billing_address_1() ? ucwords( $order->get_billing_address_1() ) : null;
+			$postcode   = $order->get_billing_postcode();
+			$phone      = $order->get_billing_phone();
+			$company    = $order->get_billing_company() ? ucwords( $order->get_billing_company() ) : null;
 
 			/*Fiscal data*/
 			$pi_name = $this->get_tax_field_name( 'pi_name', true );
@@ -924,7 +889,7 @@ class CRMFWC_Contacts {
 
 			$cf_name = $this->get_tax_field_name( 'cf_name', true );
 			if ( $cf_name ) {
-				$identification_number = $order->get_meta( $cf_name ); 
+				$identification_number = $order->get_meta( $cf_name );
 			}
 
 			$pec_name = $this->get_tax_field_name( 'pec_name', true );
@@ -934,9 +899,8 @@ class CRMFWC_Contacts {
 
 			$pa_code_name = $this->get_tax_field_name( 'pa_code_name', true );
 			if ( $pa_code_name ) {
-				$public_entry_number = $order->get_meta( $pa_code_name ); 
+				$public_entry_number = $order->get_meta( $pa_code_name );
 			}
-
 		} elseif ( 0 !== $user_id ) {
 
 			$user_details = get_userdata( $user_id );
@@ -962,15 +926,15 @@ class CRMFWC_Contacts {
 
 			}
 
-			$user_email              = $user_details->user_email;
-			$country                 = isset( $user_data['billing_country'] ) ? $user_data['billing_country'] : null;
-			$city                    = isset( $user_data['billing_city'] ) ? ucwords( $user_data['billing_city'] ) : null;
-			$state                   = isset( $user_data['billing_state'] ) ? ucwords( $user_data['billing_state'] ) : null;
-			$address                 = isset( $user_data['billing_address_1'] ) ? ucwords( $user_data['billing_address_1'] ) : null;
-			$postcode                = isset( $user_data['billing_postcode'] ) ? $user_data['billing_postcode'] : null;
-			$phone                   = isset( $user_data['billing_phone'] ) ? $user_data['billing_phone'] : null;
-			$company                 = isset( $user_data['billing_company'] ) ? ucwords( $user_data['billing_company'] ) : null;
-			$website                 = $user_details->user_url;
+			$user_email = $user_details->user_email;
+			$country    = isset( $user_data['billing_country'] ) ? $user_data['billing_country'] : null;
+			$city       = isset( $user_data['billing_city'] ) ? ucwords( $user_data['billing_city'] ) : null;
+			$state      = isset( $user_data['billing_state'] ) ? ucwords( $user_data['billing_state'] ) : null;
+			$address    = isset( $user_data['billing_address_1'] ) ? ucwords( $user_data['billing_address_1'] ) : null;
+			$postcode   = isset( $user_data['billing_postcode'] ) ? $user_data['billing_postcode'] : null;
+			$phone      = isset( $user_data['billing_phone'] ) ? $user_data['billing_phone'] : null;
+			$company    = isset( $user_data['billing_company'] ) ? ucwords( $user_data['billing_company'] ) : null;
+			$website    = $user_details->user_url;
 
 			/*Fiscal data*/
 			$pi_name = $this->get_tax_field_name( 'pi_name' );
@@ -992,7 +956,6 @@ class CRMFWC_Contacts {
 			if ( $pa_code_name ) {
 				$public_entry_number = isset( $user_data[ $pa_code_name ] ) ? strtoupper( $user_data[ $pa_code_name ] ) : '';
 			}
-
 		} else {
 
 			return;
@@ -1000,24 +963,24 @@ class CRMFWC_Contacts {
 		}
 
 		$args = array(
-			'name'        => $name,
-			'surname'     => $surname,
-			'emails'      => array(
+			'name'                    => $name,
+			'surname'                 => $surname,
+			'emails'                  => array(
 				array(
 					'value' => $user_email,
 				),
 			),
-			'state'       => $country,
-			'city'        => $city,
-			'address'     => $address,
-			'zipCode'     => $postcode,
-			'phones'      => array(
+			'state'                   => $country,
+			'city'                    => $city,
+			'address'                 => $address,
+			'zipCode'                 => $postcode,
+			'phones'                  => array(
 				array(
 					'value' => $phone,
 				),
 			),
-			'province'    => $state,
-			'vatId'       => $vat_number,
+			'province'                => $state,
+			'vatId'                   => $vat_number,
 			'taxIdentificationNumber' => $identification_number,
 		);
 
@@ -1035,7 +998,6 @@ class CRMFWC_Contacts {
 				$args['companyId'] = $company_id;
 
 			}
-
 		}
 
 		/*Update contact if already in CRM in Cloud*/
@@ -1066,8 +1028,8 @@ class CRMFWC_Contacts {
 
 		if ( $certified_email ) {
 
-			array_push( $args['emails'] , array( 'value' => $certified_email ) );
-		
+			array_push( $args['emails'], array( 'value' => $certified_email ) );
+
 		}
 
 		return $args;
@@ -1075,54 +1037,55 @@ class CRMFWC_Contacts {
 	}
 
 
-    /**
-     * Export the user image to CRM in Cloud
-     *
-     * @param int $user_id  the WP user id.
-     * @param int $remote_id the remote product id.
-     *
-     * @return void
-     */
-    private function export_contact_image( $user_id, $remote_id ) {
+	/**
+	 * Export the user image to CRM in Cloud
+	 *
+	 * @param int $user_id  the WP user id.
+	 * @param int $remote_id the remote product id.
+	 *
+	 * @return void
+	 */
+	private function export_contact_image( $user_id, $remote_id ) {
 
-        /* $image_url = get_avatar_url( $user_id, array( 'default' => '404' ) ); */
-        $image_url = get_avatar_url( $user_id );
-        $headers   = @get_headers( $image_url );
+		$image_url = get_avatar_url( $user_id );
+		$headers   = @get_headers( $image_url );
 
-        if ( isset( $headers[0] ) && preg_match( "|200|", $headers[0] ) ) {
+		if ( isset( $headers[0] ) && preg_match( '|200|', $headers[0] ) ) {
 
-            $info     = pathinfo( $image_url );
-            $filename = isset( $info['filename'] ) && $info['filename'] ? $info['filename'] : 'user-avatar';
-            $ext      = isset( $info['extension'] ) && $info['extension'] ? $info['extension'] : 'png'; 
-            $filename = $filename . '.' . $ext; 
+			$info     = pathinfo( $image_url );
+			$filename = isset( $info['filename'] ) && $info['filename'] ? $info['filename'] : 'user-avatar';
+			$ext      = isset( $info['extension'] ) && $info['extension'] ? $info['extension'] : 'png';
+			$filename = $filename . '.' . $ext;
 
-            /* Generate a boundary delimiter */
-            $boundary = wp_generate_password( 24, false );
+			/* Generate a boundary delimiter */
+			$boundary = wp_generate_password( 24, false );
 
-            /* Define a specif timeout */
-            $context = stream_context_create(array(
-                'http' => array(
-                    'timeout' => 5, // Timeout in seconds
-                )
-            ));
+			/* Define a specif timeout */
+			$context = stream_context_create(
+				array(
+					'http' => array(
+						'timeout' => 5, // Timeout in seconds.
+					),
+				)
+			);
 
-            /* The body payload */
-            $payload  = '--' . $boundary;
-            $payload .= "\r\n";
-            $payload .= 'Content-Disposition: form-data; name="file"; filename="' . $filename . '"' . "\r\n";
-            $payload .= 'Content-Transfer-Encoding: binary' . "\r\n";
-            $payload .= "\r\n";
-            $payload .= file_get_contents( $image_url, true, $context );
-            $payload .= "\r\n";
-            $payload .= '--' . $boundary . '--';
-            $payload .= "\r\n\r\n";
+			/* The body payload */
+			$payload  = '--' . $boundary;
+			$payload .= "\r\n";
+			$payload .= 'Content-Disposition: form-data; name="file"; filename="' . $filename . '"' . "\r\n";
+			$payload .= 'Content-Transfer-Encoding: binary' . "\r\n";
+			$payload .= "\r\n";
+			$payload .= file_get_contents( $image_url, true, $context );
+			$payload .= "\r\n";
+			$payload .= '--' . $boundary . '--';
+			$payload .= "\r\n\r\n";
 
-            /* The call */
-            $response = $this->crmfwc_call->call( 'post', 'Contact/' . $remote_id . '/Photo', $payload, false, true, $boundary );
+			/* The call */
+			$response = $this->crmfwc_call->call( 'post', 'Contact/' . $remote_id . '/Photo', $payload, false, true, $boundary );
 
-        }
+		}
 
-    }
+	}
 
 
 	/**
@@ -1130,20 +1093,20 @@ class CRMFWC_Contacts {
 	 *
 	 * @param int    $user_id the WP user id.
 	 * @param object $order the WC order to get the customer details.
-     * @param bool   $update user update with true.
-     *
+	 * @param bool   $update user update with true.
+	 *
 	 * @return void
 	 */
 	public function export_single_user( $user_id = 0, $order = null, $update = false ) {
 
-        $order_id   = is_object( $order ) ? $order->get_id() : null; 
-        $remote_id  = $user_id ? get_user_meta( $user_id, 'crmfwc-id', true ) : get_post_meta( $order_id, 'crmfwc-user-id', true );
-        $company_id = get_user_meta( $user_id, 'crmfwc-company-id', true );
+		$order_id   = is_object( $order ) ? $order->get_id() : null;
+		$remote_id  = $user_id ? get_user_meta( $user_id, 'crmfwc-id', true ) : get_post_meta( $order_id, 'crmfwc-user-id', true );
+		$company_id = get_user_meta( $user_id, 'crmfwc-company-id', true );
 
 		if ( $order_id || $remote_id || $user_id ) {
 
-            $args       = $this->prepare_user_data( $user_id, $order, $update );
-            $company_id = isset( $args['companyId'] ) ? $args['companyId'] : $company_id;
+			$args       = $this->prepare_user_data( $user_id, $order, $update );
+			$company_id = isset( $args['companyId'] ) ? $args['companyId'] : $company_id;
 			$remote_id  = $this->crmfwc_call->call( 'post', 'Contact/CreateOrUpdate', $args );
 
 			if ( is_int( $remote_id ) ) {
@@ -1153,46 +1116,41 @@ class CRMFWC_Contacts {
 
 					update_user_meta( $user_id, 'crmfwc-id', $remote_id );
 
-                } elseif ( $order_id ) {
+				} elseif ( $order_id ) {
 
 					update_post_meta( $order_id, 'crmfwc-user-id', $remote_id );
 
-                }
-
-            }
-
+				}
+			}
 		}
 
-        /*Export orders ad opportunities only if set in the options*/
-        if ( ( $this->export_orders && ! $update ) || $order_id ) {
+		/*Export orders ad opportunities only if set in the options*/
+		if ( ( $this->export_orders && ! $update ) || $order_id ) {
 
-            if ( $remote_id ) {
+			if ( $remote_id ) {
 
-                /*Export user opportunities*/
-                $this->export_opportunities( $user_id, $remote_id, 1, $order_id ); // temp.
+				/*Export user opportunities*/
+				$this->export_opportunities( $user_id, $remote_id, 1, $order_id ); // temp.
 
-            }
+			}
 
-            if ( $company_id ) {
+			if ( $company_id ) {
 
-                /*Export company opportunities*/
-                if ( $this->company_opportunities ) {
+				/*Export company opportunities*/
+				if ( $this->company_opportunities ) {
 
-                    $this->export_opportunities( $user_id, $company_id, 0, $order_id );
+					$this->export_opportunities( $user_id, $company_id, 0, $order_id );
 
-                }
+				}
+			}
+		}
 
-            }
+		/* Export avatar */
+		if ( $user_id && $remote_id ) {
 
-        }
+			$image_response = $this->export_contact_image( $user_id, $remote_id );
 
-        /* Export avatar */
-        if ( $user_id && $remote_id ) {
-
-            $image_response = $this->export_contact_image( $user_id, $remote_id );
-
-
-        }
+		}
 
 	}
 
@@ -1204,12 +1162,12 @@ class CRMFWC_Contacts {
 	 */
 	public function export_users() {
 
-		if ( isset( $_POST['crmfwc-export-users-nonce'] ) && wp_verify_nonce( wp_unslash( $_POST['crmfwc-export-users-nonce'] ), 'crmfwc-export-users' ) ) {
+		if ( isset( $_POST['crmfwc-export-users-nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['crmfwc-export-users-nonce'] ) ), 'crmfwc-export-users' ) ) {
 
 			/*Check options*/
-			$roles                = isset( $_POST['roles'] ) ? self::sanitize_array( $_POST['roles'] ) : array();
-			$export_company       = isset( $_POST['export-company'] ) ? sanitize_text_field( wp_unslash( $_POST['export-company'] ) ) : 0;
-			$export_orders        = isset( $_POST['export-orders'] ) ? sanitize_text_field( wp_unslash( $_POST['export-orders'] ) ) : 0;
+			$roles          = isset( $_POST['roles'] ) ? self::sanitize_array( $_POST['roles'] ) : array();
+			$export_company = isset( $_POST['export-company'] ) ? sanitize_text_field( wp_unslash( $_POST['export-company'] ) ) : 0;
+			$export_orders  = isset( $_POST['export-orders'] ) ? sanitize_text_field( wp_unslash( $_POST['export-orders'] ) ) : 0;
 
 			/*Save to the db*/
 			update_option( 'crmfwc-users-roles', $roles );
@@ -1254,7 +1212,7 @@ class CRMFWC_Contacts {
 
 			}
 
-			echo json_encode( $response );
+			echo wp_json_encode( $response );
 
 		}
 
@@ -1267,7 +1225,7 @@ class CRMFWC_Contacts {
 	 * Search contact on CRM in Cloud by email
 	 *
 	 * @param  string $email the contact email.
-     *
+	 *
 	 * @return int the remote contact id
 	 */
 	public function search_remote_contact( $email ) {
@@ -1286,7 +1244,7 @@ class CRMFWC_Contacts {
 	 * Search company on CRM in Cloud by company name
 	 *
 	 * @param  string $company_name the company name.
-     *
+	 *
 	 * @return int the remote company id
 	 */
 	public function search_remote_company( $company_name ) {
@@ -1305,38 +1263,37 @@ class CRMFWC_Contacts {
 	/**
 	 * Export user and his opportunities when a WC order is completed
 	 *
-	 * @param  int    $order_id the WC order id.
-     *
+	 * @param  int $order_id the WC order id.
+	 *
 	 * @return void
 	 */
 	public function wc_order_callback( $order_id ) {
 
-        /*Export new WC orders only if set in the options*/
-        if ( $this->wc_export_orders && ! wp_is_post_autosave( $order_id ) ) {
+		/*Export new WC orders only if set in the options*/
+		if ( $this->wc_export_orders && ! wp_is_post_autosave( $order_id ) ) {
 
-            $order = wc_get_order( $order_id );
+			$order = wc_get_order( $order_id );
 
-            if ( is_object( $order ) ) {
+			if ( is_object( $order ) ) {
 
-                $this->export_single_user( $order->get_customer_id(), $order );
+				$this->export_single_user( $order->get_customer_id(), $order );
 
-            }
-
-        }
+			}
+		}
 
 	}
 
 
-    /**
-     * Do not update user by this hook while a new order is createrd
-     *
-     * @return void
-     */
-    public function deactivate_profile_update() {
+	/**
+	 * Do not update user by this hook while a new order is createrd
+	 *
+	 * @return void
+	 */
+	public function deactivate_profile_update() {
 
-        remove_action( 'profile_update', array( $this, 'update_remote_contact' ), 10 );
+		remove_action( 'profile_update', array( $this, 'update_remote_contact' ), 10 );
 
-    }
+	}
 
 
 	/**
@@ -1345,20 +1302,20 @@ class CRMFWC_Contacts {
 	 * @param  int    $order_id the WC order id.
 	 * @param  object $post     the post.
 	 * @param  bool   $update   whether this is an existing post being updated.
-     *
+	 *
 	 * @return void
 	 */
 	public function wc_order_update_callback( $order_id, $post, $update ) {
 
-        if ( $update ) {
+		if ( $update ) {
 
-            $this->wc_order_callback( $order_id );
+			$this->wc_order_callback( $order_id );
 
-        } else {
+		} else {
 
-            add_action( 'woocommerce_thankyou', array( $this, 'wc_order_callback' ), 10, 1 );
+			add_action( 'woocommerce_thankyou', array( $this, 'wc_order_callback' ), 10, 1 );
 
-        }
+		}
 
 	}
 
@@ -1367,7 +1324,7 @@ class CRMFWC_Contacts {
 	 * Delete CRM in cloud contact id and company id from the db
 	 *
 	 * @param  int $id the CRM in Cloud contact id.
-     *
+	 *
 	 * @return void
 	 */
 	public function delete_remote_id( $id ) {
@@ -1375,7 +1332,7 @@ class CRMFWC_Contacts {
 		$users = get_users(
 			array(
 
-				'meta_key' => 'crmfwc-id',
+				'meta_key'   => 'crmfwc-id',
 				'meta_value' => $id,
 
 			)
@@ -1399,7 +1356,6 @@ class CRMFWC_Contacts {
 				delete_user_meta( $users[0]->ID, 'crmfwc-company-id' );
 
 			}
-
 		}
 
 	}
@@ -1491,7 +1447,7 @@ class CRMFWC_Contacts {
 					esc_html( sprintf( __( '%1$d users(s) delete process has begun', 'crm-in-cloud-for-wc' ), $n ) ),
 				);
 
-				echo json_encode( $response );
+				echo wp_json_encode( $response );
 
 			} else {
 
@@ -1500,10 +1456,9 @@ class CRMFWC_Contacts {
 					esc_html__( 'ERROR! There are not users to delete', 'crm-in-cloud-for-wc' ),
 				);
 
-				echo json_encode( $response );
+				echo wp_json_encode( $response );
 
 			}
-
 		}
 
 		exit;
