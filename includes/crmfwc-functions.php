@@ -10,7 +10,7 @@
 /**
  * Update checker
  */
-require( CRMFWC_DIR . 'plugin-update-checker/plugin-update-checker.php' );
+require CRMFWC_DIR . 'plugin-update-checker/plugin-update-checker.php';
 use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
 $crmfwc_update_checker = PucFactory::buildUpdateChecker(
@@ -24,6 +24,7 @@ $crmfwc_update_checker = PucFactory::buildUpdateChecker(
  * Secure update check with the Premium Key
  *
  * @param  array $query_args the default args.
+ *
  * @return array            the updated args
  */
 function crmfwc_secure_update_check( $query_args ) {
@@ -47,6 +48,8 @@ $crmfwc_update_checker->addQueryArgFilter( 'crmfwc_secure_update_check' );
  *
  * @param  array $plugin_data plugin information.
  * @param  array $response    available plugin update information.
+ *
+ * @return void
  */
 function crmfwc_update_message( $plugin_data, $response ) {
 
@@ -74,7 +77,6 @@ function crmfwc_update_message( $plugin_data, $response ) {
 			$message = 'It seems like your <strong>Premium Key</strong> is not valid. Please, click <a href="https://www.ilghera.com/product/crm-in-cloud-for…commerce-premium/" target="_blank">here</a> for prices and details.';
 
 		}
-
 	}
 
 	$allowed_tags = array(
@@ -89,3 +91,4 @@ function crmfwc_update_message( $plugin_data, $response ) {
 
 }
 add_action( 'in_plugin_update_message-' . CRMFWC_DIR_NAME . '/crm-in-cloud-for-wc.php', 'crmfwc_update_message', 10, 2 );
+
