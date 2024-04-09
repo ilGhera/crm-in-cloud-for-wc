@@ -13,6 +13,8 @@
  * Domain Path: /languages
  */
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Admin notice for WooCommerce not installed
  *
@@ -58,6 +60,7 @@ function load_crmfwc_premium() {
 	} else {
 
 		/*Constants declaration*/
+        define( 'CRMFWC_VERSION', '1.2.4' );
 		define( 'CRMFWC_DIR', plugin_dir_path( __FILE__ ) );
 		define( 'CRMFWC_URI', plugin_dir_url( __FILE__ ) );
 		define( 'CRMFWC_FILE', __FILE__ );

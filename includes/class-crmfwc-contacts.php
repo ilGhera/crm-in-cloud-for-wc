@@ -6,6 +6,9 @@
  * @package crm-in-cloud-for-wc/includes
  * @since 1.2.0
  */
+
+defined( 'ABSPATH' ) || exit;
+
 class CRMFWC_Contacts {
 
 	/**
@@ -15,14 +18,12 @@ class CRMFWC_Contacts {
 	 */
 	public $crmfwc_call;
 
-
 	/**
 	 * Export the user orders as opportunities in CRM in Cloud
 	 *
 	 * @var int
 	 */
 	private $export_orders;
-
 
 	/**
 	 * Export the company linked to the user if present
@@ -31,14 +32,12 @@ class CRMFWC_Contacts {
 	 */
 	private $export_company;
 
-
 	/**
 	 * Delete remote company linked to the contacts
 	 *
 	 * @var int
 	 */
 	private $delete_company;
-
 
 	/**
 	 * Export the new orders as opportunities in CRM in Cloud
@@ -47,14 +46,12 @@ class CRMFWC_Contacts {
 	 */
 	private $wc_export_orders;
 
-
 	/**
 	 * Create an opportunity for every single order item
 	 *
 	 * @var bool
 	 */
 	private $split_opportunities;
-
 
 	/**
 	 * Export opportunities for the company as well if it exists
@@ -63,14 +60,12 @@ class CRMFWC_Contacts {
 	 */
 	private $company_opportunities;
 
-
     /**
      * Synchronize contacts in real time
      *
      * @var bool
      */
     private $synchronize_contacts;
-
 
     /**
      * Synchronize company in real time
@@ -79,6 +74,33 @@ class CRMFWC_Contacts {
      */
     private $synchronize_companies;
 
+    /**
+     * The product class instance 
+     *
+     * @var object 
+     */
+    private $products;
+
+    /**
+     * The completed phase
+     *
+     * @var string
+     */
+    private $completed_phase;
+
+    /**
+     * The lost phase
+     *
+     * @var string
+     */
+    private $lost_phase;
+
+    /**
+     * The pending payment phase
+     *
+     * @var string
+     */
+    private $pending_payment_phase;
 
 	/**
 	 * Class constructor

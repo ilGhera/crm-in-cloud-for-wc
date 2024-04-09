@@ -4,9 +4,34 @@
  *
  * @author ilGhera
  * @package crm-in-cloud-for-wc-premium/includes
+ *
  * @since 1.2.1
  */
+
+defined( 'ABSPATH' ) || exit;
+
 class CRMFWC_Settings {
+
+    /**
+     * The user email
+     *
+     * @var string
+     */
+    private $email;
+
+    /**
+     * The user password
+     *
+     * @var string
+     */
+    private $passw;
+
+    /**
+     * The Soap client instance
+     *
+     * @var object
+     */
+    private $crmfwc_call;
 
 	/**
 	 * Class constructor

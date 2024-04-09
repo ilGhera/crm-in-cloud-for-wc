@@ -6,6 +6,9 @@
  * @package crm-in-cloud-for-wc/includes
  * @since 1.2.0
  */
+
+defined( 'ABSPATH' ) || exit;
+
 class CRMFWC_Products {
 
     /**
@@ -14,7 +17,6 @@ class CRMFWC_Products {
      * @var bool
      */
     private $synchronize_products;
-
     
     /**
      * Synchronize products taxonomy terms in real time
@@ -23,6 +25,12 @@ class CRMFWC_Products {
      */
     private $synchronize_products_terms;
 
+    /**
+     * The Soap client instance
+     *
+     * @var object
+     */
+    private $crmfwc_call;
 
 	/**
 	 * Class constructor
