@@ -519,7 +519,7 @@ class CRMFWC_Products {
 		$payload .= 'Content-Disposition: form-data; name="file"; filename="' . $filename . '"' . "\r\n";
 		$payload .= 'Content-Transfer-Encoding: binary' . "\r\n";
 		$payload .= "\r\n";
-		$payload .= wp_remote_get( $image_path );
+		$payload .= file_get_contents( $image_path );
 		$payload .= "\r\n";
 		$payload .= '--' . $boundary . '--';
 		$payload .= "\r\n\r\n";
