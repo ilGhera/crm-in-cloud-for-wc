@@ -7,6 +7,12 @@
  *
  * @since 1.2.3
  */
+
+/**
+ * CRMFWC_Call class
+ *
+ * @since 1.2.3
+ */
 class CRMFWC_Call {
 
 	/**
@@ -51,42 +57,40 @@ class CRMFWC_Call {
 	 */
 	public function get_access_token( $email = null, $passw = null ) {
 
-        $access_token = get_transient( 'crmfwc-access-token');
+		$access_token = get_transient( 'crmfwc-access-token' );
 
-        if ( $access_token ) {
+		if ( $access_token ) {
 
-            return $access_token;
+			return $access_token;
 
-        } else {
+		} else {
 
-            $email  = $email ? $email : $this->email;
-            $passw  = $passw ? $passw : $this->passw;
+			$email = $email ? $email : $this->email;
+			$passw = $passw ? $passw : $this->passw;
 
-            if ( $email && $passw ) {
+			if ( $email && $passw ) {
 
-                $data  = array(
-                    'grant_type' => 'password',
-                    'username'   => $email,
-                    'password'   => $passw,
-                );
+				$data = array(
+					'grant_type' => 'password',
+					'username'   => $email,
+					'password'   => $passw,
+				);
 
-                $response = $this->call( 'post', 'Auth/Login', $data, true );
+				$response = $this->call( 'post', 'Auth/Login', $data, true );
 
-                if ( isset( $response->access_token ) ) {
+				if ( isset( $response->access_token ) ) {
 
-                    set_transient( 'crmfwc-access-token', $response->access_token, 1200 );
+					set_transient( 'crmfwc-access-token', $response->access_token, 1200 );
 
-                    return $response->access_token;
+					return $response->access_token;
 
-                } elseif ( isset( $response->error ) ) {
+				} elseif ( isset( $response->error ) ) {
 
-                    return $response;
+					return $response;
 
-                }
-
-            }
-
-        }
+				}
+			}
+		}
 
 	}
 
@@ -94,39 +98,38 @@ class CRMFWC_Call {
 	/**
 	 * Define the headers to use in every API call
 	 *
-	 * @param bool  $login  token not required in case of login.
-	 * @param bool  $upload change headers in case of upload.
-     * @param string $boundary the boundary.
-     *
+	 * @param bool   $login  token not required in case of login.
+	 * @param bool   $upload change headers in case of upload.
+	 * @param string $boundary the boundary.
+	 *
 	 * @return array
 	 */
 	public function headers( $login = false, $upload = false, $boundary = null ) {
 
-        if ( $upload ) {
+		if ( $upload ) {
 
-            $output = array(
-                'content-type' => 'multipart/form-data; boundary=' . $boundary,
-            );
+			$output = array(
+				'content-type' => 'multipart/form-data; boundary=' . $boundary,
+			);
 
-        } else {
+		} else {
 
-            $output = array(
-                'Content-Type'  => 'application/json',
-            );
+			$output = array(
+				'Content-Type' => 'application/json',
+			);
 
-        }
+		}
 
 		if ( ! $login ) {
 
-            $access_token = $this->get_access_token();
+			$access_token = $this->get_access_token();
 
-            if ( is_string( $access_token ) ) {
+			if ( is_string( $access_token ) ) {
 
-                $output['Authorization'] = 'Bearer ' . $access_token;
+				$output['Authorization'] = 'Bearer ' . $access_token;
 
-            }
-
-        }
+			}
+		}
 
 		return $output;
 
@@ -141,13 +144,13 @@ class CRMFWC_Call {
 	 * @param array  $args     the data.
 	 * @param bool   $login    token not required in case of login.
 	 * @param bool   $upload   change headers in case of upload.
-     * @param string $boundary the boundary.
-     *
+	 * @param string $boundary the boundary.
+	 *
 	 * @return mixed  the response
 	 */
 	public function call( $method, $endpoint = '', $args = null, $login = false, $upload = false, $boundary = null ) {
 
-		$body = ( $args && ! $upload ) ? json_encode( $args ) : $args;
+		$body = ( $args && ! $upload ) ? wp_json_encode( $args ) : $args;
 
 		$response = wp_remote_request(
 			$this->base_url . $endpoint,
