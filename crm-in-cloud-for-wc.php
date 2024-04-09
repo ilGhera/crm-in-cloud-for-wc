@@ -3,14 +3,17 @@
  * Plugin Name: CRM in Cloud for WC - Premium
  * Plugin URI: https://www.ilghera.com/product/crm-in-cloud-for-woocommerce
  * Description: Synchronize your WordPress/ WooCommerce site with CRM in Cloud exporting users and orders in real time
- * Author: ilGhera
  * Version: 1.2.4
- * Author URI: https://ilghera.com
+ * Stable tag: 1.2.4
  * Requires at least: 4.0
  * Tested up to: 6.5
  * WC tested up to: 8
+ * Author: ilGhera
+ * Author URI: https://ilghera.com
  * Text Domain: crm-in-cloud-for-wc
  * Domain Path: /languages
+ *
+ * @package crm-in-cloud-for-wc
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -25,7 +28,7 @@ function crmfwc_wc_not_installed() {
 	echo '<div class="notice notice-error is-dismissible">';
 
 		esc_html_e( 'WARNING! CRM in Cloud for WC requires WooCommerce to be activated.', 'crm-in-cloud-for-wc' );
-	
+
 	echo '</div>';
 
 }
@@ -40,7 +43,7 @@ function load_crmfwc_premium() {
 
 	/*Function check */
 	if ( ! function_exists( 'is_plugin_active' ) ) {
-		require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+		require_once ABSPATH . '/wp-admin/includes/plugin.php';
 	}
 
 	/*Deactivate the free version if present*/
@@ -48,19 +51,19 @@ function load_crmfwc_premium() {
 
 		deactivate_plugins( 'crm-in-cloud-for-wc/crm-in-cloud-for-wc.php' );
 		remove_action( 'plugins_loaded', 'load_crmfwc' );
-		wp_redirect( admin_url( 'plugins.php?plugin_status=all&paged=1&s' ) );
+		wp_safe_redirect( admin_url( 'plugins.php?plugin_status=all&paged=1&s' ) );
 
 	}
 
 	/*WooCommerce must be installed*/
-	if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+	if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ), true ) ) {
 
 		add_action( 'admin_notices', 'crmfwc_wc_not_installed' );
 
 	} else {
 
 		/*Constants declaration*/
-        define( 'CRMFWC_VERSION', '1.2.4' );
+		define( 'CRMFWC_VERSION', '1.2.4' );
 		define( 'CRMFWC_DIR', plugin_dir_path( __FILE__ ) );
 		define( 'CRMFWC_URI', plugin_dir_url( __FILE__ ) );
 		define( 'CRMFWC_FILE', __FILE__ );
@@ -75,15 +78,15 @@ function load_crmfwc_premium() {
 		load_textdomain( 'crm-in-cloud-for-wc', trailingslashit( WP_LANG_DIR ) . basename( CRMFWC_DIR ) . '/crm-in-cloud-for-wc-' . $locale . '.mo' );
 
 		/*Files required*/
-		require_once( CRMFWC_ADMIN . 'class-crmfwc-admin.php' );
-		require_once( CRMFWC_ADMIN . 'ilghera-notice/class-ilghera-notice.php' );
-		require_once( CRMFWC_INCLUDES . 'crmfwc-functions.php' );
-		require_once( CRMFWC_INCLUDES . 'class-crmfwc-call.php' );
-		require_once( CRMFWC_INCLUDES . 'class-crmfwc-settings.php' );
-		require_once( CRMFWC_INCLUDES . 'class-crmfwc-products.php' );
-		require_once( CRMFWC_INCLUDES . 'class-crmfwc-contacts.php' );
-		require_once( CRMFWC_INCLUDES . 'wc-checkout-fields/class-crmfwc-checkout-fields.php' );
-		require_once( CRMFWC_DIR . 'vendor/action-scheduler/action-scheduler.php' );
+		require_once CRMFWC_ADMIN . 'class-crmfwc-admin.php';
+		require_once CRMFWC_ADMIN . 'ilghera-notice/class-ilghera-notice.php';
+		require_once CRMFWC_INCLUDES . 'crmfwc-functions.php';
+		require_once CRMFWC_INCLUDES . 'class-crmfwc-call.php';
+		require_once CRMFWC_INCLUDES . 'class-crmfwc-settings.php';
+		require_once CRMFWC_INCLUDES . 'class-crmfwc-products.php';
+		require_once CRMFWC_INCLUDES . 'class-crmfwc-contacts.php';
+		require_once CRMFWC_INCLUDES . 'wc-checkout-fields/class-crmfwc-checkout-fields.php';
+		require_once CRMFWC_DIR . 'vendor/action-scheduler/action-scheduler.php';
 
 	}
 
