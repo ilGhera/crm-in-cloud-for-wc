@@ -10,28 +10,33 @@
 
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * CRMFWC_Settings class
+ *
+ * @since 1.2.1
+ */
 class CRMFWC_Settings {
 
-    /**
-     * The user email
-     *
-     * @var string
-     */
-    private $email;
+	/**
+	 * The user email
+	 *
+	 * @var string
+	 */
+	private $email;
 
-    /**
-     * The user password
-     *
-     * @var string
-     */
-    private $passw;
+	/**
+	 * The user password
+	 *
+	 * @var string
+	 */
+	private $passw;
 
-    /**
-     * The Soap client instance
-     *
-     * @var object
-     */
-    private $crmfwc_call;
+	/**
+	 * The Soap client instance
+	 *
+	 * @var object
+	 */
+	private $crmfwc_call;
 
 	/**
 	 * Class constructor
@@ -63,12 +68,12 @@ class CRMFWC_Settings {
 	 */
 	public function enqueue() {
 
-		wp_enqueue_script( 'chosen', CRMFWC_URI . '/vendor/harvesthq/chosen/chosen.jquery.min.js' );
-		wp_enqueue_script( 'tzcheckbox', CRMFWC_URI . 'js/tzCheckbox/jquery.tzCheckbox/jquery.tzCheckbox.js', array( 'jquery' ) );
+		wp_enqueue_script( 'chosen', CRMFWC_URI . '/vendor/harvesthq/chosen/chosen.jquery.min.js', array( 'jquery' ), CRMFWC_VERSION, false );
+		wp_enqueue_script( 'tzcheckbox', CRMFWC_URI . 'js/tzCheckbox/jquery.tzCheckbox/jquery.tzCheckbox.js', array( 'jquery' ), CRMFWC_VERSION, false );
 
-		wp_enqueue_style( 'chosen-style', CRMFWC_URI . '/vendor/harvesthq/chosen/chosen.min.css' );
-		wp_enqueue_style( 'font-awesome', '//use.fontawesome.com/releases/v5.8.1/css/all.css' );
-		wp_enqueue_style( 'tzcheckbox-style', CRMFWC_URI . 'js/tzCheckbox/jquery.tzCheckbox/jquery.tzCheckbox.css' );
+		wp_enqueue_style( 'chosen-style', CRMFWC_URI . '/vendor/harvesthq/chosen/chosen.min.css', array(), CRMFWC_VERSION );
+		wp_enqueue_style( 'font-awesome', '//use.fontawesome.com/releases/v5.8.1/css/all.css', array(), CRMFWC_VERSION );
+		wp_enqueue_style( 'tzcheckbox-style', CRMFWC_URI . 'js/tzCheckbox/jquery.tzCheckbox/jquery.tzCheckbox.css', array(), CRMFWC_VERSION );
 
 	}
 
@@ -93,8 +98,8 @@ class CRMFWC_Settings {
 
 	/**
 	 * Get the current CRM in Cloud user info
-     *
-     * @return the call response
+	 *
+	 * @return the call response
 	 */
 	public function user_information() {
 
@@ -114,40 +119,40 @@ class CRMFWC_Settings {
 
 		delete_option( 'crmfwc-email' );
 		delete_option( 'crmfwc-passw' );
-        delete_transient( 'crmfwc-access-token');
+		delete_transient( 'crmfwc-access-token' );
 
 		exit;
 
 	}
 
 
-   	/**
+	/**
 	 * Display the status of the connection to CRM in Cloud
 	 *
 	 * @param bool   $return if true the method returns only if the connection is set.
-     * @param string $email the email address.
-     * @param string $passw the user password.
-     *
+	 * @param string $email the email address.
+	 * @param string $passw the user password.
+	 *
 	 * @return mixed
 	 */
 	public function check_connection_callback( $return = false, $email = null, $passw = null ) {
 
-        $email = get_option( 'crmfwc-email' );
-        $passw = get_option( 'crmfwc-passw' );
+		$email = get_option( 'crmfwc-email' );
+		$passw = get_option( 'crmfwc-passw' );
 
-		if ( isset( $_POST['crmfwc-email'], $_POST['crmfwc-passw'], $_POST['crmfwc-login-nonce'] ) && wp_verify_nonce( $_POST['crmfwc-login-nonce'], 'crmfwc-login' ) ) {
+		if ( isset( $_POST['crmfwc-email'], $_POST['crmfwc-passw'], $_POST['crmfwc-login-nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['crmfwc-login-nonce'] ) ), 'crmfwc-login' ) ) {
 
-            $email = sanitize_email( wp_unslash( $_POST['crmfwc-email'] ) );
-            $passw = sanitize_text_field( wp_unslash( $_POST['crmfwc-passw'] ) );
+			$email = sanitize_email( wp_unslash( $_POST['crmfwc-email'] ) );
+			$passw = sanitize_text_field( wp_unslash( $_POST['crmfwc-passw'] ) );
 
-            /* Update data in the db */
-            update_option( 'crmfwc-email', $email );
-            update_option( 'crmfwc-passw', $passw );
+			/* Update data in the db */
+			update_option( 'crmfwc-email', $email );
+			update_option( 'crmfwc-passw', $passw );
 
-        }
+		}
 
-        /* Access to CRM in Cloud */
-        $connection = $this->crmfwc_call->get_access_token( $email, $passw ); 
+		/* Access to CRM in Cloud */
+		$connection = $this->crmfwc_call->get_access_token( $email, $passw );
 
 		if ( isset( $connection->error ) || ! $connection ) {
 
@@ -157,10 +162,9 @@ class CRMFWC_Settings {
 
 			} else {
 
-                echo json_encode( $connection );
+				echo wp_json_encode( $connection );
 
 			}
-
 		} else {
 
 			if ( $return ) {
@@ -169,14 +173,13 @@ class CRMFWC_Settings {
 
 			} else {
 
-                $output = array(
-                    'ok' => "<h4 class='wcefr-connection-status'><span class='label label-success'>" . __( 'Connected', 'wc-exporter-for-reviso' ) . "</span></h4>",
-                );
+				$output = array(
+					'ok' => "<h4 class='wcefr-connection-status'><span class='label label-success'>" . __( 'Connected', 'wc-exporter-for-reviso' ) . '</span></h4>',
+				);
 
-                echo json_encode( $output );
+				echo wp_json_encode( $output );
 
 			}
-
 		}
 
 		exit;
