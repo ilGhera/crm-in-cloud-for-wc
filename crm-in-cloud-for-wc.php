@@ -85,6 +85,7 @@ function load_crmfwc_premium() {
 		require_once CRMFWC_INCLUDES . 'class-crmfwc-settings.php';
 		require_once CRMFWC_INCLUDES . 'class-crmfwc-products.php';
 		require_once CRMFWC_INCLUDES . 'class-crmfwc-contacts.php';
+		require_once CRMFWC_INCLUDES . 'class-crmfwc-progress-bar.php';
 		require_once CRMFWC_INCLUDES . 'wc-checkout-fields/class-crmfwc-checkout-fields.php';
 		require_once CRMFWC_DIR . 'vendor/action-scheduler/action-scheduler.php';
 
