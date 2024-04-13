@@ -2,36 +2,65 @@
  * Script progress bar
  *
  * @author ilGhera
- * @package wc-importer-for-danea-premium/js
+ * @package crm-in-cloud-for-wc-premium/js
  *
- * @since 1.6.1
+ * @since 1.2.4
  */
-jQuery(document).ready(function ($) {
+var crmfwcControlBarController = function() {
+
+    var self = this;
+
+    self.onLoad = function() {
+
+        self.progressBar();
+
+    }
 
     /**
      * The progress bar
      *
+     * @param {string} type contacts or products.
+     * @param {bool} del export or delete.
+     *
      * @return void
      */
-    var wcifdProgressBar = function() {
+    self.progressBar = function( type, del = false  ) {
 
 		jQuery(function($){
 
             var i = 0;
+
+            if ( 'products' === type ) {
+                var totalActions     = del ? 'get-total-products-delete-actions' : 'get-total-products-actions';
+                var scheduledActions = del ? 'get-scheduled-products-delete-actions' : 'get-scheduled-products-actions';
+                var runningMessage   = del ? options.productsDeleteRunning : options.productsExportRunning;
+                var completedMessage = del ? options.productsDeleteCompleted : options.productsExportCompleted;
+            } else {
+                var totalActions     = del ? 'get-total-contacts-delete-actions' : 'get-total-contacts-actions';
+                var scheduledActions = del ? 'get-scheduled-contacts-delete-actions' : 'get-scheduled-contacts-actions';
+                var runningMessage   = del ? options.contactsDeleteRunning : options.contactsExportRunning;
+                var completedMessage = del ? options.contactsDeleteCompleted : options.contactsExportCompleted;
+            }
+
             var data = {
-                'action': 'get-total-actions',
+                'action': totalActions,
             };
 
             $.post(ajaxurl, data, function(response){
 
                 var totActions = response;
-                console.log( 'TOT. PRODOTTI', totActions );
+                console.log( 'TOT. ITEMS', totActions );
 
                 if ( totActions > 0 ) {
 
-                    console.log('TRASFERIMENTO IN CORSO!');
+                    console.log('RUNNING!');
 
-                    $('.ilghera-notice-warning.catalog-update').show('slow');
+                    // Running message
+                    $('.crmfwc-progress-bar-text').html( runningMessage );
+                    $('.crmfwc-progress-bar-text span').html( totActions );
+                    
+                    // Display the progress bar
+                    $('.ilghera-notice-warning.crmfwc-export').show('slow');
 
                     var run = 0;
                     var width = 0;
@@ -39,7 +68,7 @@ jQuery(document).ready(function ($) {
                     var updateData = setInterval( function(){
 
                         data2 = {
-                            'action': 'get-scheduled-actions'
+                            'action': scheduledActions
                         }
 
                         $.post(ajaxurl, data2, function(resp){
@@ -62,18 +91,23 @@ jQuery(document).ready(function ($) {
 
                             }
 
-                            console.log( 'PRODOTTI RIMANENTI', resp );
-                            console.log( 'TOT. PRODOTTI', totActions );
-                            console.log( 'PERC. COMPLETAMENTO', currentWidth );
+                            // Running message
+                            $('.crmfwc-progress-bar-text span').html( resp );
+
+                            console.log( 'ITEMS LEFT', resp );
+                            console.log( 'TOT. ITEMS', totActions );
+                            console.log( 'PERCENTAGE', currentWidth );
 
                             if ( 1 == run ) {
 
-                                $('#wcifd-progress').css( 'width', currentWidth + '%' );
-                                $('#wcifd-progress-bar span').html( Math.ceil( currentWidth ) + '%' );
+                                $('#crmfwc-progress').css( 'width', currentWidth + '%' );
+                                $('#crmfwc-progress-bar span').html( Math.ceil( currentWidth ) + '%' );
 
                                 if ( resp == 0) {
 
-                                    $('.wcifd-progress-bar-text').html( options.completedMessage );
+                                    // Completed message
+                                    $('.crmfwc-progress-bar-text').html( completedMessage );
+                                    $('.crmfwc-progress-bar-text span').html( totActions );
 
                                     run = 0;
 
@@ -93,6 +127,107 @@ jQuery(document).ready(function ($) {
 
     }
 
-    wcifdProgressBar();
 
-})
+    /**
+     * Display the progress bar on products export
+     *
+     * @return void
+     */
+    self.exportProducts = function() {
+
+		jQuery(function($){
+
+            $('.crmfwc.export-products').on('click', function(){
+
+                setTimeout(function(){
+                    self.progressBar( 'products' );
+                }, 800)
+
+            })
+
+        })
+
+    }
+
+
+    /**
+     * Display the progress bar on products delete 
+     *
+     * @return void
+     */
+    self.deleteProducts = function() {
+
+		jQuery(function($){
+
+            $('.crmfwc.red.users').on('click', function(){
+
+                console.log( 'DELETE PRODUCTS!' );
+
+                setTimeout(function(){
+                    self.progressBar( 'products', true );
+                }, 800)
+
+            })
+
+        })
+
+    }
+
+
+    /**
+     * Display the progress bar on contacts export
+     *
+     * @return void
+     */
+    self.exportContacts = function() {
+
+		jQuery(function($){
+
+            $('.crmfwc.export-users').on('click', function(){
+
+                setTimeout(function(){
+                    self.progressBar( 'contacts' );
+                }, 800)
+
+            })
+
+        })
+
+    }
+
+
+    /**
+     * Display the progress bar on contacts delete 
+     *
+     * @return void
+     */
+    self.deleteContacts = function() {
+
+		jQuery(function($){
+
+            $('.crmfwc.red.users').on('click', function(){
+
+                console.log( 'DELETE USERS!' );
+
+                setTimeout(function(){
+                    self.progressBar( 'contacts', true );
+                }, 800)
+
+            })
+
+        })
+
+    }
+
+}
+
+/**
+ * Class starter with onLoad method
+ */
+jQuery(document).ready(function($) {
+	
+	var Controller = new crmfwcControlBarController;
+	Controller.onLoad();
+
+});
+
