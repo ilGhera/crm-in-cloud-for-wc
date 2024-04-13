@@ -311,10 +311,11 @@ var crmfwcController = function() {
 				e.preventDefault();
 
 				self.delete_messages();
-				self.crmfwc_response_loading();
+				// self.crmfwc_response_loading();
 
 		        $('html, body').animate({
-		        	scrollTop: $('#crmfwc-admin-menu').offset().top -30
+		        	// scrollTop: $('#crmfwc-admin-menu').offset().top -30
+		        	scrollTop: $('body').offset().top
 		        }, 'slow');
 
 				var export_company = $('tr.export-company .tzCheckBox').hasClass('checked') ? 1 : 0;
@@ -330,6 +331,10 @@ var crmfwcController = function() {
 
 				$.post(ajaxurl, data, function(response){
 
+                    // Progress bar 
+                    var controllBar = new crmfwcControlBarController; 
+                    controllBar.progressBar( 'contacts' );
+
 					var result = JSON.parse(response);
 
 					for (var i = 0; i < result.length; i++) {
@@ -337,7 +342,7 @@ var crmfwcController = function() {
 						var error = 'error' === result[i][0] ? true : false;
 						var update = 0 !== i ? true : false; 
 
-						self.crmfwc_response_message( result[i][1], error, false );
+						// self.crmfwc_response_message( result[i][1], error, false );
 
 					}
 
@@ -406,10 +411,11 @@ var crmfwcController = function() {
 
 				if ( answer ) {
 
-					self.crmfwc_response_loading();
+					// self.crmfwc_response_loading();
 
 			        $('html, body').animate({
-			        	scrollTop: $('#crmfwc-admin-menu').offset().top -30
+			        	// scrollTop: $('#crmfwc-admin-menu').offset().top -30
+			        	scrollTop: $('body').offset().top
 			        }, 'slow');
 					
 					var data = {
@@ -421,6 +427,10 @@ var crmfwcController = function() {
 
 					$.post(ajaxurl, data, function(response){
 
+                        // Progress bar 
+                        var controllBar = new crmfwcControlBarController; 
+                        controllBar.progressBar( 'contacts', true );
+
 						var result = JSON.parse(response);
 
 						for (var i = 0; i < result.length; i++) {
@@ -428,7 +438,7 @@ var crmfwcController = function() {
 							var error = 'error' === result[i][0] ? true : false;
 							var update = 0 !== i ? true : false; 
 
-							self.crmfwc_response_message( result[i][1], error, false );
+							// self.crmfwc_response_message( result[i][1], error, false );
 	
 						}
 
@@ -455,10 +465,11 @@ var crmfwcController = function() {
 				e.preventDefault();
 
 				self.delete_messages();
-				self.crmfwc_response_loading();
+				// self.crmfwc_response_loading();
 
 		        $('html, body').animate({
-		        	scrollTop: $('#crmfwc-admin-menu').offset().top -30
+		        	// scrollTop: $('#crmfwc-admin-menu').offset().top -30
+		        	scrollTop: $('body').offset().top
 		        }, 'slow');
 
 				var cats          = $('.crmfwc-products-cats').val();
@@ -470,6 +481,10 @@ var crmfwcController = function() {
 
 				$.post(ajaxurl, data, function(response){
 
+                    // Progress bar 
+                    var controllBar = new crmfwcControlBarController; 
+                    controllBar.progressBar( 'products' );
+
 					var result = JSON.parse(response);
 
 					for (var i = 0; i < result.length; i++) {
@@ -477,7 +492,7 @@ var crmfwcController = function() {
 						var error = 'error' === result[i][0] ? true : false;
 						var update = 0 !== i ? true : false; 
 
-						self.crmfwc_response_message( result[i][1], error, false );
+						// self.crmfwc_response_message( result[i][1], error, false );
 
 					}
 
@@ -507,10 +522,11 @@ var crmfwcController = function() {
 
 				if ( answer ) {
 
-					self.crmfwc_response_loading();
+					// self.crmfwc_response_loading();
 
 			        $('html, body').animate({
-			        	scrollTop: $('#crmfwc-admin-menu').offset().top -30
+			        	// scrollTop: $('#crmfwc-admin-menu').offset().top -30
+			        	scrollTop: $('body').offset().top
 			        }, 'slow');
 					
 					var data = {
@@ -520,6 +536,10 @@ var crmfwcController = function() {
 
 					$.post(ajaxurl, data, function(response){
 
+                        // Progress bar 
+                        var controllBar = new crmfwcControlBarController; 
+                        controllBar.progressBar( 'products', true );
+
 						var result = JSON.parse(response);
 
 						for (var i = 0; i < result.length; i++) {
@@ -527,7 +547,7 @@ var crmfwcController = function() {
 							var error = 'error' === result[i][0] ? true : false;
 							var update = 0 !== i ? true : false; 
 
-							self.crmfwc_response_message( result[i][1], error, false );
+							// self.crmfwc_response_message( result[i][1], error, false );
 	
 						}
 
