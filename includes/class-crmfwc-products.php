@@ -664,6 +664,9 @@ class CRMFWC_Products {
 
 				$n = 0;
 
+                /* Set transient for progress bar */
+                set_transient( 'crmfwc-total-products-actions', count( $products ), DAY_IN_SECONDS );
+
 				foreach ( $products as $prod ) {
 
 					$n++;
@@ -740,6 +743,9 @@ class CRMFWC_Products {
 			if ( is_array( $products ) && ! empty( $products ) ) {
 
 				$n = 0;
+
+                /* Set transient for progress bar */
+                set_transient( 'crmfwc-total-products-delete-actions', count( $products ), DAY_IN_SECONDS );
 
 				foreach ( $products as $product_id ) {
 

@@ -1182,6 +1182,9 @@ class CRMFWC_Contacts {
 
 				$n = 0;
 
+                /* Set transient for progress bar */
+                set_transient( 'crmfwc-total-contacts-actions', count( $users ), DAY_IN_SECONDS );
+
 				foreach ( $users as $user ) {
 
 					$n++;
@@ -1422,6 +1425,9 @@ class CRMFWC_Contacts {
 			if ( is_array( $users ) && ! empty( $users ) ) {
 
 				$n = 0;
+
+                /* Set transient for progress bar */
+                set_transient( 'crmfwc-total-contacts-delete-actions', count( $users ), DAY_IN_SECONDS );
 
 				foreach ( $users as $user ) {
 
