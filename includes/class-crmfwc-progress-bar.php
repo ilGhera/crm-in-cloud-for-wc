@@ -9,11 +9,11 @@
  */
 
 /**
- * Class WCIFD_Progress_Bar
+ * Class CRMFWC_Progress_Bar
  *
  * @since 1.2.4
  */
-class WCIFD_Progress_Bar {
+class CRMFWC_Progress_Bar {
 
 
     /**
@@ -281,5 +281,5 @@ class WCIFD_Progress_Bar {
 
     }
 }
-new WCIFD_Progress_Bar();
+new CRMFWC_Progress_Bar();
 
