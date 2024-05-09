@@ -141,7 +141,11 @@ class CRMFWC_Contacts {
 		add_action( 'wp_ajax_export-users', array( $this, 'export_users' ) );
 		add_action( 'crmfwc_export_single_user_event', array( $this, 'export_single_user' ), 10, 2 );
 		add_action( 'woocommerce_checkout_process', array( $this, 'deactivate_profile_update' ) );
-		add_action( 'save_post_shop_order', array( $this, 'wc_order_update_callback' ), 10, 3 );
+		add_action( 'woocommerce_thankyou', array( $this, 'wc_order_callback' ), 10, 1 );
+		add_action( 'woocommerce_update_order', array( $this, 'wc_order_update_callback' ), 10, 2 );
+		add_action( 'woocommerce_delete_order', array( $this, 'wc_order_update_callback' ), 10, 2 );
+		add_action( 'woocommerce_trash_order', array( $this, 'wc_order_update_callback' ), 10, 2 );
+		add_action( 'woocommerce_untrash_order', array( $this, 'wc_order_update_callback' ), 10, 2 );
 
 		/* Conditional hooks */
 		if ( $this->synchronize_contacts ) {
@@ -594,32 +598,31 @@ class CRMFWC_Contacts {
 	 */
 	private function get_user_opportunities( $user_id, $remote_id, $cross_type = 0, $order_id = null ) {
 
+		$orders = array();
 		$output = array();
-		$data   = array(
-			'numberposts' => -1,
-			'meta_key'    => '_customer_user',
-			'meta_value'  => $user_id,
-			'post_type'   => wc_get_order_types(),
-			'post_status' => array_keys( wc_get_order_statuses() ),
-		);
 
 		/* Get only the specific order */
 		if ( $order_id ) {
 
-			$data['p']             = $order_id;
-			$data['post_status'][] = 'trash';
+			$orders[] = wc_get_order( $order_id );
+
+		} else {
+
+			$data = array(
+				'customer_id' => $user_id,
+				'limit'       => -1,
+			);
+
+			$orders = wc_get_orders( $data );
 
 		}
 
-		$posts = get_posts( $data );
+		if ( $orders ) {
 
-		if ( $posts ) {
+			foreach ( $orders as $order ) {
 
-			foreach ( $posts as $post ) {
-
-				$order               = new WC_Order( $post->ID );
-				$args                = $this->get_single_order_opportunities( $order, $remote_id, $cross_type );
-				$output[ $post->ID ] = $args;
+				$args                       = $this->get_single_order_opportunities( $order, $remote_id, $cross_type );
+				$output[ $order->get_id() ] = $args;
 
 			}
 		}
@@ -646,30 +649,37 @@ class CRMFWC_Contacts {
 
 		if ( is_array( $data ) ) {
 
+			/* Remove the action on order update */
+			remove_action( 'woocommerce_update_order', array( $this, 'wc_order_update_callback' ), 10, 2 );
+
 			foreach ( $data as $key => $value ) {
 
 				$meta_key            = 1 === $cross_type ? 'crmfwc-contact-opportunities' : 'crmfwc-company-opportunities';
-				$saved_opportunities = get_post_meta( $key, $meta_key, true );
+				$order               = wc_get_order( $key );
+				$order_data          = $order->get_data();
+				$saved_opportunities = $order->get_meta( $meta_key, true );
 
 				if ( ! $saved_opportunities || $order_id === $key ) {
 
 					if ( is_array( $value ) && ! empty( $value ) ) {
 
-						update_post_meta( $key, $meta_key, 1 );
+						$test2 = $order->update_meta_data( $meta_key, 1 );
+						$order->save();
 
 						foreach ( $value as $k => $val ) {
 
 							if ( $order_id === $key ) {
 
-								$opportunity_id = get_post_meta( $key, 'crmfwc-opportunity-' . $cross_type . '-' . $k, true );
+								$opportunity_id = $order->get_meta( 'crmfwc-opportunity-' . $cross_type . '-' . $k, true );
 
 								if ( $opportunity_id ) {
 
-									if ( 'trash' === get_post_status( $order_id ) ) {
+									if ( 'trash' === $order->get_status() ) {
 
 										$response = $this->crmfwc_call->call( 'delete', 'Opportunity/' . $opportunity_id );
 
-										delete_post_meta( $key, 'crmfwc-opportunity-' . $cross_type . '-' . $k );
+										$order->delete_meta_data( 'crmfwc-opportunity-' . $cross_type . '-' . $k );
+										$order->save();
 
 										continue;
 
@@ -685,13 +695,18 @@ class CRMFWC_Contacts {
 
 							if ( is_int( $response ) ) {
 
-								update_post_meta( $key, 'crmfwc-opportunity-' . $cross_type . '-' . $k, $response );
+								$test = $order->update_meta_data( 'crmfwc-opportunity-' . $cross_type . '-' . $k, $response );
+								$order->save();
 
 							}
 						}
 					}
 				}
 			}
+
+			/* Restart the action */
+			add_action( 'woocommerce_update_order', array( $this, 'wc_order_update_callback' ), 10, 2 );
+
 		}
 
 	}
@@ -1100,7 +1115,7 @@ class CRMFWC_Contacts {
 	public function export_single_user( $user_id = 0, $order = null, $update = false ) {
 
 		$order_id   = is_object( $order ) ? $order->get_id() : null;
-		$remote_id  = $user_id ? get_user_meta( $user_id, 'crmfwc-id', true ) : get_post_meta( $order_id, 'crmfwc-user-id', true );
+		$remote_id  = $user_id ? get_user_meta( $user_id, 'crmfwc-id', true ) : $order->get_meta( 'crmfwc-user-id', true );
 		$company_id = get_user_meta( $user_id, 'crmfwc-company-id', true );
 
 		if ( $order_id || $remote_id || $user_id ) {
@@ -1118,7 +1133,7 @@ class CRMFWC_Contacts {
 
 				} elseif ( $order_id ) {
 
-					update_post_meta( $order_id, 'crmfwc-user-id', $remote_id );
+					$order->update_meta_data( 'crmfwc-user-id', $remote_id );
 
 				}
 			}
@@ -1182,8 +1197,8 @@ class CRMFWC_Contacts {
 
 				$n = 0;
 
-                /* Set transient for progress bar */
-                set_transient( 'crmfwc-total-contacts-actions', count( $users ), DAY_IN_SECONDS );
+				/* Set transient for progress bar */
+				set_transient( 'crmfwc-total-contacts-actions', count( $users ), DAY_IN_SECONDS );
 
 				foreach ( $users as $user ) {
 
@@ -1304,21 +1319,12 @@ class CRMFWC_Contacts {
 	 *
 	 * @param  int    $order_id the WC order id.
 	 * @param  object $post     the post.
-	 * @param  bool   $update   whether this is an existing post being updated.
 	 *
 	 * @return void
 	 */
-	public function wc_order_update_callback( $order_id, $post, $update ) {
+	public function wc_order_update_callback( $order_id, $post = null ) {
 
-		if ( $update ) {
-
-			$this->wc_order_callback( $order_id );
-
-		} else {
-
-			add_action( 'woocommerce_thankyou', array( $this, 'wc_order_callback' ), 10, 1 );
-
-		}
+		$this->wc_order_callback( $order_id );
 
 	}
 
@@ -1371,18 +1377,30 @@ class CRMFWC_Contacts {
 	 */
 	public function delete_opportunities() {
 
-		global $wpdb;
+		$orders = wc_get_orders(
+			array(
+				'meta_query' => array(
+					array(
+						'key' => 'crmfwc-contact-opportunities',
+					),
+				),
+			)
+		);
 
-		$table = $wpdb->prefix . 'postmeta';
+		if ( is_array( $orders ) ) {
 
-		/*Delete contact opportunities*/
-		$wpdb->delete( $table, array( 'meta_key' => 'crmfwc-contact-opportunities' ) );
+			foreach ( $orders as $order ) {
 
-		/*Delete company opportunities only if set in the options*/
-		if ( $this->delete_company ) {
+				/*Delete contact opportunities*/
+				$order->delete_meta_data( 'crmfwc-contact-opportunities' );
 
-			$wpdb->delete( $table, array( 'meta_key' => 'crmfwc-company-opportunities' ) );
+				/*Delete company opportunities only if set in the options*/
+				if ( $this->delete_company ) {
 
+					$order->delete_meta_data( 'crmfwc-company-opportunities' );
+
+				}
+			}
 		}
 
 	}
@@ -1412,7 +1430,7 @@ class CRMFWC_Contacts {
 	 */
 	public function delete_remote_users() {
 
-		if ( isset( $_POST['crmfwc-delete-users-nonce'] ) && wp_verify_nonce( wp_unslash( $_POST['crmfwc-delete-users-nonce'] ), 'crmfwc-delete-users' ) ) {
+		if ( isset( $_POST['crmfwc-delete-users-nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['crmfwc-delete-users-nonce'] ) ), 'crmfwc-delete-users' ) ) {
 
 			/*Check option*/
 			$delete_company = isset( $_POST['delete-company'] ) ? sanitize_text_field( wp_unslash( $_POST['delete-company'] ) ) : 0;
@@ -1426,8 +1444,8 @@ class CRMFWC_Contacts {
 
 				$n = 0;
 
-                /* Set transient for progress bar */
-                set_transient( 'crmfwc-total-contacts-delete-actions', count( $users ), DAY_IN_SECONDS );
+				/* Set transient for progress bar */
+				set_transient( 'crmfwc-total-contacts-delete-actions', count( $users ), DAY_IN_SECONDS );
 
 				foreach ( $users as $user ) {
 
