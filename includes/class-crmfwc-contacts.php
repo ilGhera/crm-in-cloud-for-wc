@@ -1134,6 +1134,7 @@ class CRMFWC_Contacts {
 				} elseif ( $order_id ) {
 
 					$order->update_meta_data( 'crmfwc-user-id', $remote_id );
+					$order->save();
 
 				}
 			}
@@ -1400,6 +1401,9 @@ class CRMFWC_Contacts {
 					$order->delete_meta_data( 'crmfwc-company-opportunities' );
 
 				}
+
+				$order->save();
+
 			}
 		}
 
