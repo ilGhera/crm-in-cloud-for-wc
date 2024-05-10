@@ -12,10 +12,9 @@ $contacts_roles        = get_option( 'crmfwc-users-roles' );
 $export_company        = get_option( 'crmfwc-export-company' ) ? get_option( 'crmfwc-export-company' ) : 0;
 $export_orders         = get_option( 'crmfwc-export-orders' ) ? get_option( 'crmfwc-export-orders' ) : 0;
 $delete_company        = get_option( 'crmfwc-delete-company' ) ? get_option( 'crmfwc-delete-company' ) : 0;
+/* $delete_opportunities  = get_option( 'crmfwc-delete-opportunities' ) ? get_option( 'crmfwc-delete-opportunities' ) : 0; */
 $synchronize_contacts  = get_option( 'crmfwc-synchronize-contacts' ) ? get_option( 'crmfwc-synchronize-contacts' ) : 0;
 $synchronize_companies = get_option( 'crmfwc-synchronize-companies' ) ? get_option( 'crmfwc-synchronize-companies' ) : 0;
-
-
 ?>
 
 <!-- Export form -->
@@ -82,6 +81,24 @@ $synchronize_companies = get_option( 'crmfwc-synchronize-companies' ) ? get_opti
 			<td>
 				<input type="checkbox" name="crmfwc-delete-company" value="1"<?php echo 1 === intval( $delete_company ) ? ' checked="checked"' : ''; ?>>
 				<p class="description"><?php esc_html_e( 'Delete the company linked to the contact in CRM in Cloud', 'crm-in-cloud-for-wc' ); ?></p>
+			</td>
+		</tr>
+<?php
+/*
+		<tr class="delete-opportunities">
+			<th scope="row"><?php esc_html_e( 'Delete opportunities', 'crm-in-cloud-for-wc' ); ?></th>
+			<td>
+				<input type="checkbox" name="crmfwc-delete-opportunities" value="1"<?php echo 1 === intval( $delete_opportunities ) ? ' checked="checked"' : ''; ?>>
+				<p class="description"><?php esc_html_e( 'Delete the opportunities linked to the contact in CRM in Cloud', 'crm-in-cloud-for-wc' ); ?></p>
+			</td>
+		</tr>
+ */
+?>
+		<tr class="delete-opportunities">
+			<th scope="row"><?php esc_html_e( 'Delete opportunities', 'crm-in-cloud-for-wc' ); ?></th>
+			<td>
+				<input type="checkbox" name="crmfwc-delete-opportunities" value="1"<?php echo 1 === intval( $delete_opportunities ) ? ' checked="checked"' : ''; ?>>
+				<p class="description"><?php esc_html_e( 'Delete the opportunities linked to the contact in CRM in Cloud', 'crm-in-cloud-for-wc' ); ?></p>
 			</td>
 		</tr>
 	</table>

@@ -1378,6 +1378,9 @@ class CRMFWC_Contacts {
 	 */
 	public function delete_opportunities() {
 
+        /* Remove the action on order update */
+        remove_action( 'woocommerce_update_order', array( $this, 'wc_order_update_callback' ), 10, 2 );
+
 		$orders = wc_get_orders(
 			array(
 				'meta_query' => array(
@@ -1402,10 +1405,13 @@ class CRMFWC_Contacts {
 
 				}
 
-				$order->save();
+				$test = $order->save();
 
 			}
 		}
+
+        /* Restart the action */
+        add_action( 'woocommerce_update_order', array( $this, 'wc_order_update_callback' ), 10, 2 );
 
 	}
 
@@ -1467,7 +1473,7 @@ class CRMFWC_Contacts {
 				}
 
 				/*Delete opportunities*/
-				$this->delete_opportunities();
+				/* $this->delete_opportunities(); */
 
 				$response[] = array(
 					'ok',
