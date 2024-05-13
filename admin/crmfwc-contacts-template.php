@@ -94,13 +94,6 @@ $synchronize_companies = get_option( 'crmfwc-synchronize-companies' ) ? get_opti
 		</tr>
  */
 ?>
-		<tr class="delete-opportunities">
-			<th scope="row"><?php esc_html_e( 'Delete opportunities', 'crm-in-cloud-for-wc' ); ?></th>
-			<td>
-				<input type="checkbox" name="crmfwc-delete-opportunities" value="1"<?php echo 1 === intval( $delete_opportunities ) ? ' checked="checked"' : ''; ?>>
-				<p class="description"><?php esc_html_e( 'Delete the opportunities linked to the contact in CRM in Cloud', 'crm-in-cloud-for-wc' ); ?></p>
-			</td>
-		</tr>
 	</table>
 
 	<p class="submit">
