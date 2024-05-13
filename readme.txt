@@ -1,7 +1,7 @@
 === CRM in Cloud for WooCommerce - Premium ===
 Contributors: ghera74
 Tags: CRM in Cloud, CRM, WooCommerce, customers, TeamSystem, Danea, Easyfatt, Reviso, Fatture in Cloud
-Version: 1.2.4
+Version: 1.3.0
 Requires at least: 4.0
 Tested up to: 6.5
 License: GPLv2
@@ -53,12 +53,16 @@ This plugin sends data to an external service, like the products bought by the u
 
 == Changelog ==
 
-= 1.2.4 = 
-Release Date: 8 April 2024
+= 1.3.0 = 
+Release Date: 13 May 2024
 
+* Enhancement: HPOS compatibility 
+* Enhancement: Progress bar 
 * Enhancement: WordPress 6.5 support 
+* Enhancement: WordPress coding standards 
 * Update: Plugin Update Checker
 * Update: Action Scheduler 
+* Bug fix: Creation of dynamic property deprecated in PHP 8.2
 
 
 = 1.2.3 = 

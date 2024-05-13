@@ -4,7 +4,7 @@
  * @author ilGhera
  * @package crm-in-cloud-for-wc-premium/js
  *
- * @since 1.2.4
+ * @since 1.3.0
  */
 var crmfwcControlBarController = function() {
 

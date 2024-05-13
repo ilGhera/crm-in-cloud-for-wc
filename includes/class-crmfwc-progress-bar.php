@@ -5,13 +5,13 @@
  * @author ilGhera
  * @package crm-in-cloud-for-wc-premium/includes
  *
- * @since 1.2.4
+ * @since 1.3.0
  */
 
 /**
  * Class CRMFWC_Progress_Bar
  *
- * @since 1.2.4
+ * @since 1.3.0
  */
 class CRMFWC_Progress_Bar {
 

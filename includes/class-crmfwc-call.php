@@ -5,13 +5,13 @@
  * @author ilGhera
  * @package crm-in-cloud-for-wc-premium/includes
  *
- * @since 1.2.3
+ * @since 1.3.0
  */
 
 /**
  * CRMFWC_Call class
  *
- * @since 1.2.3
+ * @since 1.3.0
  */
 class CRMFWC_Call {
 

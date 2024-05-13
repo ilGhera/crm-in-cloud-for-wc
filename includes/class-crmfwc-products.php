@@ -5,7 +5,7 @@
  * @author ilGhera
  * @package crm-in-cloud-for-wc/includes
  *
- * @since 1.2.0
+ * @since 1.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * CRMFWC_Products class
  *
- * @since 1.2.0
+ * @since 1.3.0
  */
 class CRMFWC_Products {
 

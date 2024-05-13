@@ -4,7 +4,8 @@
  *
  * @author ilGhera
  * @package crm-in-cloud-for-wc-premium/admin
- * @since 1.2.1
+ *
+ * @since 1.3.0
  */
 
 $email = get_option( 'crmfwc-email' );
