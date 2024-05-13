@@ -2,7 +2,8 @@
  * Style sheet
  * @author ilGhera
  * @package crm-in-cloud-for-wc/css
- * @version 1.0.0
+ *
+ * @version 1.2.0
  */
 
 .crmfwc-admin {
@@ -343,6 +344,42 @@ h4.crmfwc-connection-status {
 
 .bootstrap-iso .alert-danger .alert-link {
   color: #843534;
+}
+
+.ilghera-notice-warning.crmfwc-export {
+    display: none;
+    padding-bottom: 30px;
+}
+
+#crmfwc-progress-bar {
+    width:100%;
+    height: 10px;
+    display: block;
+    margin: 0.5rem 0;
+    background-color: #ddd;
+    border-radius: 5px;
+}
+
+#crmfwc-progress-bar span {
+    display: block;
+    height: 15px;
+}
+
+#crmfwc-progress {
+  width: 0%;
+  height: 10px;
+  border-radius: 5px;
+  background-color: #04AA6D;
+  background-image: repeating-linear-gradient(
+    to right,
+    #4cd038,
+    #4cd038,
+    #2db83d
+  );
+  color: white;
+  font-size: 10px;
+  margin-bottom: 0.5rem;
+  /* transition: 1s ease 0.3s; */
 }
 
 @media screen and (max-width: 1000px) {

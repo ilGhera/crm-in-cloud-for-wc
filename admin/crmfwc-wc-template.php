@@ -4,7 +4,8 @@
  *
  * @author ilGhera
  * @package crm-in-cloud-for-wc/admin
- * @since 1.0.0
+ *
+ * @since 1.2.0
  */
 ?>
 
@@ -37,7 +38,7 @@
 			</td>
 		</tr>
 	</table>
-	
+
 	<p class="submit">
 		<input type="submit" class="button-primary crmfwc premium" value="<?php esc_html_e( 'Save settings', 'crm-in-cloud-for-wc' ); ?>" disabled>
 	</p>

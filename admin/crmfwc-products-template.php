@@ -4,7 +4,8 @@
  *
  * @author ilGhera
  * @package crm-in-cloud-for-wc-premium/admin
- * @since 1.0.0
+ *
+ * @since 1.2.0
  */
 
 /*Get value from the db*/
@@ -22,11 +23,11 @@ $products_cats = get_option( 'crmfwc-products-cats' );
 					<?php
 					$cats = get_terms( 'product_cat' );
 
-					foreach ( $cats as $cat ) {
+					foreach ( $cats as $single_cat ) {
 
-						$selected = is_array( $products_cats ) && in_array( $cat->term_id, $products_cats ) ? ' selected="selected"' : '';
+						$selected = is_array( $products_cats ) && in_array( $single_cat->term_id, $products_cats, true ) ? ' selected="selected"' : '';
 
-						echo '<option value="' . esc_attr( $cat->term_id ) . '"' . esc_html( $selected ) . '> ' . esc_html( __( $cat->name, 'woocommerce' ) ) . '</option>';
+						echo '<option value="' . esc_attr( $single_cat->term_id ) . '"' . esc_html( $selected ) . '> ' . esc_html( __( $single_cat->name, 'woocommerce' ) ) . '</option>';
 
 					}
 					?>
@@ -36,7 +37,7 @@ $products_cats = get_option( 'crmfwc-products-cats' );
 			</td>
 		</tr>
 	</table>
-	
+
 	<p class="submit">
 		<input type="submit" class="button-primary crmfwc export-products products" value="<?php esc_html_e( 'Export to CRM in Cloud', 'crm-in-cloud-for-wc' ); ?>" />
 	</p>
@@ -64,7 +65,7 @@ $products_cats = get_option( 'crmfwc-products-cats' );
 <!-- Settings form -->
 <form name="crmfwc-products-settings" class="crmfwc-form"  method="post" action="">
 
-    <h2><?php esc_html_e( 'Synchronization options', 'crm-in-cloud-for-wc' ); ?></h2>
+	<h2><?php esc_html_e( 'Synchronization options', 'crm-in-cloud-for-wc' ); ?></h2>
 
 	<table class="form-table">
 		<tr class="synchronize-products">
@@ -83,7 +84,7 @@ $products_cats = get_option( 'crmfwc-products-cats' );
             <?php crmfwc_go_premium(); ?>
 			</td>
 		</tr>
-        <?php wp_nonce_field( 'crmfwc-products-settings', 'crmfwc-products-settings-nonce' ); ?>
+		<?php wp_nonce_field( 'crmfwc-products-settings', 'crmfwc-products-settings-nonce' ); ?>
 	</table>
 
 	<p class="submit">

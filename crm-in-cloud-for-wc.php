@@ -3,17 +3,20 @@
  * Plugin Name: CRM in Cloud for WC
  * Plugin URI: https://www.ilghera.com/product/crm-in-cloud-for-woocommerce
  * Description: Synchronize your WordPress/ WooCommerce site with CRM in Cloud exporting users and orders in real time
- * Author: ilGhera
- * Version: 1.1.1
- * Author URI: https://ilghera.com
+ * Version: 1.2.0
+ * Stable tag: 1.2.0
  * Requires at least: 4.0
- * Tested up to: 6.4
+ * Tested up to: 6.5
  * WC tested up to: 8
+ * Author: ilGhera
+ * Author URI: https://ilghera.com
  * Text Domain: crm-in-cloud-for-wc
  * Domain Path: /languages
  *
- * @package crm-in-cloud-for-wc/
+ * @package crm-in-cloud-for-wc
  */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Admin notice for WooCommerce not installed
@@ -29,6 +32,16 @@ function crmfwc_wc_not_installed() {
 	echo '</div>';
 
 }
+
+
+/**
+ * HPOS
+ */
+add_action( 'before_woocommerce_init', function() {
+	if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+		\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+	}
+} );
 
 
 /**
@@ -51,6 +64,7 @@ function load_crmfwc() {
 	} else {
 
 		/*Constants declaration*/
+		define( 'CRMFWC_VERSION', '1.3.0' );
 		define( 'CRMFWC_DIR', plugin_dir_path( __FILE__ ) );
 		define( 'CRMFWC_URI', plugin_dir_url( __FILE__ ) );
 		define( 'CRMFWC_FILE', __FILE__ );
@@ -71,6 +85,7 @@ function load_crmfwc() {
 		require_once CRMFWC_INCLUDES . 'class-crmfwc-settings.php';
 		require_once CRMFWC_INCLUDES . 'class-crmfwc-products.php';
 		require_once CRMFWC_INCLUDES . 'class-crmfwc-contacts.php';
+		require_once CRMFWC_INCLUDES . 'class-crmfwc-progress-bar.php';
 		require_once CRMFWC_INCLUDES . 'wc-checkout-fields/class-crmfwc-checkout-fields.php';
 		require_once CRMFWC_DIR . 'vendor/action-scheduler/action-scheduler.php';
 

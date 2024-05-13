@@ -4,7 +4,14 @@
  *
  * @author ilGhera
  * @package crm-in-cloud-for-wc/admin
- * @since 1.0.0
+ *
+ * @since 1.2.0
+ */
+
+/**
+ * CRMFWC_Admin class
+ *
+ * @since 1.2.0
  */
 class CRMFWC_Admin {
 
@@ -34,9 +41,8 @@ class CRMFWC_Admin {
 
 		}
 
-		wp_enqueue_style( 'crmfwc-style', CRMFWC_URI . 'css/crm-in-cloud-for-wc.css' );
-        wp_enqueue_style( 'bootstrap-iso', CRMFWC_URI . 'css/bootstrap-iso.css' );
-
+		wp_enqueue_style( 'crmfwc-style', CRMFWC_URI . 'css/crm-in-cloud-for-wc.css', array(), CRMFWC_VERSION );
+		wp_enqueue_style( 'bootstrap-iso', CRMFWC_URI . 'css/bootstrap-iso.css', array(), CRMFWC_VERSION );
 
 		/*Nonces*/
 		$export_users_nonce    = wp_create_nonce( 'crmfwc-export-users' );
@@ -92,14 +98,14 @@ class CRMFWC_Admin {
 			echo '<div class="wrap-left">';
 
 				/*Check if WooCommerce is installed ancd activated*/
-				if ( ! class_exists( 'WooCommerce' ) ) {
-					echo '<div id="message" class="error">';
-						echo '<p>';
-							echo '<strong>' . esc_html( __( 'ATTENTION! It seems like Woocommerce is not installed.', 'crm-in-cloud-for-wc' ) ) . '</strong>';
-						echo '</p>';
-					echo '</div>';
-					exit;
-				}
+		if ( ! class_exists( 'WooCommerce' ) ) {
+			echo '<div id="message" class="error">';
+				echo '<p>';
+					echo '<strong>' . esc_html( __( 'ATTENTION! It seems like Woocommerce is not installed.', 'crm-in-cloud-for-wc' ) ) . '</strong>';
+				echo '</p>';
+			echo '</div>';
+			exit;
+		}
 
 				echo '<div id="crmfwc-generale">';
 
@@ -119,35 +125,35 @@ class CRMFWC_Admin {
 					/*Settings*/
 					echo '<div id="crmfwc-settings" class="crmfwc-admin" style="display: block;">';
 
-						include( CRMFWC_ADMIN . 'crmfwc-settings-template.php' );
+						include CRMFWC_ADMIN . 'crmfwc-settings-template.php';
 
 					echo '</div>';
 
 					/*Checkout*/
 					echo '<div id="crmfwc-checkout" class="crmfwc-admin">';
 
-                        include( CRMFWC_INCLUDES . 'wc-checkout-fields/templates/crmfwc-checkout-template.php' );
+						include CRMFWC_INCLUDES . 'wc-checkout-fields/templates/crmfwc-checkout-template.php';
 
 					echo '</div>';
 
 					/*Users*/
 					echo '<div id="crmfwc-users" class="crmfwc-admin">';
 
-						include( CRMFWC_ADMIN . 'crmfwc-contacts-template.php' );
+						include CRMFWC_ADMIN . 'crmfwc-contacts-template.php';
 
 					echo '</div>';
 
 					/*Products*/
 					echo '<div id="crmfwc-products" class="crmfwc-admin">';
 
-						include( CRMFWC_ADMIN . 'crmfwc-products-template.php' );
+						include CRMFWC_ADMIN . 'crmfwc-products-template.php';
 
 					echo '</div>';
 
 					/*WooCommerce*/
 					echo '<div id="crmfwc-wc" class="crmfwc-admin">';
 
-						include( CRMFWC_ADMIN . 'crmfwc-wc-template.php' );
+						include CRMFWC_ADMIN . 'crmfwc-wc-template.php';
 
 					echo '</div>';
 

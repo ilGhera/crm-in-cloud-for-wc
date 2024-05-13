@@ -4,7 +4,8 @@
  *
  * @author ilGhera
  * @package crm-in-cloud-for-wc-premium/admin
- * @since 1.0.0
+ *
+ * @since 1.2.0
  */
 
 /*Get value from the db*/
@@ -30,7 +31,7 @@ $delete_company        = get_option( 'crmfwc-delete-company' ) ? get_option( 'cr
 
 					foreach ( $roles as $key => $value ) {
 
-						$selected = is_array( $contacts_roles ) && in_array( $key, $contacts_roles ) ? ' selected="selected"' : '';
+						$selected = is_array( $contacts_roles ) && in_array( $key, $contacts_roles, true ) ? ' selected="selected"' : '';
 
 						echo '<option value="' . esc_attr( $key ) . '"' . esc_html( $selected ) . '> ' . esc_html( __( $value, 'woocommerce' ) ) . '</option>';
 
@@ -44,19 +45,19 @@ $delete_company        = get_option( 'crmfwc-delete-company' ) ? get_option( 'cr
 		<tr class="export-company">
 			<th scope="row"><?php esc_html_e( 'Export company', 'crm-in-cloud-for-wc' ); ?></th>
 			<td>
-				<input type="checkbox" name="crmfwc-export-company" value="1"<?php echo 1 == $export_company ? ' checked="checked"' : ''; ?>>
+				<input type="checkbox" name="crmfwc-export-company" value="1"<?php echo 1 === intval( $export_company ) ? ' checked="checked"' : ''; ?>>
 				<p class="description"><?php esc_html_e( 'Export the company if present in the user profile', 'crm-in-cloud-for-wc' ); ?></p>
 			</td>
 		</tr>
 		<tr class="export-orders">
 			<th scope="row"><?php esc_html_e( 'Export orders', 'crm-in-cloud-for-wc' ); ?></th>
 			<td>
-				<input type="checkbox" name="crmfwc-export-orders" value="1"<?php echo 1 == $export_orders ? ' checked="checked"' : ''; ?>>
+				<input type="checkbox" name="crmfwc-export-orders" value="1"<?php echo 1 === intval( $export_orders ) ? ' checked="checked"' : ''; ?>>
 				<p class="description"><?php esc_html_e( 'Export user orders as opportunities in CRM in Cloud', 'crm-in-cloud-for-wc' ); ?></p>
 			</td>
 		</tr>
 	</table>
-	
+
 	<p class="submit">
 		<input type="submit" class="button-primary crmfwc export-users contacts" value="<?php esc_html_e( 'Export to CRM in Cloud', 'crm-in-cloud-for-wc' ); ?>" />
 	</p>
@@ -76,10 +77,21 @@ $delete_company        = get_option( 'crmfwc-delete-company' ) ? get_option( 'cr
 		<tr class="delete-company">
 			<th scope="row"><?php esc_html_e( 'Delete company', 'crm-in-cloud-for-wc' ); ?></th>
 			<td>
-				<input type="checkbox" name="crmfwc-delete-company" value="1"<?php echo 1 == $delete_company ? ' checked="checked"' : ''; ?>>
+				<input type="checkbox" name="crmfwc-delete-company" value="1"<?php echo 1 === intval( $delete_company ) ? ' checked="checked"' : ''; ?>>
 				<p class="description"><?php esc_html_e( 'Delete the company linked to the contact in CRM in Cloud', 'crm-in-cloud-for-wc' ); ?></p>
 			</td>
 		</tr>
+<?php
+/*
+		<tr class="delete-opportunities">
+			<th scope="row"><?php esc_html_e( 'Delete opportunities', 'crm-in-cloud-for-wc' ); ?></th>
+			<td>
+				<input type="checkbox" name="crmfwc-delete-opportunities" value="1"<?php echo 1 === intval( $delete_opportunities ) ? ' checked="checked"' : ''; ?>>
+				<p class="description"><?php esc_html_e( 'Delete the opportunities linked to the contact in CRM in Cloud', 'crm-in-cloud-for-wc' ); ?></p>
+			</td>
+		</tr>
+ */
+?>
 	</table>
 
 	<p class="submit">
@@ -91,7 +103,7 @@ $delete_company        = get_option( 'crmfwc-delete-company' ) ? get_option( 'cr
 <!-- Settings form -->
 <form name="crmfwc-contacts-settings" class="crmfwc-form"  method="post" action="">
 
-    <h2><?php esc_html_e( 'Synchronization options', 'crm-in-cloud-for-wc' ); ?></h2>
+	<h2><?php esc_html_e( 'Synchronization options', 'crm-in-cloud-for-wc' ); ?></h2>
 
 	<table class="form-table">
 		<tr class="synchronize-contacts">
@@ -110,7 +122,7 @@ $delete_company        = get_option( 'crmfwc-delete-company' ) ? get_option( 'cr
             <?php crmfwc_go_premium(); ?>
 			</td>
 		</tr>
-        <?php wp_nonce_field( 'crmfwc-contacts-settings', 'crmfwc-contacts-settings-nonce' ); ?>
+		<?php wp_nonce_field( 'crmfwc-contacts-settings', 'crmfwc-contacts-settings-nonce' ); ?>
 	</table>
 
 	<p class="submit">

@@ -5,14 +5,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CRM in Cloud for WooCommerce - Premium 0.9.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/crm-in-cloud-for-wc\n"
-"POT-Creation-Date: 2023-08-22 16:22+0200\n"
+"POT-Creation-Date: 2024-05-13 10:52+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.4\n"
 "X-Domain: crm-in-cloud-for-wc\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;esc_html_e;esc_html__\n"
@@ -23,128 +23,128 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-2: libraries\n"
 "X-Poedit-SearchPathExcluded-3: libraries/action-scheduler\n"
 
-#: admin/class-crmfwc-admin.php:86
+#: admin/class-crmfwc-admin.php:92
 msgid "It seems like you don't have permission to see this page"
 msgstr ""
 
-#: admin/class-crmfwc-admin.php:98
+#: admin/class-crmfwc-admin.php:104
 msgid "ATTENTION! It seems like Woocommerce is not installed."
 msgstr ""
 
-#: admin/class-crmfwc-admin.php:107
+#: admin/class-crmfwc-admin.php:113
 msgid "CRM in Cloud for WooCommerce"
 msgstr ""
 
-#: admin/class-crmfwc-admin.php:112
+#: admin/class-crmfwc-admin.php:118
 msgid "Settings"
 msgstr ""
 
-#: admin/class-crmfwc-admin.php:113
+#: admin/class-crmfwc-admin.php:119
 msgid "Checkout"
 msgstr ""
 
-#: admin/class-crmfwc-admin.php:114 admin/crmfwc-contacts-template.php:98
+#: admin/class-crmfwc-admin.php:120 admin/crmfwc-contacts-template.php:110
 msgid "Contacts"
 msgstr ""
 
-#: admin/class-crmfwc-admin.php:115 admin/crmfwc-products-template.php:71
+#: admin/class-crmfwc-admin.php:121 admin/crmfwc-products-template.php:72
 msgid "Products"
 msgstr ""
 
-#: admin/class-crmfwc-admin.php:116
+#: admin/class-crmfwc-admin.php:122
 msgid "WooCommerce"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:22
+#: admin/crmfwc-contacts-template.php:23
 msgid "User roles"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:40
+#: admin/crmfwc-contacts-template.php:41
 msgid "Select the user role(s) to export to CRM in Cloud"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:45
+#: admin/crmfwc-contacts-template.php:46
 msgid "Export company"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:48
+#: admin/crmfwc-contacts-template.php:49
 msgid "Export the company if present in the user profile"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:52 admin/crmfwc-wc-template.php:16
+#: admin/crmfwc-contacts-template.php:53 admin/crmfwc-wc-template.php:17
 msgid "Export orders"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:55
+#: admin/crmfwc-contacts-template.php:56
 msgid "Export user orders as opportunities in CRM in Cloud"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:61 admin/crmfwc-products-template.php:41
+#: admin/crmfwc-contacts-template.php:62 admin/crmfwc-products-template.php:42
 msgid "Export to CRM in Cloud"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:71
+#: admin/crmfwc-contacts-template.php:72
 msgid "Delete contacts"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:73
+#: admin/crmfwc-contacts-template.php:74
 msgid "Delete all contacts on CRM in Cloud"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:77
+#: admin/crmfwc-contacts-template.php:78
 msgid "Delete company"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:80
+#: admin/crmfwc-contacts-template.php:81
 msgid "Delete the company linked to the contact in CRM in Cloud"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:86 admin/crmfwc-products-template.php:59
+#: admin/crmfwc-contacts-template.php:98 admin/crmfwc-products-template.php:60
 msgid "Delete from CRM in Cloud"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:94 admin/crmfwc-products-template.php:67
+#: admin/crmfwc-contacts-template.php:106 admin/crmfwc-products-template.php:68
 msgid "Synchronization options"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:101
+#: admin/crmfwc-contacts-template.php:113
 msgid "Update contacts on CRM in Cloud in real time"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:106
+#: admin/crmfwc-contacts-template.php:118
 msgid "Companies"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:109
+#: admin/crmfwc-contacts-template.php:121
 msgid "Update companies on CRM in Cloud in real time"
 msgstr ""
 
-#: admin/crmfwc-contacts-template.php:117 admin/crmfwc-products-template.php:90
-#: admin/crmfwc-wc-template.php:42
+#: admin/crmfwc-contacts-template.php:129 admin/crmfwc-products-template.php:91
+#: admin/crmfwc-wc-template.php:43
 msgid "Save settings"
 msgstr ""
 
-#: admin/crmfwc-products-template.php:19 admin/crmfwc-products-template.php:79
+#: admin/crmfwc-products-template.php:20 admin/crmfwc-products-template.php:80
 msgid "Products categories"
 msgstr ""
 
-#: admin/crmfwc-products-template.php:34
+#: admin/crmfwc-products-template.php:35
 msgid "Select the product categories to export to CRM in Cloud"
 msgstr ""
 
-#: admin/crmfwc-products-template.php:51
+#: admin/crmfwc-products-template.php:52
 msgid "Delete products"
 msgstr ""
 
-#: admin/crmfwc-products-template.php:53
+#: admin/crmfwc-products-template.php:54
 msgid "Delete all products on CRM in Cloud"
 msgstr ""
 
-#: admin/crmfwc-products-template.php:74
+#: admin/crmfwc-products-template.php:75
 msgid "Update products on CRM in Cloud in real time"
 msgstr ""
 
-#: admin/crmfwc-products-template.php:82
+#: admin/crmfwc-products-template.php:83
 msgid "Update products categories on CRM in Cloud in real time"
 msgstr ""
 
@@ -172,81 +172,137 @@ msgstr ""
 msgid "Disconnect from CRM in Cloud"
 msgstr ""
 
-#: admin/crmfwc-wc-template.php:19
+#: admin/crmfwc-wc-template.php:20
 msgid "Export new orders as opportunities in CRM in Cloud"
 msgstr ""
 
-#: admin/crmfwc-wc-template.php:24
+#: admin/crmfwc-wc-template.php:25
 msgid "Split opportunities"
 msgstr ""
 
-#: admin/crmfwc-wc-template.php:27
+#: admin/crmfwc-wc-template.php:28
 msgid "Create an opportunity for every single order item"
 msgstr ""
 
-#: admin/crmfwc-wc-template.php:32
+#: admin/crmfwc-wc-template.php:33
 msgid "Export company opportunities"
 msgstr ""
 
-#: admin/crmfwc-wc-template.php:35
+#: admin/crmfwc-wc-template.php:36
 msgid "Export opportunities for the company as well if it exists"
 msgstr ""
 
-#: crm-in-cloud-for-wc.php:27
+#: admin/ilghera-notice/class-ilghera-notice.php:66
+msgid "Renew now"
+msgstr ""
+
+#: admin/ilghera-notice/class-ilghera-notice.php:66
+msgid "Get a license"
+msgstr ""
+
+#: admin/ilghera-notice/class-ilghera-notice.php:107
+msgid "Your license is <u>expired</u> and you're unable to receive updates."
+msgstr ""
+
+#: admin/ilghera-notice/class-ilghera-notice.php:123
+msgid "It seems like your license is <u>not valid</u> and you're unable to receive updates."
+msgstr ""
+
+#: admin/ilghera-notice/class-ilghera-notice.php:139
+msgid "You have not set up a license key and you cannot receive updates."
+msgstr ""
+
+#: crm-in-cloud-for-wc.php:30
 msgid "WARNING! CRM in Cloud for WC requires WooCommerce to be activated."
 msgstr ""
 
-#: includes/class-crmfwc-contacts.php:282
-#: includes/class-crmfwc-contacts.php:327
+#: includes/class-crmfwc-contacts.php:315
+#: includes/class-crmfwc-contacts.php:360
 msgid "Pending payment"
 msgstr ""
 
-#: includes/class-crmfwc-contacts.php:453
+#: includes/class-crmfwc-contacts.php:474
 msgid "Order: "
 msgstr ""
 
-#: includes/class-crmfwc-contacts.php:1179
+#: includes/class-crmfwc-contacts.php:1168
 #, php-format
 msgid "%1$d contact(s) export process has begun"
 msgstr ""
 
-#: includes/class-crmfwc-contacts.php:1186
+#: includes/class-crmfwc-contacts.php:1175
 msgid "No contacts to export"
 msgstr ""
 
-#: includes/class-crmfwc-contacts.php:1364
+#: includes/class-crmfwc-contacts.php:1377
 #, php-format
 msgid "%1$d users(s) delete process has begun"
 msgstr ""
 
-#: includes/class-crmfwc-contacts.php:1373
+#: includes/class-crmfwc-contacts.php:1386
 msgid "ERROR! There are not users to delete"
 msgstr ""
 
-#: includes/class-crmfwc-products.php:326
+#: includes/class-crmfwc-products.php:347
 #, php-format
 msgid "Taxable %d%%"
 msgstr ""
 
-#: includes/class-crmfwc-products.php:618
+#: includes/class-crmfwc-products.php:648
 #, php-format
 msgid "%1$d product(s) export process has begun"
 msgstr ""
 
-#: includes/class-crmfwc-products.php:625
+#: includes/class-crmfwc-products.php:655
 msgid "No products to export"
 msgstr ""
 
-#: includes/class-crmfwc-products.php:698
+#: includes/class-crmfwc-products.php:731
 #, php-format
 msgid "%1$d products(s) delete process has begun"
 msgstr ""
 
-#: includes/class-crmfwc-products.php:707
+#: includes/class-crmfwc-products.php:740
 msgid "ERROR! There are not products to delete"
 msgstr ""
 
-#: includes/class-crmfwc-settings.php:149
+#: includes/class-crmfwc-progress-bar.php:54
+msgid "The export of n°<span></span> contacts is running!"
+msgstr ""
+
+#: includes/class-crmfwc-progress-bar.php:55
+msgid "The export of n°<span></span> contacts was completed!"
+msgstr ""
+
+#: includes/class-crmfwc-progress-bar.php:56
+msgid "The delete of n°<span></span> contacts is running!"
+msgstr ""
+
+#: includes/class-crmfwc-progress-bar.php:57
+msgid "The delete of n°<span></span> contacts was completed!"
+msgstr ""
+
+#: includes/class-crmfwc-progress-bar.php:58
+msgid "The export of n°<span></span> products is running!"
+msgstr ""
+
+#: includes/class-crmfwc-progress-bar.php:59
+msgid "The export of n°<span></span> products was completed!"
+msgstr ""
+
+#: includes/class-crmfwc-progress-bar.php:60
+msgid "The delete of n°<span></span> products is running!"
+msgstr ""
+
+#: includes/class-crmfwc-progress-bar.php:61
+msgid "The delete of n°<span></span> products was completed!"
+msgstr ""
+
+#: includes/class-crmfwc-progress-bar.php:268
+msgid "CRM in Cloud for WC"
+msgstr ""
+
+#: includes/class-crmfwc-settings.php:177
 msgid "Connected"
 msgstr ""
 
@@ -254,56 +310,62 @@ msgstr ""
 msgid "This is a premium functionality, click here for more information"
 msgstr ""
 
-#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:66
+#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:120
 msgid "VAT number"
 msgstr ""
 
-#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:67
+#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:121
 msgid "Fiscal code"
 msgstr ""
 
-#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:68
+#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:122
 #: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:162
+#: includes/wc-checkout-fields/templates/wcexd-checkout-template.php:166
 msgid "PEC"
 msgstr ""
 
-#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:69
+#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:123
 #: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:171
+#: includes/wc-checkout-fields/templates/wcexd-checkout-template.php:175
 msgid "Recipient code"
 msgstr ""
 
-#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:92
+#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:146
 msgid "Private (Receipt)"
 msgstr ""
 
-#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:96
+#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:150
 msgid "Private (Invoice)"
 msgstr ""
 
-#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:100
+#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:154
 msgid "Company (Invoice)"
 msgstr ""
 
-#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:111
+#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:165
 msgid "Fiscal document"
 msgstr ""
 
-#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:379
+#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:426
 msgid "WARNING! The <strong>PEC</strong> entered is not a valid email address."
 msgstr ""
 
-#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:390
+#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:437
 msgid "WARNING! The <strong>Tax Code</strong> entered is incorrect."
 msgstr ""
 
-#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:404
+#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:450
 msgid "WARNING! The <strong>VAT number</strong> entered is incorrect."
 msgstr ""
 
-#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:458
-#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:507
-#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:528
-msgid "Electronic invoicing"
+#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:463
+msgid "WARNING! The <strong>Recipient Code</strong> entered is incorrect."
+msgstr ""
+
+#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:543
+#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:598
+#: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:621
+msgid "Billing information"
 msgstr ""
 
 #: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:97
@@ -311,14 +373,17 @@ msgid "Tax documents"
 msgstr ""
 
 #: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:102
+#: includes/wc-checkout-fields/templates/wcexd-checkout-template.php:106
 msgid "Company ( Invoice )"
 msgstr ""
 
 #: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:108
+#: includes/wc-checkout-fields/templates/wcexd-checkout-template.php:112
 msgid "Private ( Invoice )"
 msgstr ""
 
 #: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:114
+#: includes/wc-checkout-fields/templates/wcexd-checkout-template.php:118
 msgid "Private ( Receipt )"
 msgstr ""
 
@@ -327,10 +392,12 @@ msgid "By activating one or more types of invoice, the fields VAT and Tax Code w
 msgstr ""
 
 #: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:121
+#: includes/wc-checkout-fields/templates/wcexd-checkout-template.php:125
 msgid "Document type"
 msgstr ""
 
 #: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:126
+#: includes/wc-checkout-fields/templates/wcexd-checkout-template.php:130
 msgid "Put the document type selector on the top of the form"
 msgstr ""
 
@@ -339,18 +406,22 @@ msgid "Tax Code required"
 msgstr ""
 
 #: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:134
+#: includes/wc-checkout-fields/templates/wcexd-checkout-template.php:138
 msgid "Never"
 msgstr ""
 
 #: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:135
+#: includes/wc-checkout-fields/templates/wcexd-checkout-template.php:139
 msgid "Only with receipts"
 msgstr ""
 
 #: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:136
+#: includes/wc-checkout-fields/templates/wcexd-checkout-template.php:140
 msgid "Only with invoices"
 msgstr ""
 
 #: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:137
+#: includes/wc-checkout-fields/templates/wcexd-checkout-template.php:141
 msgid "Always"
 msgstr ""
 
@@ -367,14 +438,17 @@ msgid "Activate the Tax Code validity check"
 msgstr ""
 
 #: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:153
+#: includes/wc-checkout-fields/templates/wcexd-checkout-template.php:157
 msgid "VIES validation"
 msgstr ""
 
 #: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:158
+#: includes/wc-checkout-fields/templates/wcexd-checkout-template.php:162
 msgid "Activate the VIES validity check for the VAT Number <i>( SOAP activated on server is required )</i>"
 msgstr ""
 
 #: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:167
+#: includes/wc-checkout-fields/templates/wcexd-checkout-template.php:171
 msgid "Activate the PEC field for eletronic invoicing"
 msgstr ""
 
@@ -387,10 +461,12 @@ msgid "Only EU"
 msgstr ""
 
 #: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:185
+#: includes/wc-checkout-fields/templates/wcexd-checkout-template.php:189
 msgid "Make VAT Number field mandatory only for European Union countries "
 msgstr ""
 
 #: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:189
+#: includes/wc-checkout-fields/templates/wcexd-checkout-template.php:193
 msgid "Only Italy"
 msgstr ""
 
@@ -400,4 +476,48 @@ msgstr ""
 
 #: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:203
 msgid "Show the tax code field only to Italian customers"
+msgstr ""
+
+#: includes/wc-checkout-fields/templates/wcexd-checkout-template.php:95
+msgid "Checkout page"
+msgstr ""
+
+#: includes/wc-checkout-fields/templates/wcexd-checkout-template.php:101
+msgid "Fiscal documents"
+msgstr ""
+
+#: includes/wc-checkout-fields/templates/wcexd-checkout-template.php:121
+msgid "Activating one or more invoice types, VAT Number and Fiscal Code fields will be shown if necessary"
+msgstr ""
+
+#: includes/wc-checkout-fields/templates/wcexd-checkout-template.php:134
+msgid "FC mandatory"
+msgstr ""
+
+#: includes/wc-checkout-fields/templates/wcexd-checkout-template.php:144
+msgid "Make the Fiscal Code field mandatory"
+msgstr ""
+
+#: includes/wc-checkout-fields/templates/wcexd-checkout-template.php:148
+msgid "C.F. validation"
+msgstr ""
+
+#: includes/wc-checkout-fields/templates/wcexd-checkout-template.php:153
+msgid "Activate the fiscal code validity check"
+msgstr ""
+
+#: includes/wc-checkout-fields/templates/wcexd-checkout-template.php:180
+msgid "Activate the Receiver code field for electronic invoicing"
+msgstr ""
+
+#: includes/wc-checkout-fields/templates/wcexd-checkout-template.php:184
+msgid "Only UE"
+msgstr ""
+
+#: includes/wc-checkout-fields/templates/wcexd-checkout-template.php:198
+msgid "Show PEC and Recipient code fields only to Italian customers"
+msgstr ""
+
+#: includes/wc-checkout-fields/templates/wcexd-checkout-template.php:207
+msgid "Show the Fiscal code field only to Italian customers"
 msgstr ""
