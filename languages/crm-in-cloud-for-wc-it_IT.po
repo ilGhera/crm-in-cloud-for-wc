@@ -6,7 +6,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/crm-in-cloud-for-"
 "wc\n"
 "POT-Creation-Date: 2024-05-13 10:52+0200\n"
-"PO-Revision-Date: 2024-05-13 10:54+0200\n"
+"PO-Revision-Date: 2024-05-13 11:02+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: it_IT\n"
@@ -280,35 +280,35 @@ msgstr "ERRORE! Non ci sono prodotti da eliminare"
 
 #: includes/class-crmfwc-progress-bar.php:54
 msgid "The export of n°<span></span> contacts is running!"
-msgstr ""
+msgstr "L'esportazione di n°<span></span> utenti è in corso!"
 
 #: includes/class-crmfwc-progress-bar.php:55
 msgid "The export of n°<span></span> contacts was completed!"
-msgstr ""
+msgstr "L'esportazione di n°<span></span> utenti è stata completata!"
 
 #: includes/class-crmfwc-progress-bar.php:56
 msgid "The delete of n°<span></span> contacts is running!"
-msgstr ""
+msgstr "L'eliminazione di n°<span></span> utenti è in corso!"
 
 #: includes/class-crmfwc-progress-bar.php:57
 msgid "The delete of n°<span></span> contacts was completed!"
-msgstr ""
+msgstr "L'eliminazione di n°<span></span> utenti è stata completata!"
 
 #: includes/class-crmfwc-progress-bar.php:58
 msgid "The export of n°<span></span> products is running!"
-msgstr ""
+msgstr "L'esportazione di n°<span></span> prodotti è in corso!"
 
 #: includes/class-crmfwc-progress-bar.php:59
 msgid "The export of n°<span></span> products was completed!"
-msgstr ""
+msgstr "L'esportazione di n°<span></span> prodotti è stata completata!"
 
 #: includes/class-crmfwc-progress-bar.php:60
 msgid "The delete of n°<span></span> products is running!"
-msgstr ""
+msgstr "L'eliminazione di n°<span></span> prodotti è in corso!"
 
 #: includes/class-crmfwc-progress-bar.php:61
 msgid "The delete of n°<span></span> products was completed!"
-msgstr ""
+msgstr "L'eliminazione di n°<span></span> prodotti è stata completata!"
 
 #: includes/class-crmfwc-progress-bar.php:268
 msgid "CRM in Cloud for WC"
@@ -321,6 +321,7 @@ msgstr "Connesso"
 #: includes/crmfwc-functions.php:16
 msgid "This is a premium functionality, click here for more information"
 msgstr ""
+"Questa è una funzionalità premium, clicca qui per maggiori informazioni"
 
 #: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:120
 msgid "VAT number"
@@ -372,10 +373,9 @@ msgid "WARNING! The <strong>VAT number</strong> entered is incorrect."
 msgstr "ATTENZIONE! La <strong>Partita IVA </strong> inserita non è valida."
 
 #: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:463
-#, fuzzy
-#| msgid "WARNING! The <strong>Tax Code</strong> entered is incorrect."
 msgid "WARNING! The <strong>Recipient Code</strong> entered is incorrect."
-msgstr "ATTENZIONE! Il <strong>Codice Fiscale</strong> inserito non è valido."
+msgstr ""
+"ATTENZIONE! Il <strong>Codice Destinatario</strong> inserito non è valido."
 
 #: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:543
 #: includes/wc-checkout-fields/class-crmfwc-checkout-fields.php:598
@@ -486,7 +486,7 @@ msgstr "Solo UE"
 #: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:185
 #: includes/wc-checkout-fields/templates/wcexd-checkout-template.php:189
 msgid "Make VAT Number field mandatory only for European Union countries "
-msgstr "P.IVA obbligatoria solo per i paesi dell'UE"
+msgstr "P.IVA obbligatoria solo per i paesi dell'UE "
 
 #: includes/wc-checkout-fields/templates/crmfwc-checkout-template.php:189
 #: includes/wc-checkout-fields/templates/wcexd-checkout-template.php:193
@@ -515,7 +515,7 @@ msgid ""
 "be shown if necessary"
 msgstr ""
 "Attivando uno o più tipi di fattura, verranno visualizzati i campi P.IVA e "
-"Codice Fiscale quando necessari."
+"Codice Fiscale quando necessari"
 
 #: includes/wc-checkout-fields/templates/wcexd-checkout-template.php:134
 msgid "FC mandatory"
