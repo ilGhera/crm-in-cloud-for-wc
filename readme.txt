@@ -72,7 +72,7 @@ This plugin sends data to an external service, like the products bought by the u
 
 == Changelog ==
 
-= 1.1.0 = 
+= 1.2.0 = 
 Release Date: 13 May 2024
 
 * Enhancement: HPOS compatibility 
