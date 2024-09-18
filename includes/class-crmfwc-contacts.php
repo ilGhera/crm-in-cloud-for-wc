@@ -1251,7 +1251,7 @@ class CRMFWC_Contacts {
 
 		$response = $this->crmfwc_call->call( 'get', "Contact/Search?filter=startswith(emails, '$email')" );
 
-		if ( isset( $response[0]->id ) ) {
+		if ( is_array( $response ) && isset( $response[0]->id ) ) {
 
 			return $response[0]->id;
 
