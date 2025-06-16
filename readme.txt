@@ -1,9 +1,9 @@
 === CRM in Cloud for WooCommerce - Premium ===
 Contributors: ghera74
 Tags: CRM in Cloud, CRM, WooCommerce, customers, TeamSystem, Danea, Easyfatt, Reviso, Fatture in Cloud
-Version: 1.3.0
-Requires at least: 4.0
-Tested up to: 6.5
+Version: 1.3.1
+Requires at least: 5.0
+Tested up to: 6.8
 License: GPLv2
 
 Synchronize your WordPress/ WooCommerce site with CRM in Cloud exporting users and orders in real time
@@ -53,85 +53,93 @@ This plugin sends data to an external service, like the products bought by the u
 
 == Changelog ==
 
+= 1.3.1 = 
+Release Date: 16 June 2025
+
+    * Enhancement: WordPress 6.8 support 
+    * Enhancement: WooCommerce 9.8 support 
+    * Update: Plugin Update Checker
+
+
 = 1.3.0 = 
 Release Date: 13 May 2024
 
-* Enhancement: HPOS compatibility 
-* Enhancement: Progress bar 
-* Enhancement: WordPress 6.5 support 
-* Enhancement: WordPress coding standards 
-* Update: Plugin Update Checker
-* Update: Action Scheduler 
-* Bug fix: Creation of dynamic property deprecated in PHP 8.2
+    * Enhancement: HPOS compatibility 
+    * Enhancement: Progress bar 
+    * Enhancement: WordPress 6.5 support 
+    * Enhancement: WordPress coding standards 
+    * Update: Plugin Update Checker
+    * Update: Action Scheduler 
+    * Bug fix: Creation of dynamic property deprecated in PHP 8.2
 
 
 = 1.2.3 = 
 Release Date: 18 November 2023
 
-* Bug fix: Remote call method in lowercase
-* Update: Plugin Update Checker
+    * Bug fix: Remote call method in lowercase
+    * Update: Plugin Update Checker
 
 
 = 1.2.2 = 
 Release Date: 2 October 2023
 
-* Bug fix: Possible error getting the access token from CRM in Cloud 
+    * Bug fix: Possible error getting the access token from CRM in Cloud 
 
 
 = 1.2.1 = 
 Release Date: 15 August 2023
 
-* Bug fix: Transient not deleted on logout 
-* Bug fix: Problem accessing with API credentials 
+    * Bug fix: Transient not deleted on logout 
+    * Bug fix: Problem accessing with API credentials 
 
 
 = 1.2.0 = 
 Release Date: 10 August 2023
 
-* Enhancement: Better performances using transients 
-* Enhancement: Admin notice for license status 
-* Enhancement: WordPress coding standards 
-* Update: Plugin Update Checker
-* Update: Action Scheduler 
-* Update: Translations 
-* Bug fix: Problem accessing with API credentials 
+    * Enhancement: Better performances using transients 
+    * Enhancement: Admin notice for license status 
+    * Enhancement: WordPress coding standards 
+    * Update: Plugin Update Checker
+    * Update: Action Scheduler 
+    * Update: Translations 
+    * Bug fix: Problem accessing with API credentials 
 
 
 = 1.1.0 = 
 Release Date: 28 September 2022
 
-* Enhancement: Users synchronization options
-* Enhancement: Create, update and delete users in real time
-* Enhancement: Export users avatars 
-* Enhancement: Products synchronization options
-* Enhancement: Untrashed products synchronized with CRM in Cloud 
-* Enhancement: Checkout fields to collect billing information 
-* Enhancement: Better user interface 
-* Bug fix: Product image not removed in CRM in Cloud
+    * Enhancement: Users synchronization options
+    * Enhancement: Create, update and delete users in real time
+    * Enhancement: Export users avatars 
+    * Enhancement: Products synchronization options
+    * Enhancement: Untrashed products synchronized with CRM in Cloud 
+    * Enhancement: Checkout fields to collect billing information 
+    * Enhancement: Better user interface 
+    * Bug fix: Product image not removed in CRM in Cloud
 
 
 = 1.0.0 = 
 Release Date: 06 September 2022
 
-* Enhancement: Export of uncompleted orders to CRM in Cloud with appropriate opportunity pahase
-* Enhancement: Split opportunities option
-* Enhancement: Opportunity details changed in CRM in Cloud
-* Enhancement: Update/ delete opportunities in real time
-* Enhancement: Export WooCommerce products to CRM in Cloud
-* Enhancement: Export WooCommerce products images to CRM in Cloud
-* Enhancement: Export WooCommercee products categories to CRM in Cloud
-* Enhancement: Include products in CRM in Cloud opportunities
-* Enhancement: Update/ delete products in real time
-* Bug fix: User not exported as contact to CRM in Cloud if not registered to the site 
+    * Enhancement: Export of uncompleted orders to CRM in Cloud with appropriate opportunity pahase
+    * Enhancement: Split opportunities option
+    * Enhancement: Opportunity details changed in CRM in Cloud
+    * Enhancement: Update/ delete opportunities in real time
+    * Enhancement: Export WooCommerce products to CRM in Cloud
+    * Enhancement: Export WooCommerce products images to CRM in Cloud
+    * Enhancement: Export WooCommercee products categories to CRM in Cloud
+    * Enhancement: Include products in CRM in Cloud opportunities
+    * Enhancement: Update/ delete products in real time
+    * Bug fix: User not exported as contact to CRM in Cloud if not registered to the site 
 
 
 = 0.9.1 = 
 Release Date: 06 July 2022
 
-* Bug fix: WC orders not exported
+    * Bug fix: WC orders not exported
 
 
 = 0.9.0 = 
 Release Date: 03 April 2020
 
-* First release
+    * First release
