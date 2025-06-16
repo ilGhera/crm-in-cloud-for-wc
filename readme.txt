@@ -59,6 +59,7 @@ Release Date: 16 June 2025
     * Enhancement: WordPress 6.8 support 
     * Enhancement: WooCommerce 9.8 support 
     * Update: Plugin Update Checker
+    * Update: ilGhera Notice 
 
 
 = 1.3.0 = 
