@@ -8,13 +8,14 @@
  * @since 1.3.0
  */
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Class CRMFWC_Progress_Bar
  *
  * @since 1.3.0
  */
 class CRMFWC_Progress_Bar {
-
 
 	/**
 	 * The constructor
@@ -33,9 +34,7 @@ class CRMFWC_Progress_Bar {
 		add_action( 'wp_ajax_get-total-contacts-delete-actions', array( $this, 'get_total_contacts_delete_actions' ) );
 		add_action( 'wp_ajax_get-scheduled-contacts-delete-actions', array( $this, 'get_scheduled_contacts_delete_actions' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-
 	}
-
 
 	/**
 	 * Enqueue scripts
@@ -62,11 +61,8 @@ class CRMFWC_Progress_Bar {
 			);
 
 			wp_localize_script( 'crmfwc-progress-bar', 'options', $options );
-
 		}
-
 	}
-
 
 	/**
 	 * Get the total number of actions scheduled
@@ -80,9 +76,7 @@ class CRMFWC_Progress_Bar {
 		echo intval( $transient );
 
 		exit;
-
 	}
-
 
 	/**
 	 * Get the actions pending
@@ -104,15 +98,12 @@ class CRMFWC_Progress_Bar {
 		if ( 0 === count( $actions ) ) {
 
 			delete_transient( 'crmfwc-total-products-actions' );
-
 		}
 
 		echo intval( count( $actions ) );
 
 		exit;
-
 	}
-
 
 	/**
 	 * Get the total number of actions scheduled
@@ -126,9 +117,7 @@ class CRMFWC_Progress_Bar {
 		echo intval( $transient );
 
 		exit;
-
 	}
-
 
 	/**
 	 * Get the actions pending
@@ -150,15 +139,12 @@ class CRMFWC_Progress_Bar {
 		if ( 0 === count( $actions ) ) {
 
 			delete_transient( 'crmfwc-total-products-delete-actions' );
-
 		}
 
 		echo intval( count( $actions ) );
 
 		exit;
-
 	}
-
 
 	/**
 	 * Get the total number of actions scheduled
@@ -172,9 +158,7 @@ class CRMFWC_Progress_Bar {
 		echo intval( $transient );
 
 		exit;
-
 	}
-
 
 	/**
 	 * Get the actions pending
@@ -196,15 +180,12 @@ class CRMFWC_Progress_Bar {
 		if ( 0 === count( $actions ) ) {
 
 			delete_transient( 'crmfwc-total-contacts-actions' );
-
 		}
 
 		echo intval( count( $actions ) );
 
 		exit;
-
 	}
-
 
 	/**
 	 * Get the total number of actions scheduled
@@ -218,9 +199,7 @@ class CRMFWC_Progress_Bar {
 		echo intval( $transient );
 
 		exit;
-
 	}
-
 
 	/**
 	 * Get the actions pending
@@ -242,15 +221,12 @@ class CRMFWC_Progress_Bar {
 		if ( 0 === count( $actions ) ) {
 
 			delete_transient( 'crmfwc-total-contacts-delete-actions' );
-
 		}
 
 		echo intval( count( $actions ) );
 
 		exit;
-
 	}
-
 
 	/**
 	 * The progress bar as admin notice
@@ -276,10 +252,7 @@ class CRMFWC_Progress_Bar {
 			$output             .= '</div>';
 
 			echo wp_kses_post( $output );
-
 		}
-
 	}
 }
-new CRMFWC_Progress_Bar();
 
