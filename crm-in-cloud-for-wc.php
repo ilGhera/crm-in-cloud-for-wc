@@ -3,8 +3,8 @@
  * Plugin Name: CRM in Cloud for WC - Premium
  * Plugin URI: https://www.ilghera.com/product/crm-in-cloud-for-woocommerce
  * Description: Synchronize your WordPress/ WooCommerce site with CRM in Cloud exporting users and orders in real time
- * Version: 1.3.1
- * Stable tag: 1.3.1
+ * Version: 1.3.2
+ * Stable tag: 1.3.2
  * Requires at least: 5.0
  * Tested up to: 6.8
  * WC tested up to: 9
@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
 
 /* Define core plugin constants. */
 if ( ! defined( 'CRMFWC_VERSION' ) ) {
-    define( 'CRMFWC_VERSION', '1.3.1' );
+    define( 'CRMFWC_VERSION', '1.3.2' );
 }
 if ( ! defined( 'CRMFWC_DIR' ) ) {
     define( 'CRMFWC_DIR', plugin_dir_path( __FILE__ ) );
