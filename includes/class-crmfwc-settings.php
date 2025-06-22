@@ -53,13 +53,10 @@ class CRMFWC_Settings {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
 			add_action( 'wp_ajax_crmfwc-disconnect', array( $this, 'disconnect_callback' ) );
 			add_action( 'wp_ajax_check-connection', array( $this, 'check_connection_callback' ) );
-
 		}
 
 		$this->crmfwc_call = new CRMFWC_Call();
-
 	}
-
 
 	/**
 	 * Scripts and style sheets
@@ -74,9 +71,7 @@ class CRMFWC_Settings {
 		wp_enqueue_style( 'chosen-style', CRMFWC_URI . '/vendor/harvesthq/chosen/chosen.min.css', array(), CRMFWC_VERSION );
 		wp_enqueue_style( 'font-awesome', '//use.fontawesome.com/releases/v5.8.1/css/all.css', array(), CRMFWC_VERSION );
 		wp_enqueue_style( 'tzcheckbox-style', CRMFWC_URI . 'js/tzCheckbox/jquery.tzCheckbox/jquery.tzCheckbox.css', array(), CRMFWC_VERSION );
-
 	}
-
 
 	/**
 	 * Check if the current page is the plugin options page
@@ -90,11 +85,8 @@ class CRMFWC_Settings {
 		if ( isset( $screen->id ) && 'woocommerce_page_crm-in-cloud-for-wc' === $screen->id ) {
 
 			return true;
-
 		}
-
 	}
-
 
 	/**
 	 * Get the current CRM in Cloud user info
@@ -106,9 +98,7 @@ class CRMFWC_Settings {
 		$response = $this->crmfwc_call->call( 'get', 'Auth/Me' );
 
 		return $response;
-
 	}
-
 
 	/**
 	 * Deletes the Agreement Grant Token from the db
@@ -122,9 +112,7 @@ class CRMFWC_Settings {
 		delete_transient( 'crmfwc-access-token' );
 
 		exit;
-
 	}
-
 
 	/**
 	 * Display the status of the connection to CRM in Cloud
@@ -148,7 +136,6 @@ class CRMFWC_Settings {
 			/* Update data in the db */
 			update_option( 'crmfwc-email', $email );
 			update_option( 'crmfwc-passw', $passw );
-
 		}
 
 		/* Access to CRM in Cloud */
@@ -163,8 +150,8 @@ class CRMFWC_Settings {
 			} else {
 
 				echo wp_json_encode( $connection );
-
 			}
+
 		} else {
 
 			if ( $return ) {
@@ -178,13 +165,10 @@ class CRMFWC_Settings {
 				);
 
 				echo wp_json_encode( $output );
-
 			}
 		}
 
 		exit;
 	}
-
 }
-new CRMFWC_Settings( true );
 
