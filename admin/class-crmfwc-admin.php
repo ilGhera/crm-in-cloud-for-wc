@@ -8,6 +8,8 @@
  * @since 1.3.0
  */
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * CRMFWC_Admin class
  *
@@ -22,9 +24,7 @@ class CRMFWC_Admin {
 
 		add_action( 'admin_menu', array( $this, 'crmfwc_add_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'crmfwc_register_scripts' ) );
-
 	}
-
 
 	/**
 	 * Scripts and style sheets
@@ -38,7 +38,6 @@ class CRMFWC_Admin {
 
 			/*js*/
 			wp_enqueue_script( 'crmfwc-js', CRMFWC_URI . 'js/crmfwc.js', array( 'jquery' ), '1.0', true );
-
 		}
 
 		wp_enqueue_style( 'crmfwc-style', CRMFWC_URI . 'css/crm-in-cloud-for-wc.css', array(), CRMFWC_VERSION );
@@ -61,9 +60,7 @@ class CRMFWC_Admin {
 				'responseLoading'     => CRMFWC_URI . 'images/loader.gif',
 			)
 		);
-
 	}
-
 
 	/**
 	 * Menu page
@@ -75,9 +72,7 @@ class CRMFWC_Admin {
 		$crmfwc_page = add_submenu_page( 'woocommerce', 'CRMFWC Options', 'CRM in Cloud', 'manage_woocommerce', 'crm-in-cloud-for-wc', array( $this, 'crmfwc_options' ) );
 
 		return $crmfwc_page;
-
 	}
-
 
 	/**
 	 * Options page
@@ -90,7 +85,6 @@ class CRMFWC_Admin {
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 
 			wp_die( esc_html( __( 'It seems like you don\'t have permission to see this page', 'crm-in-cloud-for-wc' ) ) );
-
 		}
 
 		/*Page template start*/
@@ -120,7 +114,6 @@ class CRMFWC_Admin {
 			$key = sanitize_text_field( wp_unslash( $_POST['crmfwc-premium-key'] ) );
 
 			update_option( 'crmfwc-premium-key', $key );
-
 		}
 
 					/*Premium Key Form*/
@@ -194,8 +187,5 @@ class CRMFWC_Admin {
 			echo '<div class="clear"></div>';
 
 		echo '</div>';
-
 	}
-
 }
-new CRMFWC_Admin();
