@@ -1055,8 +1055,11 @@ class CRMFWC_Contacts {
 			$payload .= '--' . $boundary . '--';
 			$payload .= "\r\n\r\n";
 
-			/* The call */
-			$response = $this->crmfwc_call->call( 'post', 'Contact/' . $remote_id . '/Photo', $payload, false, true, $boundary );
+            if ( is_int( $remote_id ) ) {
+
+                /* The call */
+                $response = $this->crmfwc_call->call( 'post', 'Contact/' . $remote_id . '/Photo', $payload, false, true, $boundary );
+            }
 		}
 	}
 
