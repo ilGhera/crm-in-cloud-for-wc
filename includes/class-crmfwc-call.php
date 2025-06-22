@@ -8,6 +8,8 @@
  * @since 1.2.0
  */
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * CRMFWC_Call class
  *
@@ -36,7 +38,6 @@ class CRMFWC_Call {
 	 */
 	private $passw;
 
-
 	/**
 	 * The constructor
 	 */
@@ -44,9 +45,7 @@ class CRMFWC_Call {
 
 		$this->email = get_option( 'crmfwc-email' );
 		$this->passw = get_option( 'crmfwc-passw' );
-
 	}
-
 
 	/**
 	 * Get the access token
@@ -87,13 +86,10 @@ class CRMFWC_Call {
 				} elseif ( isset( $response->error ) ) {
 
 					return $response;
-
 				}
 			}
 		}
-
 	}
-
 
 	/**
 	 * Define the headers to use in every API call
@@ -117,7 +113,6 @@ class CRMFWC_Call {
 			$output = array(
 				'Content-Type' => 'application/json',
 			);
-
 		}
 
 		if ( ! $login ) {
@@ -127,14 +122,11 @@ class CRMFWC_Call {
 			if ( is_string( $access_token ) ) {
 
 				$output['Authorization'] = 'Bearer ' . $access_token;
-
 			}
 		}
 
 		return $output;
-
 	}
-
 
 	/**
 	 * The call
@@ -169,7 +161,6 @@ class CRMFWC_Call {
 			if ( isset( $output->error ) || isset( $output->message ) ) {
 
 				error_log( 'CRMFWC | ERROR: ' . print_r( $output, true ) );
-
 			}
 
 			return $output;
@@ -178,10 +169,7 @@ class CRMFWC_Call {
 
 			/*Print the error to the log*/
 			error_log( 'CRMFWC | WP ERROR: ' . print_r( $response, true ) );
-
 		}
-
 	}
-
 }
 
