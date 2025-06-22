@@ -18,51 +18,107 @@
 
 defined( 'ABSPATH' ) || exit;
 
+/* Define core plugin constants. */
+if ( ! defined( 'CRMFWC_VERSION' ) ) {
+    define( 'CRMFWC_VERSION', '1.3.1' );
+}
+if ( ! defined( 'CRMFWC_DIR' ) ) {
+    define( 'CRMFWC_DIR', plugin_dir_path( __FILE__ ) );
+}
+if ( ! defined( 'CRMFWC_URI' ) ) {
+    define( 'CRMFWC_URI', plugin_dir_url( __FILE__ ) );
+}
+if ( ! defined( 'CRMFWC_FILE' ) ) {
+    define( 'CRMFWC_FILE', __FILE__ );
+}
+if ( ! defined( 'CRMFWC_ADMIN' ) ) {
+    define( 'CRMFWC_ADMIN', CRMFWC_DIR . 'admin/' );
+}
+if ( ! defined( 'CRMFWC_INCLUDES' ) ) {
+    define( 'CRMFWC_INCLUDES', CRMFWC_DIR . 'includes/' );
+}
+if ( ! defined( 'CRMFWC_DIR_NAME' ) ) {
+    define( 'CRMFWC_DIR_NAME', basename( dirname( __FILE__ ) ) );
+}
+if ( ! defined( 'CRMFWC_SETTINGS' ) ) {
+    define( 'CRMFWC_SETTINGS', admin_url( 'admin.php?page=crm-in-cloud-for-wc' ) );
+}
+
+
+/* Load all core class files that will be used by the main plugin class or other parts. */
+require_once CRMFWC_ADMIN . 'class-crmfwc-admin.php';
+require_once CRMFWC_ADMIN . 'ilghera-notice/class-ilghera-notice.php';
+require_once CRMFWC_INCLUDES . 'crmfwc-functions.php';
+require_once CRMFWC_INCLUDES . 'class-crmfwc-call.php';
+require_once CRMFWC_INCLUDES . 'class-crmfwc-settings.php';
+require_once CRMFWC_INCLUDES . 'class-crmfwc-products.php';
+require_once CRMFWC_INCLUDES . 'class-crmfwc-contacts.php';
+require_once CRMFWC_INCLUDES . 'class-crmfwc-progress-bar.php';
+require_once CRMFWC_INCLUDES . 'wc-checkout-fields/class-crmfwc-checkout-fields.php';
+
+/* Load Action Scheduler library from the main plugin directory. */
+require_once CRMFWC_DIR . 'vendor/action-scheduler/action-scheduler.php';
+/* Load Plugin Update Checker library from the admin directory. */
+require_once CRMFWC_DIR . 'plugin-update-checker/plugin-update-checker.php';
+
+
 /**
  * Main class of the CRM in Cloud for WooCommerce plugin.
  */
-class CrmFwc_Premium {
+final class CrmFwc_Premium {
+
+    /* Stores the single instance of the plugin class. */
+    private static $instance = null;
+
+    /* The plugin version. */
+    private $version = CRMFWC_VERSION;
 
     /**
      * The class constructor.
      */
-    public function __construct() {
-        /* Adds HPOS support before WooCommerce initialization. */
-        add_action( 'before_woocommerce_init', array( $this, 'declare_hpos_compatibility' ) );
-
-        /*
-         * Loads dependencies and starts the plugin on the 'plugins_loaded' action.
-         * We use a higher priority (-10) to ensure it runs before other plugins.
-         */
-        add_action( 'plugins_loaded', array( $this, 'load_dependencies' ), -10 );
-
-        /*
-         * Performs the main plugin initialization on the 'init' action.
-         * This is the ideal point to load the text domain.
-         */
-        add_action( 'init', array( $this, 'init_plugin' ) );
+    private function __construct() {
+        $this->setup_hooks();
     }
 
     /**
-     * Declares compatibility with Custom Order Tables (HPOS).
+     * Gets the single instance of the plugin.
+     *
+     * @return CrmFwc_Premium
      */
-    public function declare_hpos_compatibility() {
-        if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
-            \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+    public static function get_instance() {
+        if ( is_null( self::$instance ) ) {
+            self::$instance = new self();
         }
+        return self::$instance;
     }
 
     /**
-     * Loads essential dependencies and checks prerequisites.
-     * This function runs on the 'plugins_loaded' action.
+     * Sets up all WordPress action and filter hooks.
      */
-    public function load_dependencies() {
-        /* Checks if the is_plugin_active function exists. */
+    private function setup_hooks() {
+        /* Hook for early plugin loading and essential checks. */
+        add_action( 'plugins_loaded', array( $this, 'on_plugins_loaded' ), -10 );
+
+        /* Main plugin initialization hook: ideal for text domain and class instantiation. */
+        add_action( 'init', array( $this, 'on_init' ), 0 );
+
+        /* HPOS compatibility hook. */
+        add_action( 'before_woocommerce_init', array( $this, 'hpos_compatibility' ) );
+
+        /* Setup the Plugin Update Checker. */
+        add_action( 'plugins_loaded', array( $this, 'setup_update_checker' ), 20 ); /* Ensure PUC is set up after essential checks. */
+    }
+
+    /**
+     * Method hooked to 'plugins_loaded'.
+     */
+    public function on_plugins_loaded() {
+        /* Ensure 'is_plugin_active' function is available for activation logic. */
         if ( ! function_exists( 'is_plugin_active' ) ) {
             require_once ABSPATH . '/wp-admin/includes/plugin.php';
         }
 
-        /* Deactivates the free version if present. */
+        /* Deactivate the free version of the plugin if it's active. */
         if ( function_exists( 'load_crmfwc' ) ) {
             deactivate_plugins( 'crm-in-cloud-for-wc/crm-in-cloud-for-wc.php' );
             remove_action( 'plugins_loaded', 'load_crmfwc' );
@@ -73,48 +129,58 @@ class CrmFwc_Premium {
         /* WooCommerce must be installed and active. */
         if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ), true ) ) {
             add_action( 'admin_notices', array( $this, 'wc_not_installed_notice' ) );
+            return; /* Prevent further initialization if WooCommerce is not active. */
         }
     }
 
     /**
-     * Initializes the plugin: defines constants and includes necessary files.
-     * This function runs on the 'init' action.
+     * Method hooked to 'init'.
      */
-    public function init_plugin() {
-        /* If WooCommerce is not active, do not proceed with initialization. */
+    public function on_init() {
+        /* Load plugin text domain for internationalization. */
+        /* This is the correct place to load the text domain to avoid the 'just_in_time' notice. */
+        load_plugin_textdomain( 'crm-in-cloud-for-wc', false, basename( CRMFWC_DIR ) . '/languages' );
+        $locale = apply_filters( 'plugin_locale', get_locale(), 'crm-in-cloud-for-wc' );
+        load_textdomain( 'crm-in-cloud-for-wc', trailingslashit( WP_LANG_DIR ) . basename( CRMFWC_DIR ) . '/crm-in-cloud-for-wc-' . $locale . '.mo' );
+
+        /* Instantiate core classes. */
+        /* These classes are only instantiated if WooCommerce is active (checked in on_plugins_loaded). */
+        new CRMFWC_Admin();
+        new CRMFWC_Settings( true );
+        new CRMFWC_Products( true );
+        new CRMFWC_Contacts();
+        new CRMFWC_Progress_Bar();
+        new CRMFWC_Checkout_Fields();
+        new Ilghera_Notice( 'crm-in-cloud-for-wc', CRMFWC_DIR_NAME, CRMFWC_VERSION ); /* Instantiate ilGhera Notice here. */
+    }
+
+    /**
+     * Declares compatibility with WooCommerce's High-Performance Order Storage (HPOS).
+     */
+    public function hpos_compatibility() {
+        if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+            \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', CRMFWC_FILE, true );
+        }
+    }
+
+    /**
+     * Sets up the Plugin Update Checker.
+     */
+    public function setup_update_checker() {
+        /* Only set up PUC if WooCommerce is active. */
         if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ), true ) ) {
             return;
         }
 
-        /* Declaration of constants. */
-        define( 'CRMFWC_VERSION', '1.3.1' );
-        define( 'CRMFWC_DIR', plugin_dir_path( __FILE__ ) );
-        define( 'CRMFWC_URI', plugin_dir_url( __FILE__ ) );
-        define( 'CRMFWC_FILE', __FILE__ );
-        define( 'CRMFWC_ADMIN', CRMFWC_DIR . 'admin/' );
-        define( 'CRMFWC_DIR_NAME', basename( dirname( __FILE__ ) ) );
-        define( 'CRMFWC_INCLUDES', CRMFWC_DIR . 'includes/' );
-        define( 'CRMFWC_SETTINGS', admin_url( 'admin.php?page=crm-in-cloud-for-wc' ) );
+        /* Use the PucFactory from the included library. */
+        $crmfwc_update_checker = \YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
+            'https://www.ilghera.com/wp-update-server-2/?action=get_metadata&slug=crm-in-cloud-for-wc', /* Check the correct slug for CRM in Cloud. */
+            CRMFWC_FILE,
+            'crm-in-cloud-for-wc' /* Check the correct plugin slug. */
+        );
 
-        /*
-         * Internationalization.
-         * Moved here to respect the 'init' hook.
-         */
-        $locale = apply_filters( 'plugin_locale', get_locale(), 'crm-in-cloud-for-wc' );
-        load_plugin_textdomain( 'crm-in-cloud-for-wc', false, basename( CRMFWC_DIR ) . '/languages' );
-        load_textdomain( 'crm-in-cloud-for-wc', trailingslashit( WP_LANG_DIR ) . basename( CRMFWC_DIR ) . '/crm-in-cloud-for-wc-' . $locale . '.mo' );
-
-        /* Required files. */
-        require_once CRMFWC_ADMIN . 'class-crmfwc-admin.php';
-        require_once CRMFWC_ADMIN . 'ilghera-notice/class-ilghera-notice.php';
-        require_once CRMFWC_INCLUDES . 'crmfwc-functions.php';
-        require_once CRMFWC_INCLUDES . 'class-crmfwc-call.php';
-        require_once CRMFWC_INCLUDES . 'class-crmfwc-settings.php';
-        require_once CRMFWC_INCLUDES . 'class-crmfwc-products.php';
-        require_once CRMFWC_INCLUDES . 'class-crmfwc-contacts.php';
-        require_once CRMFWC_INCLUDES . 'class-crmfwc-progress-bar.php';
-        require_once CRMFWC_INCLUDES . 'wc-checkout-fields/class-crmfwc-checkout-fields.php';
-        require_once CRMFWC_DIR . 'vendor/action-scheduler/action-scheduler.php';
+        /* Add a filter to pass the premium key during update checks. */
+        $crmfwc_update_checker->addQueryArgFilter( array( $this, 'secure_update_check' ) );
     }
 
     /**
@@ -125,8 +191,34 @@ class CrmFwc_Premium {
         esc_html_e( 'WARNING! CRM in Cloud for WC requires WooCommerce to be activated.', 'crm-in-cloud-for-wc' );
         echo '</div>';
     }
+
+    /**
+     * Adds the premium key to the update checker query arguments.
+     * This method is a callback for the PUC filter.
+     *
+     * @param array $args The query arguments for the update check.
+     *
+     * @return array The filtered query arguments.
+     */
+    public function secure_update_check( $args ) {
+        $key = base64_encode( get_option( 'crmfwc-premium-key' ) ); /* Ensure this option key is correct for CRM in Cloud. */
+        if ( $key ) {
+            $args['premium-key'] = $key;
+        }
+        return $args;
+    }
 }
 
-/* Initializes the main plugin class. */
-new CrmFwc_Premium();
+/* Plugin Initialization */
+CrmFwc_Premium::get_instance();
+
+/*
+ * This hook ensures that the custom cron job (e.g., from Action Scheduler) is removed cleanly
+ * when your plugin is deactivated, which is crucial for proper plugin management.
+ */
+register_deactivation_hook( CRMFWC_FILE, function() {
+    /* Implement deactivation logic here if needed. */
+    /* If you have specific Action Scheduler queues or custom data to clean up, add it here. */
+    /* For instance, if you have a cleaner class like WCIFD_AS_Cleaner, you would call its static method here. */
+});
 
