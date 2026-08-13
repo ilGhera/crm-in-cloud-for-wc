@@ -2,6 +2,7 @@
 Contributors: ghera74
 Tags: CRM in Cloud, TeamSystem, Danea Easyfatt, Fatture in Cloud, sincronizzazione
 Version: 1.2.2
+Stable tag: 1.2.2
 Requires at least: 5.0
 Tested up to: 7.0
 WC tested up to: 11.0.1
