@@ -1,7 +1,7 @@
 === CRM in Cloud for WooCommerce ===
 Contributors: ghera74
 Tags: CRM in Cloud, TeamSystem, Danea Easyfatt, Fatture in Cloud, sincronizzazione
-Version: 1.2.1
+Version: 1.2.2
 Requires at least: 5.0
 Tested up to: 7.0
 WC tested up to: 11.0.1
@@ -72,6 +72,14 @@ This plugin sends data to an external service, like the products bought by the u
 
 
 == Changelog ==
+
+= 1.2.2 =
+Release Date: 13 August 2026
+
+    * Update: Action Scheduler v4.1.0
+    * Compatibility: WordPress 7.0
+    * Compatibility: WooCommerce 11.0.1
+
 
 = 1.3.2 =
 Release Date: 22 June 2025
