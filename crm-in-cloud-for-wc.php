@@ -7,7 +7,7 @@
  * Stable tag: 1.2.1
  * Requires at least: 5.0
  * Tested up to: 6.8
- * WC tested up to: 9
+ * WC tested up to: 11.0.1
  * Author: ilGhera
  * Author URI: https://ilghera.com
  * Text Domain: crm-in-cloud-for-wc
