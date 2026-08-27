@@ -6,7 +6,7 @@
  * Version: 1.2.3
  * Stable tag: 1.2.3
  * Requires at least: 5.0
- * Tested up to: 6.8
+ * Tested up to: 7.1
  * WC tested up to: 11.0.1
  * Author: ilGhera
  * Author URI: https://ilghera.com
