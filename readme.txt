@@ -5,7 +5,7 @@ Version: 1.2.5
 Stable tag: 1.2.5
 Requires at least: 5.0
 Tested up to: 7.1
-WC tested up to: 11.1.0
+WC tested up to: 11.1.2
 License: GPLv2
 
 Synchronize your WordPress/ WooCommerce site with CRM in Cloud exporting users and orders in real time
