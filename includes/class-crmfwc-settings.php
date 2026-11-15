@@ -161,7 +161,7 @@ class CRMFWC_Settings {
 			} else {
 
 				$output = array(
-					'ok' => "<h4 class='wcefr-connection-status'><span class='label label-success'>" . __( 'Connected', 'wc-exporter-for-reviso' ) . '</span></h4>',
+					'ok' => "<h4 class='wcefr-connection-status'><span class='label label-success'>" . __( 'Connected', 'crm-in-cloud-for-wc' ) . '</span></h4>',
 				);
 
 				echo wp_json_encode( $output );
